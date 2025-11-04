@@ -7,11 +7,6 @@
     <title>Fleet Builder</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
     <style>
-        body{
-            width:100vw;
-            overflow-x:hidden;
-        }
-        /* Right-side fixed button panel */
         .right-panel {
             position: fixed;
             right: 20px;
@@ -90,7 +85,7 @@
                 max-width: none !important;
                 aspect-ratio: auto !important;
                 box-shadow: none !important;
-                border: 1px solid #ddd !important;
+                border: 0px !important;
                 margin: 0 auto 0.5in auto !important;
                 page-break-after: always;
                 page-break-inside: avoid;
@@ -99,7 +94,7 @@
         }
 
         .page-content {
-            padding: 8.82% 11.76%;
+            padding: 4.41% 5.38%;
             flex: 1 1 auto;
             color: #222;
             font-size: 14px;
@@ -150,6 +145,54 @@
             padding: 2px;
         }
         .page .template-btn:hover { background: #f0f0ff; }
+        .writable {
+            flex: 1;
+            display: inline-block;
+            border: none;
+            border-bottom: 3px solid #000;
+            background: transparent;
+            outline: none;
+            padding: 2px 0;
+            margin: 0 4px;
+            color: #000;
+            caret-color: #000;
+            box-shadow: none;
+            width: auto; /* shrink to fit content */
+            min-width: 80px; /* optional: gives a starting size */
+
+            font-family: Impact, 'Arial Narrow', sans-serif;
+            letter-spacing: 0.7px;
+            font-size:20px;
+            position:relative;
+            bottom:3px;
+            padding-left:20px;
+            font-weight:normal;
+            color:#5f5f5f;
+        }
+        .line{
+            display: flex;
+            align-items: baseline;
+
+        }
+        .writable:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+        .thick-font{
+            font-family: Impact, 'Arial Narrow Bold', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+        .thin-font{
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+        .medium-size{
+            font-size:20px;
+        }
     </style>
 </head>
 <body>
@@ -171,8 +214,18 @@
 
     <!-- Page-content templates (placeholders you can edit manually) -->
     <template id="content-template-title">
-        <h1>Template 1</h1>
-        <p>Example Template 1</p>
+        <div class="line">
+            <h1 class="thick-font">Fleet Name:</h1><input type="text" class="writable" placeholder="Fleet Name">
+        </div>
+        <div class="line">
+            <div class="thick-font medium-size">Faction:</div><input type="text" class="writable" placeholder="Faction">
+            <div class="thick-font medium-size">RP:&ensp;</div>
+            <div class="thin-font medium-size">0</div>
+        </div>
+        <br><hr>
+        <div class="line">
+            <div class="thick-font medium-size">Ships:</div>
+        </div>
     </template>
 
     <template id="content-template-ships">
@@ -182,20 +235,32 @@
 
     <!-- Right-side button panel (template buttons) -->
     <aside class="right-panel" aria-label="Template actions">
-        <h4>Templates & Actions</h4>
+        <h4>Quick Menu</h4>
         <div class="panel-group">
             <button class="panel-btn" id="btn-add-page">📄 Add Page</button>
+            <!-- <button class="panel-btn" id="btn-load-template">📂 Load Template</button> -->
+            <!-- <button class="panel-btn" id="btn-save">💾 Save Fleet</button> -->
             <button class="panel-btn" id="btn-print">🖨️ Print</button>
-            <button class="panel-btn" id="btn-load-template">📂 Load Template</button>
-            <button class="panel-btn" id="btn-save">💾 Save Fleet</button>
-            <button class="panel-btn" id="btn-clear">🗑️ Clear</button>
+            <!-- <button class="panel-btn" id="btn-clear">🗑️ Clear</button> -->
+        </div>
+    </aside>
+
+    <aside class="drag-panel">
+        <div class="hulls-cont">
+            test
+        </div>
+        <div class="weapons-cont">
+            test2
+        </div>
+        <div class="equipment-cont">
+            test3
         </div>
     </aside>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Add one page on initial load
-            try { addPage(); } catch (e) { console.warn('addPage not available yet', e); }
+            try { addPage();addPage(); } catch (e) { console.warn('addPage not available yet', e); }
         });
 
         // Simple handlers for the panel buttons. Replace the console logs
