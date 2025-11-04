@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fleet Builder</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <style>
+        /* Right-side fixed button panel */
+        .right-panel {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 220px;
+            max-width: calc(100% - 12px);
+            background: rgba(255,255,255,0.95);
+            border-left: 1px solid rgba(0,0,0,0.08);
+            box-shadow: -4px 8px 24px rgba(0,0,0,0.12);
+            padding: 12px;
+            box-sizing: border-box;
+            z-index: 9999;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .right-panel h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+        }
+
+        .panel-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .panel-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(180deg,#f7f7f7,#efefef);
+            border: 1px solid #d0d0d0;
+            padding: 8px 10px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .panel-btn.small { padding: 6px 8px; font-size: 12px; }
+
+        .panel-divider { height: 1px; background: #e9e9e9; margin: 8px 0; }
+
+        @media (max-width: 520px) {
+            .right-panel { display: none; }
+        }
+        /* Page template styles (8.5 x 11 aspect ratio) */
+        .page {
+            width: 720px; /* default visible width for a page when added */
+            max-width: 100%;
+            aspect-ratio: 8.5 / 11;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            margin: 16px;
+            position: relative; /* allow absolute-positioned controls inside */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            padding: 8.82% 11.76%;
+            flex: 1 1 auto;
+            color: #222;
+            font-size: 14px;
+            overflow: hidden;
+
+        }
+        /* Remove (delete) button shown per-page */
+        .page .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: -40px;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: #ffb3b3;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            font-size: 14px;
+            line-height: 1;
+        }
+        .page .remove-btn:hover { background: #f47c7c; border-color: rgba(200,0,0,0.2); }
+        /* Template-apply buttons that appear under the remove button */
+        .page .template-btns {
+            position: absolute;
+            top: 48px;
+            right: -46px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 40px;
+        }
+        .page .template-btn {
+            width: 100%;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: #fff;
+            cursor: pointer;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+        }
+        .page .template-btn:hover { background: #f0f0ff; }
+    </style>
+</head>
+<body>
+    <main id="app" role="main">
+
+    </main>
+
+    <!-- Hidden template for an 8.5x11 page (not displayed until cloned) -->
+    <template id="page-template">
+        <article class="page" role="article" aria-label="8.5 by 11 inch page">
+            <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
+            <div class="template-btns" role="group" aria-label="Apply templates">
+                <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button>
+                <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Ships</button>
+            </div>
+            <div class="page-content">
+                <strong>New page</strong>
+                <p>This is a placeholder page created from the 8.5x11 template.</p>
+            </div>
+        </article>
+    </template>
+
+    <!-- Page-content templates (placeholders you can edit manually) -->
+    <template id="content-template-title">
+        <h1>Template 1</h1>
+        <p>Example Template 1</p>
+    </template>
+
+    <template id="content-template-ships">
+        <h1>Template 2</h1>
+        <p>Example Template 2</p>
+    </template>
+
+    <!-- Right-side button panel (template buttons) -->
+    <aside class="right-panel" aria-label="Template actions">
+        <h4>Templates & Actions</h4>
+        <div class="panel-group">
+            <button class="panel-btn" id="btn-add-page">＋ Add Page</button>
+            <button class="panel-btn" id="btn-load-template">📂 Load Template</button>
+            <button class="panel-btn" id="btn-save">💾 Save Fleet</button>
+            <button class="panel-btn" id="btn-clear">🗑️ Clear</button>
+        </div>
+    </aside>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('fleet-builder-2.html loaded');
+            // Add one page on initial load
+            try { addPage(); } catch (e) { console.warn('addPage not available yet', e); }
+        });
+
+        // Simple handlers for the panel buttons. Replace the console logs
+        // with calls to your existing application functions if available.
+
+        (function attachPanelHandlers(){
+
+            const addPageBtn = document.getElementById('btn-add-page');
+            const loadTemplate = document.getElementById('btn-load-template');
+            const saveFleet = document.getElementById('btn-save');
+            const clearFleet = document.getElementById('btn-clear');
+
+            // addPage function — clones the hidden template and appends it to #app
+            // If templateName is not provided, the function will apply 'title' for the
+            // very first page and 'ships' for any subsequent pages (per request).
+            function addPage(templateName){
+                const tpl = document.getElementById('page-template');
+                if(!tpl){
+                    return null;
+                }
+
+                const main = document.getElementById('app') || document.body;
+                // Decide default template when none provided: first page = title, others = ships
+                const existingPages = main.querySelectorAll('.page').length;
+                if(!templateName){
+                    templateName = existingPages === 0 ? 'title' : 'ships';
+                }
+
+                const fragment = tpl.content.cloneNode(true);
+                // Extract the page element from the fragment so we can attach handlers
+                const pageEl = fragment.querySelector('.page') || fragment.firstElementChild;
+                if(!pageEl){
+                    return null;
+                }
+
+                // Append the page element (this removes it from the fragment)
+                main.appendChild(pageEl);
+
+                // Attach remove handler to the per-page remove button
+                const removeBtn = pageEl.querySelector('.remove-btn');
+                if(removeBtn){
+                    removeBtn.addEventListener('click', ()=>{
+                        pageEl.remove();
+                    });
+                }
+
+                // Wire up per-page template-apply buttons to replace .page-content.innerHTML
+                const contentTemplateMap = {
+                    title: document.getElementById('content-template-title'),
+                    ships: document.getElementById('content-template-ships')
+                };
+
+                // Auto-apply the chosen template (if available)
+                const autoTpl = contentTemplateMap[templateName];
+                const contentEl = pageEl.querySelector('.page-content');
+                if(autoTpl && contentEl){
+                    contentEl.innerHTML = autoTpl.innerHTML;
+                }
+
+                const tplButtons = pageEl.querySelectorAll('.template-btn[data-template]');
+                tplButtons.forEach(btn => {
+                    btn.addEventListener('click', ()=>{
+                        const name = btn.getAttribute('data-template');
+                        const tpl = contentTemplateMap[name];
+                        const contentElInner = pageEl.querySelector('.page-content');
+                        if(tpl && contentElInner){
+                            // Simple replacement of the innerHTML as requested
+                            contentElInner.innerHTML = tpl.innerHTML;
+                        }
+                    });
+                });
+
+                return pageEl;
+            }
+
+            // Expose addPage globally so DOMContentLoaded handler can call it
+            window.addPage = addPage;
+
+            if(addPageBtn) addPageBtn.addEventListener('click', ()=>{
+                addPage();
+            });
+
+
+            if(loadTemplate) loadTemplate.addEventListener('click', ()=>{
+                alert('Open load template dialog (hook into your UI)');
+            });
+
+            if(saveFleet) saveFleet.addEventListener('click', ()=>{
+                alert('Save fleet (hook into save function)');
+            });
+
+            if(clearFleet) clearFleet.addEventListener('click', ()=>{
+                if(confirm('Clear the current fleet?')){
+                    // Example: call a clearFleet() function if present
+                    // if (typeof clearFleet === 'function') clearFleet();
+                    alert('Fleet cleared (placeholder)');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
