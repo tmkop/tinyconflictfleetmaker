@@ -3,26 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fleet Builder</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
     <style>
+        body{
+            width:100vw;
+            overflow-x:hidden;
+        }
         /* Right-side fixed button panel */
         .right-panel {
             position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            right: 20px;
+            top: 20px;
+            transform: none;
             width: 220px;
-            max-width: calc(100% - 12px);
-            background: rgba(255,255,255,0.95);
-            border-left: 1px solid rgba(0,0,0,0.08);
-            box-shadow: -4px 8px 24px rgba(0,0,0,0.12);
+            max-width: calc(100% - 24px);
+            max-height: calc(100vh - 24px);
+            overflow: auto;
+            background: rgba(181, 187, 214, 0.98);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
             padding: 12px;
             box-sizing: border-box;
-            z-index: 9999;
+            z-index: 99999;
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            border-radius: 8px 0 0 8px;
+            border-radius: 8px;
         }
 
         .right-panel h4 {
@@ -69,6 +75,27 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Print styles: format pages as letter-sized sheets for PDF */
+        @media print {
+            @page { size: Letter; margin: 0.5in; }
+            html, body { height: auto; }
+            body * { visibility: hidden; }
+            main, main * { visibility: visible; }
+            .right-panel, #palette { display: none !important; }
+            .page {
+                width: 8.5in !important;
+                height: 11in !important;
+                max-width: none !important;
+                aspect-ratio: auto !important;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                margin: 0 auto 0.5in auto !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+            }
+            .page .remove-btn, .page .template-btns { display: none !important; }
         }
 
         .page-content {
@@ -138,10 +165,7 @@
                 <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button>
                 <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Ships</button>
             </div>
-            <div class="page-content">
-                <strong>New page</strong>
-                <p>This is a placeholder page created from the 8.5x11 template.</p>
-            </div>
+            <div class="page-content"></div>
         </article>
     </template>
 
@@ -160,7 +184,8 @@
     <aside class="right-panel" aria-label="Template actions">
         <h4>Templates & Actions</h4>
         <div class="panel-group">
-            <button class="panel-btn" id="btn-add-page">＋ Add Page</button>
+            <button class="panel-btn" id="btn-add-page">📄 Add Page</button>
+            <button class="panel-btn" id="btn-print">🖨️ Print</button>
             <button class="panel-btn" id="btn-load-template">📂 Load Template</button>
             <button class="panel-btn" id="btn-save">💾 Save Fleet</button>
             <button class="panel-btn" id="btn-clear">🗑️ Clear</button>
@@ -169,7 +194,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('fleet-builder-2.html loaded');
             // Add one page on initial load
             try { addPage(); } catch (e) { console.warn('addPage not available yet', e); }
         });
@@ -270,6 +294,15 @@
                     alert('Fleet cleared (placeholder)');
                 }
             });
+
+            // Print handler: open print dialog (user can select Save as PDF)
+            const printBtn = document.getElementById('btn-print');
+            if(printBtn){
+                printBtn.addEventListener('click', ()=>{
+                    // you could prepare pages or run cleanup here before printing
+                    window.print();
+                });
+            }
         })();
     </script>
 </body>
