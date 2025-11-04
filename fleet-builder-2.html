@@ -193,6 +193,21 @@
         .medium-size{
             font-size:20px;
         }
+        .drag-panel{
+            position:fixed;
+            right:0px;
+            bottom:0px;
+            height:calc(100vh - 300px);
+            width:calc(100vw - 950px);
+            background:#ffffff;
+            border-top-left-radius:50px;
+            box-shadow: -6px -6px 6px rgba(0,0,0,0.06);
+            padding:50px;
+            overflow:scroll;
+        }
+        body{
+            background: rgb(172, 216, 255);
+        }
     </style>
 </head>
 <body>
@@ -246,14 +261,17 @@
     </aside>
 
     <aside class="drag-panel">
+        <h1 class="thick-font">Hulls</h1><hr>
         <div class="hulls-cont">
-            test
+            
         </div>
+        <h1 class="thick-font">Weapons</h1><hr>
         <div class="weapons-cont">
-            test2
+            
         </div>
+        <h1 class="thick-font">Equipment</h1><hr>
         <div class="equipment-cont">
-            test3
+            
         </div>
     </aside>
 
