@@ -70,6 +70,8 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            overflow:hidden;
+            user-select:none;
         }
 
         /* Print styles: format pages as letter-sized sheets for PDF */
@@ -208,6 +210,48 @@
         body{
             background: rgb(172, 216, 255);
         }
+        .hull{
+            width:100%;
+            user-select:none;
+        }
+        .collapsible .content {
+            display: block; /* visible by default */
+        }
+
+        .collapsible.collapsed .content {
+            display: none; /* hidden when collapsed */
+        }
+        .collapsible.collapsed .header::after{
+            content: "*";
+        }
+        .header{
+            user-select: none;
+        }
+        .clone {
+            position: fixed; /* fixed so scrolling doesn’t break it */
+            pointer-events: none; /* so it doesn’t block mouse events */
+            opacity: 0.8;
+            z-index: 9999;
+            width:20%;
+            height:20%;
+            transform:translate(-50%,-50%);
+        }
+        .socket{
+            flex:1;
+        }
+        .socket img{
+            margin:0 auto;
+            display:block;
+        }
+        .ship-socket-cont{
+            display:flex;
+            height:100%;
+            gap:20px;
+            flex-direction: column;
+        }
+        .placed-hull{
+            width:85%;
+        }
     </style>
 </head>
 <body>
@@ -244,8 +288,10 @@
     </template>
 
     <template id="content-template-ships">
-        <h1>Template 2</h1>
-        <p>Example Template 2</p>
+        <div class="ship-socket-cont">
+            <div class="socket"></div>
+            <div class="socket"></div>
+        </div>
     </template>
 
     <!-- Right-side button panel (template buttons) -->
@@ -261,28 +307,261 @@
     </aside>
 
     <aside class="drag-panel">
-        <h1 class="thick-font">Hulls</h1><hr>
-        <div class="hulls-cont">
-            
+        <div class="collapsible">
+            <h1 class="thick-font header">Hulls</h1><hr>
+            <div id="hulls-cont" class="content">
+
+            </div>
         </div>
-        <h1 class="thick-font">Weapons</h1><hr>
-        <div class="weapons-cont">
-            
+        <div class="collapsible">
+            <h1 class="thick-font header">Weapons</h1><hr>
+            <div id="weapons-cont" class="content">
+                
+            </div>
         </div>
-        <h1 class="thick-font">Equipment</h1><hr>
-        <div class="equipment-cont">
-            
+        <div class="collapsible">
+            <h1 class="thick-font header">Equipment</h1><hr>
+            <div id="equipment-cont" class="content">
+                
+            </div>
         </div>
     </aside>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add one page on initial load
-            try { addPage();addPage(); } catch (e) { console.warn('addPage not available yet', e); }
-        });
+        function startdrag(e, elem) {
+            e.preventDefault();
 
-        // Simple handlers for the panel buttons. Replace the console logs
-        // with calls to your existing application functions if available.
+            // Clone the element
+            const clone = elem.cloneNode(true);
+            clone.classList.add("clone");
+
+            // Remove any existing handlers from the clone
+            clone.removeAttribute("onmousedown");
+
+            document.body.appendChild(clone);
+
+            // Position updater
+            function moveAt(pageX, pageY) {
+                clone.style.left = pageX + "px";
+                clone.style.top = pageY + "px";
+            }
+
+            // Initial position
+            moveAt(e.clientX, e.clientY);
+
+            // Mouse move handler
+            function onMouseMove(ev) {
+                moveAt(ev.clientX, ev.clientY);
+            }
+
+            document.addEventListener("mousemove", onMouseMove);
+
+            // Mouse up handler for the clone
+            document.onmouseup = function(ev) {
+                const elementsUnderCursor = document.elementsFromPoint(ev.clientX, ev.clientY);
+                const socket = elementsUnderCursor.find(el => el.classList && el.classList.contains("socket"));
+                if (socket) {
+                    const data = clone.getAttribute("data-JSON");
+                    const hull = document.createElement("img");
+                    hull.setAttribute("src",clone.getAttribute("src"));
+                    hull.setAttribute("data-JSON",data);
+                    hull.setAttribute("draggable","false");
+                    hull.classList.add("placed-hull");
+                    socket.innerHTML="";
+                    socket.appendChild(hull);
+
+                    let hull_sockets = [];
+                    for(s of JSON.parse(data)["sockets"]){
+                        hull_sockets.push(s);
+                    }
+                }
+
+                // Cleanup
+                document.removeEventListener("mousemove", onMouseMove);
+                clone.remove();
+                document.onmouseup = undefined;
+            };
+        }
+
+        const ROW1 = 106;
+        const ROW2 = 160;
+        const ROW3 = 220;
+        const ROW4 = 279;
+        const LEFT_SHORT = 101;
+        const CENTER_SHORT = 271;
+        const RIGHT_SHORT = 446;
+        const LEFT_LONG = 128;
+        const RIGHT_LONG = 441;
+        const LEFT_SHORTOFFSET_LONG = 301;
+        const LEFT_LONGOFFSET_LONG = 336;
+        const RIGHT_LONGOFFSET_SHORT = 216;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add one page on initial load for the title
+            addPage();
+            // Add a second page for ships
+            addPage();
+
+
+            let hulls = [
+                {"filepath":"hulls/fighter.png",        "RP":10,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/bomber.png",         "RP":12,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/transport.png",      "RP":16,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/interceptor.png",    "RP":12,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":4,"position":{"x":RIGHT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/freighter.png",      "RP":25,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/destroyer.png",      "RP":45,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"hulls/frigate.png",       "RP":40,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/light_cruiser.png",  "RP":60,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":LEFT_LONG,"y":ROW3}},
+                    {"number":1,"position":{"x":LEFT_LONGOFFSET_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/assault_carrier.png","RP":50,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW2}},
+                    {"number":3,"position":{"x":LEFT_SHORT,"y":ROW3}},
+                    {"number":1,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/heavy_cruiser.png",  "RP":75,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW3}},
+                    {"number":1,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW3}},
+                    {"number":1,"position":{"x":LEFT_LONG,"y":ROW4}}
+                ]},
+                {"filepath":"hulls/carrier.png",        "RP":70,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW2}},
+                    {"number":4,"position":{"x":LEFT_SHORT,"y":ROW3}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/battleship.png",     "RP":90,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":4,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW3}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW3}},
+                    {"number":1,"position":{"x":LEFT_LONG,"y":ROW4}}
+                ]},
+                {"filepath":"hulls/weapon_platform.png","RP":80,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/command_ship.png",   "RP":120,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":LEFT_LONG,"y":ROW3}},
+                    {"number":2,"position":{"x":LEFT_LONGOFFSET_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"hulls/dreadnought.png",    "RP":150,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":4,"position":{"x":LEFT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":4,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_LONG,"y":ROW3}},
+                    {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
+                    {"number":1,"position":{"x":RIGHT_LONG,"y":ROW4}}
+
+                ]},
+                {"filepath":"hulls/station.png",        "RP":100,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":RIGHT_LONG,"y":ROW2}},
+                    {"number":3,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW2}},
+                    {"number":4,"position":{"x":RIGHT_LONG,"y":ROW3}},
+                    {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
+                ]},
+            ];
+
+
+            const hulls_cont = document.getElementById("hulls-cont");
+            for(const hull_data of hulls){
+                const hull = document.createElement("img");
+                hull.setAttribute("src",hull_data["filepath"]);
+                hull.setAttribute("data-JSON",JSON.stringify(hull_data));
+                hull.classList.add("hull");
+                hull.classList.add("draggable");
+                hull.setAttribute("onmousedown",'startdrag(event,this)');
+                hulls_cont.appendChild(hull);
+            }
+            
+            document.querySelectorAll('.collapsible .header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.parentElement.classList.toggle('collapsed');
+                });
+            });
+        });
 
         (function attachPanelHandlers(){
 
@@ -387,6 +666,7 @@
                 });
             }
         })();
+
     </script>
 </body>
 </html>
