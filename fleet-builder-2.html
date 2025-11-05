@@ -69,8 +69,6 @@
             position: relative; /* allow absolute-positioned controls inside */
             box-sizing: border-box;
             display: flex;
-            flex-direction: column;
-            overflow:hidden;
             user-select:none;
         }
 
@@ -237,6 +235,13 @@
             height:20%;
             transform:translate(-50%,-50%);
         }
+        .cloneNode {
+            position: fixed; /* fixed so scrolling doesn’t break it */
+            pointer-events: none; /* so it doesn’t block mouse events */
+            opacity: 0.8;
+            z-index: 9999;
+            transform:translate(-50%,-50%) scale(60%);
+        }
         .socket{
             flex:1;
             align-content: center;
@@ -255,6 +260,13 @@
         .placed-hull{
             width:85%;
             float:right;
+        }
+        .placed-node{
+            position:absolute;
+            height:100%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            filter: drop-shadow(15px 0 0 white) drop-shadow(-15px 0 0 white) drop-shadow(0 5px 0 white) drop-shadow(0 -5px 0 white);
         }
         .ship-name-cont{
             position:absolute;
@@ -277,8 +289,29 @@
         .node{
             width:300px;
             margin:3px;
-            filter: drop-shadow(0 0 0 black) drop-shadow(0 0 5px black);
+            user-select:none;
         }
+        .nodeSocket{
+            width:150px;
+            height:45px;
+            position:absolute;
+            transform:translate(-50%, -50%);
+        }
+        .hull-cont{
+            position:relative;
+        }
+        .ROW1{top:105px}
+        .ROW2{top:160px}
+        .ROW3{top:218px}
+        .ROW4{top:274px}
+        .LEFT_SHORT{left:195px}
+        .CENTER_SHORT{left:369px}
+        .RIGHT_SHORT{left:542px}
+        .LEFT_LONG{left:224px}
+        .RIGHT_LONG{left:511px}
+        .LEFT_SHORTOFFSET_LONG{left:397px}
+        .LEFT_LONGOFFSET_LONG{left:455px}
+        .RIGHT_LONGOFFSET_SHORT{left:311px}
     </style>
 </head>
 <body>
@@ -411,19 +444,26 @@
                 const socket = elementsUnderCursor.find(el => el.classList && el.classList.contains("socket"));
                 if (socket) {
                     const data = clone.getAttribute("data-JSON");
+                    const hull_cont = document.createElement("div");
                     const hull = document.createElement("img");
                     hull.setAttribute("src",clone.getAttribute("src"));
                     hull.setAttribute("data-JSON",data);
                     hull.setAttribute("draggable","false");
                     hull.classList.add("placed-hull");
                     socket.innerHTML="";
-                    socket.appendChild(hull);
+                    hull_cont.classList.add("hull-cont")
+                    hull_cont.appendChild(hull);
 
                     let hull_sockets = [];
                     for(s of JSON.parse(data)["sockets"]){
-                        hull_sockets.push(s);
+                        const nodeSocket = document.createElement("div");
+                        nodeSocket.classList.add("nodeSocket");
+                        nodeSocket.classList.add(s.position.y);
+                        nodeSocket.classList.add(s.position.x);
+                        hull_cont.appendChild(nodeSocket);
                     }
-                    console.log(hull_sockets);
+
+                    socket.appendChild(hull_cont);
                 }
 
                 // Cleanup
@@ -432,19 +472,67 @@
                 document.onmouseup = undefined;
             };
         }
+        function startdragNode(e, elem) {
+            console.log("DRAGGING NODE")
+            e.preventDefault();
 
-        const ROW1 = 106;
-        const ROW2 = 160;
-        const ROW3 = 220;
-        const ROW4 = 279;
-        const LEFT_SHORT = 101;
-        const CENTER_SHORT = 271;
-        const RIGHT_SHORT = 446;
-        const LEFT_LONG = 128;
-        const RIGHT_LONG = 441;
-        const LEFT_SHORTOFFSET_LONG = 301;
-        const LEFT_LONGOFFSET_LONG = 336;
-        const RIGHT_LONGOFFSET_SHORT = 216;
+            // Clone the element
+            const clone = elem.cloneNode(true);
+            clone.classList.add("cloneNode");
+
+            // Remove any existing handlers from the clone
+            clone.removeAttribute("onmousedown");
+
+            document.body.appendChild(clone);
+
+            // Position updater
+            function moveAt(pageX, pageY) {
+                clone.style.left = pageX + "px";
+                clone.style.top = pageY + "px";
+            }
+
+            // Initial position
+            moveAt(e.clientX, e.clientY);
+
+            // Mouse move handler
+            function onMouseMove(ev) {
+                moveAt(ev.clientX, ev.clientY);
+            }
+
+            document.addEventListener("mousemove", onMouseMove);
+
+            // Mouse up handler for the clone
+            document.onmouseup = function(ev) {
+                const elementsUnderCursor = document.elementsFromPoint(ev.clientX, ev.clientY);
+                const nodeSocket = elementsUnderCursor.find(el => el.classList && el.classList.contains("nodeSocket"));
+                if (nodeSocket) {
+                    const data = clone.getAttribute("data-JSON");
+                    const node = document.createElement("img");
+                    node.setAttribute("src",clone.getAttribute("src"));
+                    node.setAttribute("draggable","false");
+                    node.classList.add("placed-node");
+                    nodeSocket.innerHTML="";
+                    nodeSocket.appendChild(node);
+                }
+
+                // Cleanup
+                document.removeEventListener("mousemove", onMouseMove);
+                clone.remove();
+                document.onmouseup = undefined;
+            };
+        }
+        const ROW1 = "ROW1"; //= 106;
+        const ROW2 = "ROW2"; //= 160;
+        const ROW3 = "ROW3"; //= 220;
+        const ROW4 = "ROW4"; //= 279;
+        const LEFT_SHORT = "LEFT_SHORT"; //= 101;
+        const CENTER_SHORT = "CENTER_SHORT"; //= 271;
+        const RIGHT_SHORT = "RIGHT_SHORT"; //= 446;
+        const LEFT_LONG = "LEFT_LONG"; //= 128;
+        const RIGHT_LONG = "RIGHT_LONG"; //= 441;
+        const LEFT_SHORTOFFSET_LONG = "LEFT_SHORTOFFSET_LONG"; //= 301;
+        const LEFT_LONGOFFSET_LONG = "LEFT_LONGOFFSET_LONG"; //= 336;
+        const RIGHT_LONGOFFSET_SHORT = "RIGHT_LONGOFFSET_SHORT"; //= 216;
 
         document.addEventListener('DOMContentLoaded', () => {
             // Add one page on initial load for the title
@@ -671,11 +759,11 @@
                 {"RP":18,"filepath":"equipment/size2/cargo_bay.png"},
                 {"RP":20,"filepath":"equipment/size2/armoured_compartment.png"},
                 {"RP":16,"filepath":"equipment/size2/fighter_repair_bay.png"},
-                {"RP":24,"filepath":"equipment/size2/damage_control.png"}, // <-- MISSING!
-                {"RP":30,"filepath":"equipment/size2/dead_mans_switch.png"}, // <-- MISSING!
-                {"RP":32,"filepath":"equipment/size2/shield_generator.png"}, // <-- MISSING!
-                {"RP":10,"filepath":"equipment/size2/standard_hangar.png"}, // <-- MISSING!
-                {"RP":20,"filepath":"equipment/size2/stacked_hangar.png"} // <-- MISSING!
+                {"RP":24,"filepath":"equipment/size2/damage_control.png"}, 
+                {"RP":30,"filepath":"equipment/size2/dead_mans_switch.png"}, 
+                {"RP":32,"filepath":"equipment/size2/shield_generator.png"}, 
+                {"RP":10,"filepath":"equipment/size2/standard_hangar.png"}, 
+                {"RP":20,"filepath":"equipment/size2/stacked_hangar.png"} 
             ]
             const S3_EQUIPMENT = [
                 {"RP":16,"filepath":"equipment/size3/pirate_30.png"},
@@ -717,7 +805,15 @@
                 div.appendChild(hr);
                 return div;
             }
+            function makeNode(data){
+                const node = document.createElement("img");
+                node.setAttribute("src",data["filepath"]);
+                node.classList.add("node");
+                node.setAttribute("onmousedown",'startdragNode(event,this)');
+                return node;
+            }
             
+
             //HULLS
             const hulls_cont = document.getElementById("hulls-cont");
             for(const hull_data of HULLS){
@@ -725,19 +821,8 @@
                 hull.setAttribute("src",hull_data["filepath"]);
                 hull.setAttribute("data-JSON",JSON.stringify(hull_data));
                 hull.classList.add("hull");
-                hull.classList.add("draggable");
                 hull.setAttribute("onmousedown",'startdrag(event,this)');
                 hulls_cont.appendChild(hull);
-            }
-            // hulls_cont.appendChild(categorySplit("Faction Exclusive Hulls"));
-            
-            function makeNode(data){
-                const node = document.createElement("img");
-                node.setAttribute("src",data["filepath"]);
-                node.classList.add("node");
-                node.classList.add("draggable-node");
-                node.setAttribute("onmousedown",'startdrag(event,this)');
-                return node;
             }
 
             //WEAPONS
