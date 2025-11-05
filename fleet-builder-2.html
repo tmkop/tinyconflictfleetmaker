@@ -212,6 +212,7 @@
         }
         .hull{
             width:100%;
+            filter: drop-shadow(0 0 0 black) drop-shadow(0 0 5px black);
             user-select:none;
         }
         .collapsible .content {
@@ -238,6 +239,7 @@
         }
         .socket{
             flex:1;
+            align-content: center;
         }
         .socket img{
             margin:0 auto;
@@ -248,9 +250,34 @@
             height:100%;
             gap:20px;
             flex-direction: column;
+            position:relative;
         }
         .placed-hull{
             width:85%;
+            float:right;
+        }
+        .ship-name-cont{
+            position:absolute;
+            display:flex;
+            left:0px;
+            bottom:0px;
+            width:135%;
+        }
+        .ship-name-cont > div{
+            flex:1
+        }
+        .ship-name{
+            text-orientation:upright;
+            display:inline-block;
+        }
+        .verticle{
+            transform:rotate(-90deg);
+            transform-origin: 0% 0%;
+        }
+        .node{
+            width:300px;
+            margin:3px;
+            filter: drop-shadow(0 0 0 black) drop-shadow(0 0 5px black);
         }
     </style>
 </head>
@@ -289,6 +316,28 @@
 
     <template id="content-template-ships">
         <div class="ship-socket-cont">
+            <div class="ship-name-cont verticle">
+                <div>
+                    <div>
+                        <div class="ship-name thin-font">Name: </div>
+                        <input type="text" class="writable" placeholder="Ship Name">
+                    </div>
+                    <div>
+                        <div class="ship-name thin-font">RP: </div>
+                        <div class="ship-name thin-font">0</div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div class="ship-name thin-font">Name: </div>
+                        <input type="text" class="writable" placeholder="Ship Name">
+                    </div>
+                    <div>
+                        <div class="ship-name thin-font">RP: </div>
+                        <div class="ship-name thin-font">0</div>
+                    </div>
+                </div>
+            </div>
             <div class="socket"></div>
             <div class="socket"></div>
         </div>
@@ -308,19 +357,19 @@
 
     <aside class="drag-panel">
         <div class="collapsible">
-            <h1 class="thick-font header">Hulls</h1><hr>
+            <h1 class="thick-font header">Hulls</h1><hr><hr><br>
             <div id="hulls-cont" class="content">
 
             </div>
         </div>
         <div class="collapsible">
-            <h1 class="thick-font header">Weapons</h1><hr>
+            <h1 class="thick-font header">Weapons</h1><hr><hr><br>
             <div id="weapons-cont" class="content">
                 
             </div>
         </div>
         <div class="collapsible">
-            <h1 class="thick-font header">Equipment</h1><hr>
+            <h1 class="thick-font header">Equipment</h1><hr><hr><br>
             <div id="equipment-cont" class="content">
                 
             </div>
@@ -374,6 +423,7 @@
                     for(s of JSON.parse(data)["sockets"]){
                         hull_sockets.push(s);
                     }
+                    console.log(hull_sockets);
                 }
 
                 // Cleanup
@@ -403,7 +453,7 @@
             addPage();
 
 
-            let hulls = [
+            const HULLS = [
                 {"filepath":"hulls/fighter.png",        "RP":10,"sockets":[
                     {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
                     {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
@@ -543,10 +593,134 @@
                     {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
                 ]},
             ];
+            const CAPTAINS = [
+                {"RP":0,"filepath":"captains/navy_pilot.png"},
+                {"RP":10,"filepath":"captains/junior_captain.png"},
+                {"RP":18,"filepath":"captains/academy_officer.png"},
+                {"RP":30,"filepath":"captains/ship_ai.png"},
+                {"RP":40,"filepath":"captains/decorated_officer.png"},
+                {"RP":50,"filepath":"captains/expedition_veteran.png"},
+                {"RP":60,"filepath":"captains/grand_captain.png"}
+            ];
+            const S1_WEAPONS = [
+                {"RP":2,"filepath":"weapons/size1/xr-2_gatling_guns.png"},
+                {"RP":2,"filepath":"weapons/size1/punisher_15mm_cannon.png"},
+                {"RP":4,"filepath":"weapons/size1/mini_rail_lance.png"},
+                {"RP":3,"filepath":"weapons/size1/xr-4_twin_gatling.png"},
+                {"RP":3,"filepath":"weapons/size1/twin_10mm_flak.png"},
+                {"RP":7,"filepath":"weapons/size1/drill_torpedo.png"},
+                {"RP":7,"filepath":"weapons/size1/cluster_bomb.png"},
+                {"RP":7,"filepath":"weapons/size1/napalm_bomb.png"},
+                {"RP":5,"filepath":"weapons/size1/cluster_emp.png"},
+                {"RP":3,"filepath":"weapons/size1/boarding_laser.png"}
+            ]
+            const S2_WEAPONS = [
+                {"RP":10,"filepath":"weapons/size2/snub_missile_rack.png"},
+                {"RP":14,"filepath":"weapons/size2/rail_lance.png"},
+                {"RP":16,"filepath":"weapons/size2/thunder_cannon.png"},
+                {"RP":6, "filepath":"weapons/size2/quad_xr-4b.png"},
+                {"RP":8, "filepath":"weapons/size2/flak_20mm.png"},
+                {"RP":20,"filepath":"weapons/size2/howler_torpedo.png"},
+                {"RP":18,"filepath":"weapons/size2/implosion_cannon.png"},
+                {"RP":26,"filepath":"weapons/size2/volcano_beam.png"},
+                {"RP":18,"filepath":"weapons/size2/det_mines.png"},
+                {"RP":24,"filepath":"weapons/size2/quad_20mm_cannon_array.png"},
+                {"RP":22,"filepath":"weapons/size2/destroyer_80mm_array.png"},
+                {"RP":20,"filepath":"weapons/size2/blitz_gatling_array.png"},
+                {"RP":24,"filepath":"weapons/size2/rail_lance_array.png"}
+            ]
+            const S3_WEAPONS = [
+                {"RP":24,"filepath":"weapons/size3/inferno_missile_rack.png"},
+                {"RP":32,"filepath":"weapons/size3/heavy_rail_lance.png"},
+                {"RP":18,"filepath":"weapons/size3/splicer_autocannon.png"},
+                {"RP":14,"filepath":"weapons/size3/gatling_flak.png"},
+                {"RP":18,"filepath":"weapons/size3/dual_thud_gun.png"},
+                {"RP":24,"filepath":"weapons/size3/emp_cutlass.png"},
+                {"RP":30,"filepath":"weapons/size3/hail_cluster_torpedo.png"},
+                {"RP":46,"filepath":"weapons/size3/extinction_cannon.png"},
+                {"RP":28,"filepath":"weapons/size3/nightmare_missile_rack.png"},
+                {"RP":38,"filepath":"weapons/size3/triple_250mm_array.png"},
+                {"RP":28,"filepath":"weapons/size3/dual_85mm_destroyers.png"},
+                {"RP":42,"filepath":"weapons/size3/devistation_cannon_array.png"},
+                {"RP":40,"filepath":"weapons/size3/velocity_lance_array.png"}
+            ]
+            const S4_WEAPONS = [
+                {"RP":32,"filepath":"weapons/size4/sparrow_volley_missiles.png"},
+                {"RP":50,"filepath":"weapons/size4/mass_driver.png"},
+                {"RP":24,"filepath":"weapons/size4/triple_120mm_flak.png"},
+                {"RP":34,"filepath":"weapons/size4/star_spear_guided_missile.png"},
+                {"RP":56,"filepath":"weapons/size4/emp_destroyer_cannon.png"},
+                {"RP":70,"filepath":"weapons/size4/lifes_end.png"},
+                {"RP":58,"filepath":"weapons/size4/quad_12_inch_array.png"},
+                {"RP":76,"filepath":"weapons/size4/firestorm_rotary_array.png"}
+            ]
+            const S1_EQUIPMENT = [
+                {"RP":5,"filepath":"equipment/size1/carbon_alloy.png"},
+                {"RP":5,"filepath":"equipment/size1/stealth_composite.png"},
+                {"RP":3,"filepath":"equipment/size1/plasteel_plate_armour.png"},
+                {"RP":3,"filepath":"equipment/size1/light_craft_os.png"}
+            ]
+            const S2_EQUIPMENT = [
+                {"RP":8, "filepath":"equipment/size2/civtec_firmware.png"},
+                {"RP":10,"filepath":"equipment/size2/merc_corp_os.png"},
+                {"RP":14,"filepath":"equipment/size2/navy_systems.png"},
+                {"RP":10,"filepath":"equipment/size2/nanotube_plating.png"},
+                {"RP":12,"filepath":"equipment/size2/crystalline_plating.png"},
+                {"RP":16,"filepath":"equipment/size2/carbon_lined_panels.png"},
+                {"RP":20,"filepath":"equipment/size2/reinforced_hull.png"},
+                {"RP":18,"filepath":"equipment/size2/cargo_bay.png"},
+                {"RP":20,"filepath":"equipment/size2/armoured_compartment.png"},
+                {"RP":16,"filepath":"equipment/size2/fighter_repair_bay.png"},
+                {"RP":24,"filepath":"equipment/size2/damage_control.png"}, // <-- MISSING!
+                {"RP":30,"filepath":"equipment/size2/dead_mans_switch.png"}, // <-- MISSING!
+                {"RP":32,"filepath":"equipment/size2/shield_generator.png"}, // <-- MISSING!
+                {"RP":10,"filepath":"equipment/size2/standard_hangar.png"}, // <-- MISSING!
+                {"RP":20,"filepath":"equipment/size2/stacked_hangar.png"} // <-- MISSING!
+            ]
+            const S3_EQUIPMENT = [
+                {"RP":16,"filepath":"equipment/size3/pirate_30.png"},
+                {"RP":20,"filepath":"equipment/size3/future_industries.png"},
+                {"RP":28,"filepath":"equipment/size3/milspec_os.png"},
+                {"RP":26,"filepath":"equipment/size3/megasteel.png"},
+                {"RP":30,"filepath":"equipment/size3/spaced_armour.png"},
+                {"RP":40,"filepath":"equipment/size3/nano_composite.png"},
+                {"RP":48,"filepath":"equipment/size3/blast_block_plate.png"},
+                {"RP":24,"filepath":"equipment/size3/cargo_bay.png"},
+                {"RP":28,"filepath":"equipment/size3/armoured_compartment.png"},
+                {"RP":26,"filepath":"equipment/size3/fighter_repair_bay.png"},
+                {"RP":30,"filepath":"equipment/size3/damage_control.png"},
+                {"RP":40,"filepath":"equipment/size3/dead_mans_switch.png"},
+                {"RP":38,"filepath":"equipment/size3/shield_generator.png"},
+                {"RP":20,"filepath":"equipment/size3/standard_hangar.png"},
+                {"RP":30,"filepath":"equipment/size3/stacked_hangar.png"}
+            ]
+            const S4_EQUIPMENT = [
+                {"RP":36,"filepath":"equipment/size4/dominion_tech.png"},
+                {"RP":42,"filepath":"equipment/size4/federation_systems.png"},
+                {"RP":48,"filepath":"equipment/size4/alliance_computers.png"},
+                {"RP":50,"filepath":"equipment/size4/command_ship.png"},
+                {"RP":60,"filepath":"equipment/size4/stations.png"},
+                {"RP":70,"filepath":"equipment/size4/dreadnought.png"},
+                {"RP":40,"filepath":"equipment/size4/standard_hangar.png"},
+                {"RP":60,"filepath":"equipment/size4/dynamic_hangar.png"},
+                {"RP":60,"filepath":"equipment/size4/compact_hangar.png"},
+                {"RP":60,"filepath":"equipment/size4/automated_hangar.png"}
+            ]
 
-
+            function categorySplit(title){
+                const div = document.createElement("div");
+                const h2 = document.createElement("h2");
+                const hr = document.createElement("hr");
+                h2.innerText = title;
+                h2.classList.add("thick-font");
+                div.appendChild(h2);
+                div.appendChild(hr);
+                return div;
+            }
+            
+            //HULLS
             const hulls_cont = document.getElementById("hulls-cont");
-            for(const hull_data of hulls){
+            for(const hull_data of HULLS){
                 const hull = document.createElement("img");
                 hull.setAttribute("src",hull_data["filepath"]);
                 hull.setAttribute("data-JSON",JSON.stringify(hull_data));
@@ -555,7 +729,55 @@
                 hull.setAttribute("onmousedown",'startdrag(event,this)');
                 hulls_cont.appendChild(hull);
             }
+            // hulls_cont.appendChild(categorySplit("Faction Exclusive Hulls"));
             
+            function makeNode(data){
+                const node = document.createElement("img");
+                node.setAttribute("src",data["filepath"]);
+                node.classList.add("node");
+                node.classList.add("draggable-node");
+                node.setAttribute("onmousedown",'startdrag(event,this)');
+                return node;
+            }
+
+            //WEAPONS
+            const weapons_cont = document.getElementById("weapons-cont");
+            weapons_cont.appendChild(categorySplit("Size 1"));
+            for(const weapon_data of S1_WEAPONS){
+                weapons_cont.appendChild(makeNode(weapon_data));
+            }
+            weapons_cont.appendChild(categorySplit("Size 2"));
+            for(const weapon_data of S2_WEAPONS){
+                weapons_cont.appendChild(makeNode(weapon_data));
+            }
+            weapons_cont.appendChild(categorySplit("Size 3"));
+            for(const weapon_data of S3_WEAPONS){
+                weapons_cont.appendChild(makeNode(weapon_data));
+            }
+            weapons_cont.appendChild(categorySplit("Size 4"));
+            for(const weapon_data of S4_WEAPONS){
+                weapons_cont.appendChild(makeNode(weapon_data));
+            }
+
+            //EQUIPMENT
+            const equipment_cont = document.getElementById("equipment-cont");
+            equipment_cont.appendChild(categorySplit("Size 1"));
+            for(const equipment_data of S1_EQUIPMENT){
+                equipment_cont.appendChild(makeNode(equipment_data));
+            }
+            equipment_cont.appendChild(categorySplit("Size 2"));
+            for(const equipment_data of S2_EQUIPMENT){
+                equipment_cont.appendChild(makeNode(equipment_data));
+            }
+            equipment_cont.appendChild(categorySplit("Size 3"));
+            for(const equipment_data of S3_EQUIPMENT){
+                equipment_cont.appendChild(makeNode(equipment_data));
+            }
+            equipment_cont.appendChild(categorySplit("Size 4"));
+            for(const equipment_data of S4_EQUIPMENT){
+                equipment_cont.appendChild(makeNode(equipment_data));
+            }
+
             document.querySelectorAll('.collapsible .header').forEach(header => {
                 header.addEventListener('click', () => {
                     header.parentElement.classList.toggle('collapsed');
