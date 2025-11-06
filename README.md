@@ -62,3 +62,10 @@ Download main.zip found in the release and unzip in folder of choice. Open index
 in a browser of your choosing. It is important to maintain the relationship of 
 index.html and the other folders in main.zip as the image refrences use relative
 addressing and will break if you move stuff around.
+
+## Disclosure of AI
+This project served as a testing ground for AI tools like Cursor and the VSCode
+AI assistant. I almost entirely vibe-coded v0.1 and it didnt turn out the way
+I wanted. I started v0.2 with AI but ran out of free credits after just the bare 
+bones were put in place. The rest of v0.2 was accelerated with lesser AI chatbots for
+things like CSS and rough implementation examples.
