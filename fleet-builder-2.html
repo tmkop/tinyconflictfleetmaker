@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fleet Builder</title>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid meet'><polygon points='30,0 100,0 100,70 70,100 0,100 0,30' fill='none' stroke='%23000' stroke-width='20' stroke-linejoin='miter'/></svg>" />
     <style>
         .right-panel {
             position: fixed;
@@ -212,16 +212,6 @@
             filter: drop-shadow(0 0 0 black) drop-shadow(0 0 5px black);
             user-select:none;
         }
-        .collapsible .content {
-            display: block; /* visible by default */
-        }
-
-        .collapsible.collapsed .content {
-            display: none; /* hidden when collapsed */
-        }
-        .collapsible.collapsed .header::after{
-            content: "*";
-        }
         .header{
             user-select: none;
         }
@@ -344,7 +334,40 @@
         .manifest-table td:nth-child(2) { width: 150px; }
         .manifest-table td:nth-child(3) { width: auto; }
 
+        .drag-nav{
+            display:flex;
+            width:100%;
+            border-bottom:solid black 2px;
+        }
+        .drag-nav > div{
+            flex:1;
+            text-align:center;
+            font-size:larger;
+            cursor:pointer;
+            user-select: none;
+            width:100%;
+            background:#aaaaaa;
+            margin:5px;
+            border-radius:5px;
+        }
+        .drag-nav > div.selected-nav{
+            background: #aabed4;
+        }
 
+        .category-content {
+            display: none;
+        }
+
+        .category-content.selected-nav {
+            display: block;
+        }
+        .drag-nav-cont{
+            position:sticky;
+            top:0px;
+            z-index:999;
+            background:white;
+            filter: drop-shadow(50px 0 0 white) drop-shadow(-50px 0 0 white) drop-shadow(0 -50px 0 white);
+        }
 
         /*adjusted to be % based to be compatible with the size shift when printing*/
         .ROW1{top:24.78%} /*105px*/
@@ -438,28 +461,54 @@
         </div>
     </aside>
 
-    <aside class="drag-panel">
-        <div class="collapsible">
-            <h1 class="thick-font header">Hulls</h1><hr><hr><br>
-            <div id="hulls-cont" class="content">
-
+    <aside class="drag-panel thin-font">
+        <div class="drag-nav-cont">
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="hulls-cont">Hulls</div>
+            </div>
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="equipment-s1-cont">S1 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s2-cont">S2 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s3-cont">S3 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s4-cont">S4 Equip.</div>
+            </div>
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="weapons-s1-cont">S1 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s2-cont">S2 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s3-cont">S3 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s4-cont">S4 Weapons</div>
             </div>
         </div>
-        <div class="collapsible">
-            <h1 class="thick-font header">Weapons</h1><hr><hr><br>
-            <div id="weapons-cont" class="content">
-                
-            </div>
-        </div>
-        <div class="collapsible">
-            <h1 class="thick-font header">Equipment</h1><hr><hr><br>
-            <div id="equipment-cont" class="content">
-                
-            </div>
-        </div>
+        <br>
+        <div class="category-content" id="hulls-cont"></div>
+        <div class="category-content" id="equipment-s1-cont"></div>
+        <div class="category-content" id="equipment-s2-cont"></div>
+        <div class="category-content" id="equipment-s3-cont"></div>
+        <div class="category-content" id="equipment-s4-cont"></div>
+        <div class="category-content" id="weapons-s1-cont"></div>
+        <div class="category-content" id="weapons-s2-cont"></div>
+        <div class="category-content" id="weapons-s3-cont"></div>
+        <div class="category-content" id="weapons-s4-cont"></div>
     </aside>
 
     <script>
+        document.querySelectorAll(".category-selector").forEach((el)=>el.addEventListener('click',(e)=>{
+            const selectors = document.querySelectorAll('.category-selector');
+            const contents = document.querySelectorAll('.category-content');
+
+            selectors.forEach(selector => {
+                selector.addEventListener('click', () => {
+                    const target = selector.getAttribute("data-unhide-id");
+                    selectors.forEach(t => t.classList.remove('selected-nav'));
+                    selector.classList.add('selected-nav');
+
+                    contents.forEach(c => {
+                        c.classList.toggle('selected-nav', c.id === target);
+                    });
+                });
+            });
+        }));
+
         document.addEventListener('dblclick', function (event) {
             const target = event.target;
 
@@ -958,48 +1007,19 @@
             }
 
             //WEAPONS
-            const weapons_cont = document.getElementById("weapons-cont");
-            weapons_cont.appendChild(categorySplit("Size 1"));
-            for(const weapon_data of S1_WEAPONS){
-                weapons_cont.appendChild(makeNode(weapon_data));
-            }
-            weapons_cont.appendChild(categorySplit("Size 2"));
-            for(const weapon_data of S2_WEAPONS){
-                weapons_cont.appendChild(makeNode(weapon_data));
-            }
-            weapons_cont.appendChild(categorySplit("Size 3"));
-            for(const weapon_data of S3_WEAPONS){
-                weapons_cont.appendChild(makeNode(weapon_data));
-            }
-            weapons_cont.appendChild(categorySplit("Size 4"));
-            for(const weapon_data of S4_WEAPONS){
-                weapons_cont.appendChild(makeNode(weapon_data));
-            }
+            for(const data of S1_WEAPONS){document.getElementById("weapons-s1-cont").appendChild(makeNode(data));}
+            for(const data of S2_WEAPONS){document.getElementById("weapons-s2-cont").appendChild(makeNode(data));}
+            for(const data of S3_WEAPONS){document.getElementById("weapons-s3-cont").appendChild(makeNode(data));}
+            for(const data of S4_WEAPONS){document.getElementById("weapons-s4-cont").appendChild(makeNode(data));}
 
             //EQUIPMENT
-            const equipment_cont = document.getElementById("equipment-cont");
-            equipment_cont.appendChild(categorySplit("Size 1"));
-            for(const equipment_data of S1_EQUIPMENT){
-                equipment_cont.appendChild(makeNode(equipment_data));
-            }
-            equipment_cont.appendChild(categorySplit("Size 2"));
-            for(const equipment_data of S2_EQUIPMENT){
-                equipment_cont.appendChild(makeNode(equipment_data));
-            }
-            equipment_cont.appendChild(categorySplit("Size 3"));
-            for(const equipment_data of S3_EQUIPMENT){
-                equipment_cont.appendChild(makeNode(equipment_data));
-            }
-            equipment_cont.appendChild(categorySplit("Size 4"));
-            for(const equipment_data of S4_EQUIPMENT){
-                equipment_cont.appendChild(makeNode(equipment_data));
-            }
+            for(const data of S1_EQUIPMENT){document.getElementById("equipment-s1-cont").appendChild(makeNode(data));}
+            for(const data of S2_EQUIPMENT){document.getElementById("equipment-s2-cont").appendChild(makeNode(data));}
+            for(const data of S3_EQUIPMENT){document.getElementById("equipment-s3-cont").appendChild(makeNode(data));}
+            for(const data of S4_EQUIPMENT){document.getElementById("equipment-s4-cont").appendChild(makeNode(data));}
 
-            document.querySelectorAll('.collapsible .header').forEach(header => {
-                header.addEventListener('click', () => {
-                    header.parentElement.classList.toggle('collapsed');
-                });
-            });
+            document.querySelector('[data-unhide-id="hulls-cont"]').click();
+            document.querySelector('[data-unhide-id="hulls-cont"]').click();
         });
 
         (function attachPanelHandlers(){
