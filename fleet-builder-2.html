@@ -80,8 +80,8 @@
             main, main * { visibility: visible; }
             .right-panel, #palette { display: none !important; }
             .page {
-                width: 8.5in !important;
-                height: 11in !important;
+                width: 85in !important;
+                height: 110in !important;
                 max-width: none !important;
                 aspect-ratio: auto !important;
                 box-shadow: none !important;
@@ -91,6 +91,9 @@
                 page-break-inside: avoid;
             }
             .page .remove-btn, .page .template-btns { display: none !important; }
+            img{
+                image-rendering: crisp-edges;
+            }
         }
 
         .page-content {
@@ -247,12 +250,12 @@
             position:relative;
         }
         .placed-hull{
-            width:85%;
+            width:95%;
             float:right;
         }
         .placed-node{
             position:absolute;
-            height:100%;
+            height:122%;
             left: 50%;
             transform: translate(-50%, 0%);
             filter: drop-shadow(15px 0 0 white) drop-shadow(-15px 0 0 white) drop-shadow(0 5px 0 white) drop-shadow(0 -5px 0 white);
@@ -262,7 +265,8 @@
             display:flex;
             left:0px;
             bottom:0px;
-            width:135%;
+            width:125%;
+            gap:4%;
         }
         .ship-name-cont > div{
             flex:1
@@ -270,6 +274,9 @@
         .ship-name{
             text-orientation:upright;
             display:inline-block;
+        }
+        .ship-name-cont input.writable{
+            width:55%;
         }
         .verticle{
             transform:rotate(-90deg);
@@ -370,18 +377,18 @@
         }
 
         /*adjusted to be % based to be compatible with the size shift when printing*/
-        .ROW1{top:24.78%} /*105px*/
-        .ROW2{top:37.77%} /*160px*/
-        .ROW3{top:51.46%} /*218px*/
-        .ROW4{top:64.68%} /*274px*/
-        .LEFT_SHORT{right:46.6%} /*left: 195px*/
-        .CENTER_SHORT{right:19.48%} /*left: 369px*/
-        .RIGHT_SHORT{right:-7.49%} /*left: 542px*/
-        .LEFT_LONG{right:42.08%} /*left: 224px*/
-        .RIGHT_LONG{right:-2.66%} /*left: 511px*/
-        .LEFT_SHORTOFFSET_LONG{right:15.11%} /*left: 397px*/
-        .LEFT_LONGOFFSET_LONG{right:6.07%} /*left: 455px*/
-        .RIGHT_LONGOFFSET_SHORT{right:28.52%} /*left: 311px*/
+        .ROW1{top:26.1%}
+        .ROW2{top:41.8%}
+        .ROW3{top:56.5%}
+        .ROW4{top:68.7%}
+        .LEFT_SHORT{right:54.6%}
+        .CENTER_SHORT{right:25.5%}
+        .RIGHT_SHORT{right:-6.49%}
+        .LEFT_LONG{right:49.1%}
+        .RIGHT_LONG{right:-0.7%}
+        .LEFT_SHORTOFFSET_LONG{right:20.1%}
+        .LEFT_LONGOFFSET_LONG{right:9.1%}
+        .RIGHT_LONGOFFSET_SHORT{right:34.5%}
     </style>
 </head>
 <body>
@@ -427,8 +434,6 @@
                     <div>
                         <div class="ship-name larger thin-font">Name: </div>
                         <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
-                    </div>
-                    <div>
                         <div class="ship-name larger thin-font">RP: </div>
                         <div class="ship-name larger thin-font ship-rp-value">0</div>
                     </div>
@@ -437,8 +442,6 @@
                     <div>
                         <div class="ship-name larger thin-font">Name: </div>
                         <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
-                    </div>
-                    <div>
                         <div class="ship-name larger thin-font">RP: </div>
                         <div class="ship-name larger thin-font ship-rp-value">0</div>
                     </div>
