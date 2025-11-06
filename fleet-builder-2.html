@@ -403,7 +403,7 @@
                 <div>
                     <div>
                         <div class="ship-name larger thin-font">Name: </div>
-                        <input type="text" class="writable on-top" placeholder="Ship Name" value="Unnamed Ship">
+                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
                     </div>
                     <div>
                         <div class="ship-name larger thin-font">RP: </div>
@@ -413,7 +413,7 @@
                 <div>
                     <div>
                         <div class="ship-name larger thin-font">Name: </div>
-                        <input type="text" class="writable on-top" placeholder="Ship Name" value="Unnamed Ship">
+                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
                     </div>
                     <div>
                         <div class="ship-name larger thin-font">RP: </div>
@@ -1040,6 +1040,7 @@
                 if(removeBtn){
                     removeBtn.addEventListener('click', ()=>{
                         pageEl.remove();
+                        updateManifest();
                     });
                 }
 
@@ -1066,6 +1067,7 @@
                             // Simple replacement of the innerHTML as requested
                             contentElInner.innerHTML = tpl.innerHTML;
                         }
+                        updateManifest();
                     });
                 });
 
