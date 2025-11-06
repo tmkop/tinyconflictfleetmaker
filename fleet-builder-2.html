@@ -159,7 +159,6 @@
             box-shadow: none;
             width: auto; /* shrink to fit content */
             min-width: 80px; /* optional: gives a starting size */
-
             font-family: Impact, 'Arial Narrow', sans-serif;
             letter-spacing: 0.7px;
             font-size:20px;
@@ -184,7 +183,7 @@
             text-transform: uppercase;
             letter-spacing: 0.7px;
         }
-        .thin-font{
+        .thin-font,.manifest-table td{
             font-family: 'Roboto Condensed', Arial, sans-serif;
             font-weight: bold;
             text-transform: uppercase;
@@ -296,11 +295,58 @@
             aspect-ratio: calc(23 / 7 );
             position:absolute;
             transform:translate(-50%, -50%);
+            pointer-events: all; 
         }
         .hull-cont{
             position:relative;
             height:100%;
+            width:100%;
+            float:right;
+            pointer-events: none;
         }
+        .larger{
+            font-size:larger;
+        }
+
+        .manifest-table {
+            font-size: 1.2em;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .manifest-table th {
+            font-weight: normal;
+            background: none;
+            border: none;
+            padding: 0 10px 8px 10px;
+            text-align: left;
+        }
+
+        /* single horizontal line directly under the header row */
+        .manifest-table thead tr th {
+            border-bottom: 1px solid #333;
+        }
+
+        /* cell padding and internal vertical separators only between columns */
+        .manifest-table td {
+            padding: 6px 10px;
+            text-align: center;
+
+        }
+
+        .manifest-table td:not(:first-child) {
+            border-left: 1px solid #333;
+            text-align: left;
+        }
+
+        /* explicit column widths */
+        .manifest-table td:nth-child(1) { width: 60px; }
+        .manifest-table td:nth-child(2) { width: 150px; }
+        .manifest-table td:nth-child(3) { width: auto; }
+
+
+
+        /*adjusted to be % based to be compatible with the size shift when printing*/
         .ROW1{top:24.78%} /*105px*/
         .ROW2{top:37.77%} /*160px*/
         .ROW3{top:51.46%} /*218px*/
@@ -320,60 +366,63 @@
 
     </main>
 
-    <!-- Hidden template for an 8.5x11 page (not displayed until cloned) -->
+    <!-- 8.11 page -->
     <template id="page-template">
         <article class="page" role="article" aria-label="8.5 by 11 inch page">
             <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
             <div class="template-btns" role="group" aria-label="Apply templates">
-                <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button>
-                <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Ships</button>
+                <!-- <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button> -->
+                <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Reset</button>
             </div>
             <div class="page-content"></div>
         </article>
     </template>
 
-    <!-- Page-content templates (placeholders you can edit manually) -->
+    <!-- title page -->
     <template id="content-template-title">
         <div class="line">
             <h1 class="thick-font">Fleet Name:</h1><input type="text" class="writable" placeholder="Fleet Name">
         </div>
         <div class="line">
             <div class="thick-font medium-size">Faction:</div><input type="text" class="writable" placeholder="Faction">
-            <div class="thick-font medium-size">RP:&ensp;</div>
-            <div class="thin-font medium-size">0</div>
+            <div class="thick-font medium-size">Max RP:&ensp;</div><input type="text" class="writable" placeholder="2000">
         </div>
         <br><hr>
         <div class="line">
             <div class="thick-font medium-size">Ships:</div>
+            <div id="manifest">
+                
+            </div>
         </div>
     </template>
 
+    <!-- ship page -->
     <template id="content-template-ships">
         <div class="ship-socket-cont">
             <div class="ship-name-cont verticle">
                 <div>
                     <div>
-                        <div class="ship-name thin-font">Name: </div>
-                        <input type="text" class="writable" placeholder="Ship Name">
+                        <div class="ship-name larger thin-font">Name: </div>
+                        <input type="text" class="writable on-top" placeholder="Ship Name" value="Unnamed Ship">
                     </div>
                     <div>
-                        <div class="ship-name thin-font">RP: </div>
-                        <div class="ship-name thin-font">0</div>
+                        <div class="ship-name larger thin-font">RP: </div>
+                        <div class="ship-name larger thin-font ship-rp-value">0</div>
                     </div>
                 </div>
                 <div>
                     <div>
-                        <div class="ship-name thin-font">Name: </div>
-                        <input type="text" class="writable" placeholder="Ship Name">
+                        <div class="ship-name larger thin-font">Name: </div>
+                        <input type="text" class="writable on-top" placeholder="Ship Name" value="Unnamed Ship">
                     </div>
                     <div>
-                        <div class="ship-name thin-font">RP: </div>
-                        <div class="ship-name thin-font">0</div>
+                        <div class="ship-name larger thin-font">RP: </div>
+                        <div class="ship-name larger thin-font ship-rp-value">0</div>
                     </div>
                 </div>
             </div>
-            <div class="socket"></div>
-            <div class="socket"></div>
+            <div class="socket" data-socket-num="1"></div>
+            <div class="socket" data-socket-num="0"></div>
         </div>
     </template>
 
@@ -411,6 +460,84 @@
     </aside>
 
     <script>
+        document.addEventListener('dblclick', function (event) {
+            const target = event.target;
+
+            // Check for a custom flag, e.g., data-deletable="true"
+            if (target.getAttribute('data-dblclick-to-remove') === 'true') {
+                target.remove(); // Deletes the element from the DOM
+            }
+        });
+        function formatImageSrc(imgElement) {
+            const src = imgElement.src;
+            const fileName = src.substring(src.lastIndexOf('/') + 1);
+            const baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+            const withSpaces = baseName.replace(/_/g, ' ');
+            const capitalized = withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1);
+
+            return capitalized;
+        }
+
+        function updateManifest(){
+            const manifest = document.getElementById("manifest");
+            manifest.innerHTML = `
+                <br><br>
+                <table class="manifest-table">
+                <thead class="thick-font">
+                    <tr>
+                    <th>RP cost</th>
+                    <th>Hull type</th>
+                    <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                </table>
+            `;
+
+
+            
+            const ship_sockets = document.getElementsByClassName("socket");
+            for(const socket of ship_sockets){
+                const ship_hull = socket.querySelector(".placed-hull");
+                if(ship_hull){
+                    const ship_label = socket.parentElement.children[0].children[+socket.getAttribute("data-socket-num")]
+                    const ship_name = ship_label.querySelector(".writable").value;
+                    const ship_rp_cont = ship_label.querySelector(".ship-rp-value");
+
+                    let hull_cost = ship_hull.getAttribute("data-rp");
+
+                    let rp = +hull_cost;
+
+                    let hull_slots = socket.querySelectorAll(".nodeSocket");
+                    for(const slot of hull_slots){
+                        let slot_mult = slot.getAttribute("data-rp-mult");
+                        let slot_data = slot.querySelector("img");
+                        if(slot_data){
+                            let slot_cost = slot_data.getAttribute("data-rp");
+                            rp += (+slot_mult * +slot_cost);
+                        }
+                    }
+                    ship_rp_cont.innerText = rp;
+
+                    const manifest_row = document.createElement('tr');
+
+                    const rpCostCell = document.createElement('td');
+                    rpCostCell.textContent = rp;
+                    manifest_row.appendChild(rpCostCell);
+
+                    const hullTypeCell = document.createElement('td');
+                    hullTypeCell.textContent = formatImageSrc(ship_hull);
+                    manifest_row.appendChild(hullTypeCell);
+
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = ship_name;
+                    manifest_row.appendChild(nameCell);
+
+                    manifest.querySelector('tbody').appendChild(manifest_row);
+                }
+            }
+        }
         function startdrag(e, elem) {
             e.preventDefault();
 
@@ -444,11 +571,11 @@
                 const elementsUnderCursor = document.elementsFromPoint(ev.clientX, ev.clientY);
                 const socket = elementsUnderCursor.find(el => el.classList && el.classList.contains("socket"));
                 if (socket) {
-                    const data = clone.getAttribute("data-JSON");
+                    const data = JSON.parse(clone.getAttribute("data-JSON"));
                     const hull_cont = document.createElement("div");
                     const hull = document.createElement("img");
                     hull.setAttribute("src",clone.getAttribute("src"));
-                    hull.setAttribute("data-JSON",data);
+                    hull.setAttribute("data-rp",data["RP"]);
                     hull.setAttribute("draggable","false");
                     hull.classList.add("placed-hull");
                     socket.innerHTML="";
@@ -456,8 +583,9 @@
                     hull_cont.appendChild(hull);
 
                     let hull_sockets = [];
-                    for(s of JSON.parse(data)["sockets"]){
+                    for(s of data["sockets"]){
                         const nodeSocket = document.createElement("div");
+                        nodeSocket.setAttribute("data-rp-mult",s["number"]);
                         nodeSocket.classList.add("nodeSocket");
                         nodeSocket.classList.add(s.position.y);
                         nodeSocket.classList.add(s.position.x);
@@ -465,6 +593,7 @@
                     }
 
                     socket.appendChild(hull_cont);
+                    updateManifest();
                 }
 
                 // Cleanup
@@ -474,7 +603,6 @@
             };
         }
         function startdragNode(e, elem) {
-            console.log("DRAGGING NODE")
             e.preventDefault();
 
             // Clone the element
@@ -507,10 +635,11 @@
                 const elementsUnderCursor = document.elementsFromPoint(ev.clientX, ev.clientY);
                 const nodeSocket = elementsUnderCursor.find(el => el.classList && el.classList.contains("nodeSocket"));
                 if (nodeSocket) {
-                    const data = clone.getAttribute("data-JSON");
                     const node = document.createElement("img");
                     node.setAttribute("src",clone.getAttribute("src"));
+                    node.setAttribute("data-rp",clone.getAttribute("data-rp"));
                     node.setAttribute("draggable","false");
+                    node.setAttribute("data-dblclick-to-remove",true);
                     node.classList.add("placed-node");
                     nodeSocket.innerHTML="";
                     nodeSocket.appendChild(node);
@@ -520,6 +649,7 @@
                 document.removeEventListener("mousemove", onMouseMove);
                 clone.remove();
                 document.onmouseup = undefined;
+                updateManifest();
             };
         }
         const ROW1 = "ROW1"; //= 106;
@@ -667,8 +797,8 @@
                     {"number":4,"position":{"x":LEFT_SHORT,"y":ROW2}},
                     {"number":2,"position":{"x":CENTER_SHORT,"y":ROW2}},
                     {"number":4,"position":{"x":RIGHT_SHORT,"y":ROW2}},
-                    {"number":1,"position":{"x":RIGHT_LONG,"y":ROW3}},
-                    {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
+                    {"number":2,"position":{"x":RIGHT_LONG,"y":ROW3}},
+                    {"number":1,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
                     {"number":1,"position":{"x":RIGHT_LONG,"y":ROW4}}
 
                 ]},
@@ -676,10 +806,10 @@
                     {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
                     {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
                     {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
-                    {"number":2,"position":{"x":RIGHT_LONG,"y":ROW2}},
-                    {"number":3,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW2}},
-                    {"number":4,"position":{"x":RIGHT_LONG,"y":ROW3}},
-                    {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
+                    {"number":3,"position":{"x":RIGHT_LONG,"y":ROW2}},
+                    {"number":2,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":RIGHT_LONG,"y":ROW3}},
+                    {"number":4,"position":{"x":RIGHT_LONGOFFSET_SHORT,"y":ROW3}},
                 ]},
             ];
             const CAPTAINS = [
@@ -809,6 +939,7 @@
             function makeNode(data){
                 const node = document.createElement("img");
                 node.setAttribute("src",data["filepath"]);
+                node.setAttribute("data-rp",data["RP"]);
                 node.classList.add("node");
                 node.setAttribute("onmousedown",'startdragNode(event,this)');
                 return node;
