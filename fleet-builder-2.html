@@ -465,6 +465,8 @@
         <div class="drag-nav-cont">
             <div class="drag-nav">
                 <div class="category-selector" data-unhide-id="hulls-cont">Hulls</div>
+                <div class="category-selector" data-unhide-id="capt-cont">Captains</div>
+                <div class="category-selector" data-unhide-id="fact-cont">Faction</div>
             </div>
             <div class="drag-nav">
                 <div class="category-selector" data-unhide-id="equipment-s1-cont">S1 Equip.</div>
@@ -480,7 +482,9 @@
             </div>
         </div>
         <br>
+        <div class="category-content" id="fact-cont"></div>
         <div class="category-content" id="hulls-cont"></div>
+        <div class="category-content" id="capt-cont"></div>
         <div class="category-content" id="equipment-s1-cont"></div>
         <div class="category-content" id="equipment-s2-cont"></div>
         <div class="category-content" id="equipment-s3-cont"></div>
@@ -974,6 +978,43 @@
                 {"RP":60,"filepath":"equipment/size4/compact_hangar.png"},
                 {"RP":60,"filepath":"equipment/size4/automated_hangar.png"}
             ]
+            const FACT_HULLS = [
+                {"filepath":"faction/hulls/ugnn_drones.png",        "RP":10,"sockets":[]},
+                {"filepath":"faction/hulls/stealth_corvette.png",        "RP":30,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"faction/hulls/stealth_corvette.png",        "RP":30,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}}
+                ]},
+                {"filepath":"faction/hulls/homestead_skiff.png",        "RP":35,"sockets":[
+                    {"number":1,"position":{"x":LEFT_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":CENTER_SHORT,"y":ROW1}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW1}},
+                    {"number":2,"position":{"x":CENTER_SHORT,"y":ROW2}},
+                    {"number":1,"position":{"x":RIGHT_SHORT,"y":ROW2}},
+                    {"number":2,"position":{"x":LEFT_SHORTOFFSET_LONG,"y":ROW3}}
+                ]},
+                {"filepath":"faction/hulls/centauri_serpent.png",        "RP":175,"sockets":[]},
+                {"filepath":"faction/hulls/void_squids.png",        "RP":60,"sockets":[]}
+            ];
+            const FACT_OTHERS = [
+                {"RP":40,"filepath":"faction/others/bile_cannon.png"},
+                {"RP":14,"filepath":"faction/others/bile_caster.png"},
+                {"RP":18,"filepath":"faction/others/bile_spitters.png"},
+                {"RP":0,"filepath":"faction/others/hivemind_tendril.png"},
+                {"RP":20,"filepath":"faction/others/darikin_accelerator.png"},
+                {"RP":0,"filepath":"faction/others/darikin_accelerator_2.png"},
+                {"RP":50,"filepath":"faction/others/norock_vortex.png"},
+                {"RP":0,"filepath":"faction/others/norock_vortex_2.png"},
+                {"RP":35,"filepath":"faction/others/tratek_beam.png"},
+                {"RP":0,"filepath":"faction/others/tratek_beam_2.png"}
+            ];
 
             function categorySplit(title){
                 const div = document.createElement("div");
@@ -994,6 +1035,18 @@
                 return node;
             }
             
+            //FACTION SPECIFIC
+            const fact_cont = document.getElementById("fact-cont");
+            for(const data of FACT_HULLS){
+                const hull = document.createElement("img");
+                hull.setAttribute("src",data["filepath"]);
+                hull.setAttribute("data-JSON",JSON.stringify(data));
+                hull.classList.add("hull");
+                hull.setAttribute("onmousedown",'startdrag(event,this)');
+                fact_cont.appendChild(hull);
+            }
+            for(const data of FACT_OTHERS){fact_cont.appendChild(makeNode(data));}
+            
 
             //HULLS
             const hulls_cont = document.getElementById("hulls-cont");
@@ -1005,6 +1058,8 @@
                 hull.setAttribute("onmousedown",'startdrag(event,this)');
                 hulls_cont.appendChild(hull);
             }
+            //CAPTAINS
+            for(const data of CAPTAINS){document.getElementById("capt-cont").appendChild(makeNode(data));}
 
             //WEAPONS
             for(const data of S1_WEAPONS){document.getElementById("weapons-s1-cont").appendChild(makeNode(data));}
