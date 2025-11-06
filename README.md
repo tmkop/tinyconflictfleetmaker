@@ -1,5 +1,5 @@
 # Tiny Conflict Fleet Creator
-Version 2.0, 11/6/2025
+Version 0.2, 11/6/2025
 
 This is a tool to help create fleets for the TTRP Tiny Conflict. It follows
 a very simple drag and drop workflow with minimal automatic calculations.
@@ -45,6 +45,12 @@ I encountered a bug when printing to PDF from firefox on my windows machine.
     this is to use <u>Microsoft's</u> print to PDF option in the printer select dropdown
     menu.
 
+- __Custom Factions and Yellow Cube__
+
+I have not yet included the Yellow Cube faction or any of the custom faction
+    info. These will be added in a later update when i can organize faction-specific
+    items in a more elegent way.
+
 ## How to use
 My purpose for this tool was rapid deployment of something passable in order to
 play Tiny Conflict with a larger army sooner. As such, the tool is not deployed on 
@@ -52,4 +58,7 @@ the internet and requires a download and unzip. Updates will continue to be push
 to the repo but manual updates will be required until i eventually add this to a
 personal portfolio site.
 
-Download the .zip found in the release
+Download main.zip found in the release and unzip in folder of choice. Open index.html
+in a browser of your choosing. It is important to maintain the relationship of 
+index.html and the other folders in main.zip as the image refrences use relative
+addressing and will break if you move stuff around.
