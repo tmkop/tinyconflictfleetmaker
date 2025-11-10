@@ -288,28 +288,28 @@ const FACT_HULLS = [
     { "filepath": "faction/hulls/ugnn_drones.png", "RP": 10, "sockets": [] },
     {
         "filepath": "faction/hulls/stealth_corvette.png", "RP": 30, "sockets": [
-            { "number": 1, "position": { "x": LEFT_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": CENTER_SHORT, "y": ROW2 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW2 } }
+            { "number": 1, "position": { "x": "LEFT_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "CENTER_SHORT", "y": "ROW2" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW2" } }
         ]
     },
     {
         "filepath": "faction/hulls/stealth_corvette.png", "RP": 30, "sockets": [
-            { "number": 1, "position": { "x": LEFT_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": CENTER_SHORT, "y": ROW2 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW2 } }
+            { "number": 1, "position": { "x": "LEFT_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "CENTER_SHORT", "y": "ROW2" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW2" } }
         ]
     },
     {
         "filepath": "faction/hulls/homestead_skiff.png", "RP": 35, "sockets": [
-            { "number": 1, "position": { "x": LEFT_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": CENTER_SHORT, "y": ROW1 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW1 } },
-            { "number": 2, "position": { "x": CENTER_SHORT, "y": ROW2 } },
-            { "number": 1, "position": { "x": RIGHT_SHORT, "y": ROW2 } },
-            { "number": 2, "position": { "x": LEFT_SHORTOFFSET_LONG, "y": ROW3 } }
+            { "number": 1, "position": { "x": "LEFT_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "CENTER_SHORT", "y": "ROW1" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW1" } },
+            { "number": 2, "position": { "x": "CENTER_SHORT", "y": "ROW2" } },
+            { "number": 1, "position": { "x": "RIGHT_SHORT", "y": "ROW2" } },
+            { "number": 2, "position": { "x": "LEFT_SHORTOFFSET_LONG", "y": "ROW3" } }
         ]
     },
     { "filepath": "faction/hulls/centauri_serpent.png", "RP": 175, "sockets": [] },
