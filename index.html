@@ -19,10 +19,10 @@
     <!-- 8.11 page -->
     <template id="page-template">
         <article class="page" role="article" aria-label="8.5 by 11 inch page">
-            <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
+            <!-- <button type="button" class="remove-btn" aria-label="Remove page">✖</button> -->
             <div class="template-btns" role="group" aria-label="Apply templates">
                 <!-- <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button> -->
-                <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Reset</button>
+                <!-- <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Reset</button> -->
             </div>
             <div class="page-content"></div>
         </article>
@@ -50,43 +50,35 @@
 
     <!-- ship page -->
     <template id="content-template-ships">
-        <div class="ship-socket-cont">
-            <div class="ship-name-cont verticle">
-                <div>
-                    <div>
-                        <div class="ship-name larger thin-font">Name: </div>
-                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
-                        <div class="ship-name larger thin-font">RP: </div>
-                        <div class="ship-name larger thin-font ship-rp-value">0</div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <div class="ship-name larger thin-font">Name: </div>
-                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
-                        <div class="ship-name larger thin-font">RP: </div>
-                        <div class="ship-name larger thin-font ship-rp-value">0</div>
-                    </div>
-                </div>
+        <div class="ship-page">
+            <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
+            <div class="template-btns" role="group" aria-label="Apply templates">
+                <button type="button" class="template-btn" data-template="ships" title="Apply Blank Ship Page">Reset</button>
             </div>
-            <div class="socket" data-socket-num="1"></div>
-            <div class="socket" data-socket-num="0"></div>
+            <div class="ship-cont">
+
+            </div>
+            <div class="ship-cont">
+
+            </div>
         </div>
     </template>
 
     <!-- Right-side button panel (template buttons) -->
-    <aside class="right-panel" aria-label="Template actions">
+    <!-- <aside class="right-panel" aria-label="Template actions">
         <h4>Quick Menu</h4>
         <div class="panel-group">
             <button class="panel-btn" id="btn-add-page">📄 Add Page</button>
-            <!-- <button class="panel-btn" id="btn-load-template">📂 Load Template</button> -->
-            <!-- <button class="panel-btn" id="btn-save">💾 Save Fleet</button> -->
+            <button class="panel-btn" id="btn-load-template">📂 Load Template</button>
+            <button class="panel-btn" id="btn-save">💾 Save Fleet</button>
             <button class="panel-btn" id="btn-print">🖨️ Print</button>
-            <!-- <button class="panel-btn" id="btn-clear">🗑️ Clear</button> -->
+            <button class="panel-btn" id="btn-clear">🗑️ Clear</button>
         </div>
     </aside>
 
-    <aside class="drag-panel thin-font">
+    -->
+
+    <!-- <aside class="drag-panel thin-font">
         <div class="drag-nav-cont">
             <div class="drag-nav">
                 <div class="category-selector" data-unhide-id="hulls-cont">Hulls</div>
@@ -118,7 +110,7 @@
         <div class="category-content" id="weapons-s2-cont"></div>
         <div class="category-content" id="weapons-s3-cont"></div>
         <div class="category-content" id="weapons-s4-cont"></div>
-    </aside>
+    </aside> -->
     <script src="data.js"></script>
     <script src="scripts.js"></script>
 </body>

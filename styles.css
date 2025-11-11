@@ -67,7 +67,8 @@
     border: 1px solid #e0e0e0;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     border-radius: 4px;
-    margin: 16px;
+    margin: auto;
+    margin-bottom:30px;
     position: relative;
     /* allow absolute-positioned controls inside */
     box-sizing: border-box;
@@ -504,4 +505,18 @@ body {
 
 .RIGHT_LONGOFFSET_SHORT {
     right: 34.5%
+}
+
+.ship-page{
+    display:flex;
+    flex-direction: column;
+    height:100%;
+    row-gap:40px;
+}
+
+.ship-cont{
+    flex:1;
+    border:solid black 5px;
+    height:100%;
+    width:100%;
 }
