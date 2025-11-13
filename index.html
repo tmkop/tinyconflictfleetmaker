@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fleet Builder V0.3</title>
     <link rel="stylesheet" href="styles.css"></link>
+    <link rel="stylesheet" href="ship-page-styles.css"></link>
+    <link rel="stylesheet" href="faction-page-styles.css"></link>
 </head>
 
 <body>
@@ -15,9 +17,7 @@
 
     <!-- 8.11 page -->
     <template id="page-template">
-        <article class="page" role="article">
-            <div class="template-btns" role="group">
-            </div>
+        <article class="page">
             <div class="page-content"></div>
         </article>
     </template>
@@ -29,7 +29,7 @@
         </div>
         <div class="line">
             <div class="thick-font medium-size">Faction:</div>
-            <select onchange="updateFaction()" type="text" class="writable" placeholder="Faction">
+            <select id="faction-selector" onchange="updateFaction()" type="text" class="writable" placeholder="Faction">
                 <option value="ugnn">UGNN</option>
                 <option value="mrn">MRN</option>
                 <option value="ss">Star Scrappers</option>
@@ -53,6 +53,7 @@
     </template>
 
     
+    <!-- If updated, make sure to also update the instances in the ship-cont -->
     <template id="content-template-add-ship">
         <div class="ship-add-btn" onclick="">+</div>
     </template>
@@ -67,6 +68,13 @@
             <div class="ship-cont">
                 <div class="ship-add-btn" onclick="">+</div>
             </div>
+        </div>
+    </template>
+
+    <!-- faction building page -->
+    <template id="content-template-faction-builder">
+        <div class="faction-builder-page">
+            Placeholder Faction Builder
         </div>
     </template>
 
