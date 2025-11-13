@@ -61,7 +61,8 @@
     <!-- ship page -->
     <template id="content-template-ships">
         <div class="ship-page">
-            <button type="button" class="remove-btn" onclick="this.closest('article').remove();">✖</button>
+            <button type="button" class="remove-btn" onclick="
+                if(confirm('Delete this page of ships?')){this.closest('article').remove();}">✖</button>
             <div class="ship-cont">
                 <div class="ship-add-btn" onclick="">+</div>
             </div>
