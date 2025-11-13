@@ -516,7 +516,20 @@ body {
 
 .ship-cont{
     flex:1;
-    border:solid black 5px;
+    border:solid rgba(255, 0, 0, 0.434) 1px;
     height:100%;
     width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ship-add-btn{
+    font-size:5em;
+    font-weight:bolder;
+    color:gray
+}
+
+.ship-add-btn:hover{
+    font-size:5.5em;
 }

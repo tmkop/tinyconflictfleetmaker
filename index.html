@@ -34,7 +34,16 @@
             <h1 class="thick-font">Fleet Name:</h1><input type="text" class="writable" placeholder="Fleet Name">
         </div>
         <div class="line">
-            <div class="thick-font medium-size">Faction:</div><input type="text" class="writable" placeholder="Faction">
+            <div class="thick-font medium-size">Faction:</div>
+            <select type="text" class="writable" placeholder="Faction">
+                <option value="ugnn">UGNN</option>
+                <option value="mrn">MRN</option>
+                <option value="ss">Star Scrappers</option>
+                <option value="bb">The Blunder Brigade</option>
+                <option value="girep">Girep</option>
+                <option value="void">Creatures of the Void</option>
+                <option value="ycube">Yellow Cubes</option>
+            </select>
             <div class="thick-font medium-size">Max RP:&ensp;</div><input type="text" class="writable"
                 placeholder="2000">
         </div>
@@ -48,6 +57,11 @@
         </div>
     </template>
 
+    
+    <template id="content-template-add-ship">
+        <div class="ship-add-btn" onclick="">+</div>
+    </template>
+
     <!-- ship page -->
     <template id="content-template-ships">
         <div class="ship-page">
@@ -56,13 +70,14 @@
                 <button type="button" class="template-btn" data-template="ships" title="Apply Blank Ship Page">Reset</button>
             </div>
             <div class="ship-cont">
-
+                <div class="ship-add-btn" onclick="">+</div>
             </div>
             <div class="ship-cont">
-
+                <div class="ship-add-btn" onclick="">+</div>
             </div>
         </div>
     </template>
+
 
     <!-- Right-side button panel (template buttons) -->
     <!-- <aside class="right-panel" aria-label="Template actions">
