@@ -3,26 +3,20 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fleet Builder V0.2</title>
-    <link rel="icon"
-        href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid meet'><polygon points='30,0 100,0 100,70 70,100 0,100 0,30' fill='none' stroke='%23000' stroke-width='20' stroke-linejoin='miter'/></svg>" />
+    <title>Fleet Builder V0.3</title>
     <link rel="stylesheet" href="styles.css"></link>
 </head>
 
 <body>
-    <main id="app" role="main">
+    <main id="main">
 
     </main>
 
     <!-- 8.11 page -->
     <template id="page-template">
-        <article class="page" role="article" aria-label="8.5 by 11 inch page">
-            <!-- <button type="button" class="remove-btn" aria-label="Remove page">✖</button> -->
-            <div class="template-btns" role="group" aria-label="Apply templates">
-                <!-- <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button> -->
-                <!-- <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Reset</button> -->
+        <article class="page" role="article">
+            <div class="template-btns" role="group">
             </div>
             <div class="page-content"></div>
         </article>
@@ -35,7 +29,7 @@
         </div>
         <div class="line">
             <div class="thick-font medium-size">Faction:</div>
-            <select type="text" class="writable" placeholder="Faction">
+            <select onchange="updateFaction()" type="text" class="writable" placeholder="Faction">
                 <option value="ugnn">UGNN</option>
                 <option value="mrn">MRN</option>
                 <option value="ss">Star Scrappers</option>
@@ -43,6 +37,7 @@
                 <option value="girep">Girep</option>
                 <option value="void">Creatures of the Void</option>
                 <option value="ycube">Yellow Cubes</option>
+                <option value="custom" selected>Custom Faction</option>
             </select>
             <div class="thick-font medium-size">Max RP:&ensp;</div><input type="text" class="writable"
                 placeholder="2000">
@@ -65,10 +60,7 @@
     <!-- ship page -->
     <template id="content-template-ships">
         <div class="ship-page">
-            <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
-            <div class="template-btns" role="group" aria-label="Apply templates">
-                <button type="button" class="template-btn" data-template="ships" title="Apply Blank Ship Page">Reset</button>
-            </div>
+            <button type="button" class="remove-btn" onclick="this.closest('article').remove();">✖</button>
             <div class="ship-cont">
                 <div class="ship-add-btn" onclick="">+</div>
             </div>
@@ -78,54 +70,6 @@
         </div>
     </template>
 
-
-    <!-- Right-side button panel (template buttons) -->
-    <!-- <aside class="right-panel" aria-label="Template actions">
-        <h4>Quick Menu</h4>
-        <div class="panel-group">
-            <button class="panel-btn" id="btn-add-page">📄 Add Page</button>
-            <button class="panel-btn" id="btn-load-template">📂 Load Template</button>
-            <button class="panel-btn" id="btn-save">💾 Save Fleet</button>
-            <button class="panel-btn" id="btn-print">🖨️ Print</button>
-            <button class="panel-btn" id="btn-clear">🗑️ Clear</button>
-        </div>
-    </aside>
-
-    -->
-
-    <!-- <aside class="drag-panel thin-font">
-        <div class="drag-nav-cont">
-            <div class="drag-nav">
-                <div class="category-selector" data-unhide-id="hulls-cont">Hulls</div>
-                <div class="category-selector" data-unhide-id="capt-cont">Captains</div>
-                <div class="category-selector" data-unhide-id="fact-cont">Faction</div>
-            </div>
-            <div class="drag-nav">
-                <div class="category-selector" data-unhide-id="equipment-s1-cont">S1 Equip.</div>
-                <div class="category-selector" data-unhide-id="equipment-s2-cont">S2 Equip.</div>
-                <div class="category-selector" data-unhide-id="equipment-s3-cont">S3 Equip.</div>
-                <div class="category-selector" data-unhide-id="equipment-s4-cont">S4 Equip.</div>
-            </div>
-            <div class="drag-nav">
-                <div class="category-selector" data-unhide-id="weapons-s1-cont">S1 Weapons</div>
-                <div class="category-selector" data-unhide-id="weapons-s2-cont">S2 Weapons</div>
-                <div class="category-selector" data-unhide-id="weapons-s3-cont">S3 Weapons</div>
-                <div class="category-selector" data-unhide-id="weapons-s4-cont">S4 Weapons</div>
-            </div>
-        </div>
-        <br>
-        <div class="category-content" id="fact-cont"></div>
-        <div class="category-content" id="hulls-cont"></div>
-        <div class="category-content" id="capt-cont"></div>
-        <div class="category-content" id="equipment-s1-cont"></div>
-        <div class="category-content" id="equipment-s2-cont"></div>
-        <div class="category-content" id="equipment-s3-cont"></div>
-        <div class="category-content" id="equipment-s4-cont"></div>
-        <div class="category-content" id="weapons-s1-cont"></div>
-        <div class="category-content" id="weapons-s2-cont"></div>
-        <div class="category-content" id="weapons-s3-cont"></div>
-        <div class="category-content" id="weapons-s4-cont"></div>
-    </aside> -->
     <script src="data.js"></script>
     <script src="scripts.js"></script>
 </body>
