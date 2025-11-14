@@ -55,7 +55,7 @@
     
     <!-- If updated, make sure to also update the instances in the ship-cont -->
     <template id="content-template-add-ship">
-        <div class="ship-add-btn" onclick="">+</div>
+        <div class="ship-add-btn" onclick="addNewShip(this)" >+</div>
     </template>
 
     <!-- ship page -->
@@ -74,19 +74,37 @@
 
     <!-- ship template-->
     <template id="content-template-ship">
+        <div class="remove-ship thin-font" onclick="loadTemplate(this.closest('.ship-cont'),document.getElementById('content-template-add-ship'))">
+            Remove Ship
+        </div>
         <div class="ship">
-            <div class="line">
-                <h1 class="thick-font medium-size">SHIP NAME: </h1><input type="text" class="writable" placeholder="Ship Name">
+            <div class="ship-name line">
+                <h1 class="thin-font medium-size">SHIP NAME: </h1>
+                <input type="text" class="writable" placeholder="Ship Name">
             </div>
-            <div class="line">
+            <div class="ship-type line">
                 <div class="thin-font">SHIP TYPE: </div>
-                <select class="writable">
+                <select class="writable thin-font">
                     <option selected hidden disabled>Select Type</option>
-                    <option value="">A</option>
-                    <option value="">B</option>
-                    <option value="">C</option>
-                    <option value="">D</option>
-                    <option value="">E</option>
+                    <option class="thick-font" disabled>Size 1</option>
+                    <option value="">Fighter</option>
+                    <option value="">Bombers</option>
+                    <option value="">Transports</option>
+                    <option value="">Interceptors</option>
+                    <option class="thick-font" disabled>Size 2</option>
+                    <option value="">Freighter</option>
+                    <option value="">Destroyer</option>
+                    <option value="">Frigate</option>
+                    <option value="">Light Cruiser</option>
+                    <option value="">Assault Carrier</option>
+                    <option class="thick-font" disabled>Size 3</option>
+                    <option value="">Heavy Cruiser</option>
+                    <option value="">Carrier</option>
+                    <option value="">Battleship</option>
+                    <option value="">Weapon Platform</option>
+                    <option value="">Command Ship</option>
+                    <option value="">Dreadnought</option>
+                    <option value="">Station</option>
                 </select>
             </div>
         </div>

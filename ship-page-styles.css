@@ -12,7 +12,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow:hidden;
+    position:relative;
+}
+
+.remove-ship{
+    position:absolute;
+    height:100%;
+    left:-30px;
+    font-size:15px;
+    width:20px;
+    line-height:20px;
+    writing-mode:vertical-lr;
+    text-orientation: upright;
+    background:rgb(255, 122, 122);
+    text-align: center;
+    border-radius:10px;
+}
+
+.remove-ship:hover{
+    background:rgb(243, 105, 105);
+    width:25px;
+    left:-32.5px;
+    line-height:25px;
 }
 
 .ship-add-btn{
@@ -29,4 +50,23 @@
     height:100%;
     border:solid black 4px;
     box-sizing: border-box;
+    padding:5px;
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 13% 13% repeat(3, 1fr);
+    grid-template-areas:
+        "ship-name ship-name ship-name ship-name stat-block stat-block"
+        "ship-type ship-type ship-type ship-type stat-block stat-block"
+        "slot-1 slot-1 slot-2 slot-2 slot-3 slot-3"
+        "slot-4 slot-4 slot-5 slot-5 slot-6 slot-6"
+        "slot-7 slot-7 slot-8 slot-8 slot-9 slot-9";
+}
+
+.ship > .ship-name{
+    grid-area: ship-name;
+}
+
+
+.ship > .ship-type{
+    grid-area: ship-type;
 }
