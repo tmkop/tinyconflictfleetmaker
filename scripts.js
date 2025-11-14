@@ -1,3 +1,5 @@
+const data = require('data.json');
+
 const main = document.getElementById('main');
 document.addEventListener('DOMContentLoaded', () => {
     addPage('title');
@@ -16,24 +18,27 @@ function addPage(templateName) {
     // Append the page element (this removes it from the fragment)
     main.appendChild(pageElement);
 
-    const contentTemplate = document.getElementById('content-template-'+templateName);
+    const contentTemplate = document.getElementById('content-template-' + templateName);
     const contentEl = pageElement.querySelector('.page-content');
 
-    loadTemplate(contentEl,contentTemplate)
+    loadTemplate(contentEl, contentTemplate)
 }
 
-function loadTemplate(container,template){
+function loadTemplate(container, template) {
     container.innerHTML = template.innerHTML;
 }
 
-function updateFaction(){
+function updateFaction() {
     const faction = document.getElementById("faction-selector").value;
-    main.setAttribute("faction",faction);
+    main.setAttribute("faction", faction);
 
     //need to check if any faction-specific stuff will be removed and alert about it
 }
 
-function addNewShip(addBtn){
-    const shipCont = addBtn.parentElement;
-    loadTemplate(shipCont,document.getElementById("content-template-ship"));
+function addNewShip(shipCont) {
+    loadTemplate(shipCont, document.getElementById("content-template-ship"));
+}
+
+function updateShip(ship) {
+
 }

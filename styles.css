@@ -38,7 +38,7 @@ body {
 
     .page .remove-btn,
     .page .template-btns,
-    .hide-on-print{
+    .hide-on-print {
         display: none !important;
     }
 
@@ -58,7 +58,7 @@ body {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     border-radius: 4px;
     margin: auto;
-    margin-bottom:30px;
+    margin-bottom: 30px;
     position: relative;
     /* allow absolute-positioned controls inside */
     box-sizing: border-box;
@@ -139,7 +139,7 @@ body {
     letter-spacing: 0.7px;
 }
 
-.thin-font{
+.thin-font {
     font-family: 'Roboto Condensed', Arial, sans-serif;
     font-weight: bold;
     text-transform: uppercase;

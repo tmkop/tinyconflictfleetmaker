@@ -5,9 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fleet Builder V0.3</title>
-    <link rel="stylesheet" href="styles.css"></link>
-    <link rel="stylesheet" href="ship-page-styles.css"></link>
-    <link rel="stylesheet" href="faction-page-styles.css"></link>
+    <link rel="stylesheet" href="styles.css">
+    </link>
+    <link rel="stylesheet" href="ship-page-styles.css">
+    </link>
+    <link rel="stylesheet" href="faction-page-styles.css">
+    </link>
 </head>
 
 <body>
@@ -30,14 +33,14 @@
         <div class="line">
             <div class="thick-font medium-size">Faction:</div>
             <select id="faction-selector" onchange="updateFaction()" type="text" class="writable" placeholder="Faction">
-                <option value="ugnn">UGNN</option>
+                <option selected value="ugnn">UGNN</option>
                 <option value="mrn">MRN</option>
                 <option value="ss">Star Scrappers</option>
                 <option value="bb">The Blunder Brigade</option>
                 <option value="girep">Girep</option>
                 <option value="void">Creatures of the Void</option>
                 <option value="ycube">Yellow Cubes</option>
-                <option value="custom" selected>Custom Faction</option>
+                <option value="custom">Custom Faction</option>
             </select>
             <div class="thick-font medium-size">Max RP:&ensp;</div><input type="text" class="writable"
                 placeholder="2000">
@@ -52,10 +55,10 @@
         </div>
     </template>
 
-    
+
     <!-- If updated, make sure to also update the instances in the ship-cont -->
     <template id="content-template-add-ship">
-        <div class="ship-add-btn" onclick="addNewShip(this)" >+</div>
+        <div class="ship-add-btn" onclick="addNewShip(this.closest('.ship-cont'))">+</div>
     </template>
 
     <!-- ship page -->
@@ -64,17 +67,27 @@
             <button type="button" class="remove-btn" onclick="
                 if(confirm('Delete this page of ships?')){this.closest('article').remove();}">✖</button>
             <div class="ship-cont">
-                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this)">+</div>
+                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this.closest('.ship-cont'))">+</div>
             </div>
             <div class="ship-cont">
-                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this)">+</div>
+                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this.closest('.ship-cont'))">+</div>
             </div>
+        </div>
+    </template>
+
+    <!-- ship slot -->
+    <template id="content-template-ship-slot">
+        <div class="ship-slot">
+            <h3 class="slot-name thin-font"></h3>
+            <div class="slot-description"></div>
+            <div class="weapon-stats"></div>
         </div>
     </template>
 
     <!-- ship template-->
     <template id="content-template-ship">
-        <div class="remove-ship thin-font" onclick="loadTemplate(this.closest('.ship-cont'),document.getElementById('content-template-add-ship'))">
+        <div class="remove-ship thin-font hide-on-print"
+            onclick="loadTemplate(this.closest('.ship-cont'),document.getElementById('content-template-add-ship'))">
             Remove Ship
         </div>
         <div class="ship">
@@ -84,28 +97,52 @@
             </div>
             <div class="ship-type line">
                 <div class="thin-font">SHIP TYPE: </div>
-                <select class="writable thin-font">
+                <select class="writable thin-font" onchange="updateShip(this.closest('.ship'))">
                     <option selected hidden disabled>Select Type</option>
                     <option class="thick-font" disabled>Size 1</option>
-                    <option value="">Fighter</option>
-                    <option value="">Bombers</option>
-                    <option value="">Transports</option>
-                    <option value="">Interceptors</option>
+                    <option value="ship-fighter">Fighter</option>
+                    <option value="ship-bomber">Bombers</option>
+                    <option value="ship-transport">Transports</option>
+                    <option value="ship-interceptor">Interceptors</option>
                     <option class="thick-font" disabled>Size 2</option>
-                    <option value="">Freighter</option>
-                    <option value="">Destroyer</option>
-                    <option value="">Frigate</option>
-                    <option value="">Light Cruiser</option>
-                    <option value="">Assault Carrier</option>
+                    <option value="ship-freighter">Freighter</option>
+                    <option value="ship-destroyer">Destroyer</option>
+                    <option value="ship-frigate">Frigate</option>
+                    <option value="ship-lcruiser">Light Cruiser</option>
+                    <option value="ship-acarrier">Assault Carrier</option>
                     <option class="thick-font" disabled>Size 3</option>
-                    <option value="">Heavy Cruiser</option>
-                    <option value="">Carrier</option>
-                    <option value="">Battleship</option>
-                    <option value="">Weapon Platform</option>
-                    <option value="">Command Ship</option>
-                    <option value="">Dreadnought</option>
-                    <option value="">Station</option>
+                    <option value="ship-hcruiser">Heavy Cruiser</option>
+                    <option value="ship-carrier">Carrier</option>
+                    <option value="ship-battleship">Battleship</option>
+                    <option value="ship-wplatform">Weapon Platform</option>
+                    <option value="ship-command">Command Ship</option>
+                    <option value="ship-dreadnought">Dreadnought</option>
+                    <option value="ship-station">Station</option>
                 </select>
+            </div>
+            <div class="ship-stat-block">
+                <table>
+                    <thead class="thick-font larger">
+                        <tr>
+                            <th>CR</th>
+                            <th>HP</th>
+                            <th>SP</th>
+                            <th>SR</th>
+                        </tr>
+                    </thead>
+                    <tbody class="thin-font larger">
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="ship-slot-cont">
+
             </div>
         </div>
     </template>
@@ -117,7 +154,6 @@
         </div>
     </template>
 
-    <script src="data.js"></script>
     <script src="scripts.js"></script>
 </body>
 
