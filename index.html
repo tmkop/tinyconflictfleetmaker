@@ -59,15 +59,35 @@
     </template>
 
     <!-- ship page -->
-    <template id="content-template-ships">
+    <template id="content-template-ship-page">
         <div class="ship-page">
             <button type="button" class="remove-btn" onclick="
                 if(confirm('Delete this page of ships?')){this.closest('article').remove();}">✖</button>
             <div class="ship-cont">
-                <div class="ship-add-btn" onclick="">+</div>
+                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this)">+</div>
             </div>
             <div class="ship-cont">
-                <div class="ship-add-btn" onclick="">+</div>
+                <div class="ship-add-btn hide-on-print" onclick="addNewShip(this)">+</div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ship template-->
+    <template id="content-template-ship">
+        <div class="ship">
+            <div class="line">
+                <h1 class="thick-font medium-size">SHIP NAME: </h1><input type="text" class="writable" placeholder="Ship Name">
+            </div>
+            <div class="line">
+                <div class="thin-font">SHIP TYPE: </div>
+                <select class="writable">
+                    <option selected hidden disabled>Select Type</option>
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                    <option value="">D</option>
+                    <option value="">E</option>
+                </select>
             </div>
         </div>
     </template>

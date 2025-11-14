@@ -2,9 +2,8 @@ const main = document.getElementById('main');
 document.addEventListener('DOMContentLoaded', () => {
     addPage('title');
     addPage('faction-builder');
-    addPage('ships');
+    addPage('ship-page');
     updateFaction();
-
 });
 
 function addPage(templateName) {
@@ -21,7 +20,6 @@ function addPage(templateName) {
     const contentEl = pageElement.querySelector('.page-content');
 
     loadTemplate(contentEl,contentTemplate)
-
 }
 
 function loadTemplate(container,template){
@@ -30,14 +28,12 @@ function loadTemplate(container,template){
 
 function updateFaction(){
     const faction = document.getElementById("faction-selector").value;
+    main.setAttribute("faction",faction);
 
-    // custom factions have their own faction-building page
-    if(faction === "custom" && !main.classList.contains("custom-faction")){
-        main.classList.add("custom-faction");
-    }else{
-        main.classList.remove("custom-faction");
-    }
     //need to check if any faction-specific stuff will be removed and alert about it
+}
 
-
+function addNewShip(addBtn){
+    const shipCont = addBtn.parentElement;
+    loadTemplate(shipCont,document.getElementById("content-template-ship"));
 }

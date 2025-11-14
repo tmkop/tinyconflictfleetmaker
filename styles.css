@@ -37,7 +37,8 @@ body {
     }
 
     .page .remove-btn,
-    .page .template-btns {
+    .page .template-btns,
+    .hide-on-print{
         display: none !important;
     }
 

@@ -1,7 +1,6 @@
 #main > .page:has(.faction-builder-page) {
     display:none;
 }
-#main.custom-faction > .page:has(.faction-builder-page){
+#main[faction="custom"] > .page:has(.faction-builder-page){
     display:block;
 }
-
