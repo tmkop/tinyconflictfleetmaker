@@ -2,6 +2,7 @@
     "hulls":{
         "template":{
             "name":"shipname",
+            "size":0,
             "RP":0,
             "stats":{
                 "CR":0,
@@ -9,16 +10,271 @@
                 "SP":0,
                 "SR":0
             },
+            "text":[""],
             "slots":[
                 {
                     "type":null,
                     "size":0,
-                    "number":0
+                    "number":0,
+                    "required":false
                 }
             ]
         },
         "fighter":{
             "name":"Fighter",
+            "size":1,
+            "RP":10,
+            "stats":{
+                "CR":5,
+                "HP":5,
+                "SP":0,
+                "SR":0
+            },
+            "text":["Squadron 1","Small Ship"],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"FW",
+                    "size":1,
+                    "number":2,
+                    "required":false
+                }
+            ]
+        },
+        "bomber":{
+            "name":"Bombers",
+            "size":1,
+            "RP":12,
+            "stats":{
+                "CR":3,
+                "HP":6,
+                "SP":3,
+                "SR":0
+            },
+            "text":["Squadron 2","Bombing Run: Unless equipped with the Drill Torpedo, this model must fly over its target to use its SW and may only fire out of the rear arc. If the unit fires their SW within 3'' of the target improve Acc by 1."],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"SW",
+                    "size":1,
+                    "number":1,
+                    "required":false
+                },
+                {
+                    "type":"AA",
+                    "size":1,
+                    "number":1,
+                    "required":false
+                }     
+            ]
+        },
+        "transport":{
+            "name":"Transports",
+            "size":1,
+            "RP":16,
+            "stats":{
+                "CR":2,
+                "HP":6,
+                "SP":0,
+                "SR":0
+            },
+            "text":["Squadron 3","Boarding Action: After coming into base contact with a size 2+ ship, both players roll 6D6 one at a time. For each result greater than your opponents, they lose 1 CR. This ability may only be used once before being restored to its original condition at a hanger."],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"FW",
+                    "size":1,
+                    "number":1,
+                    "required":false
+                },
+                {
+                    "type":"Named",
+                    "number":1,
+                    "name":"Boarding Laser",
+                    "required":false
+                }
+            ]
+        },
+        "interceptor":{
+            "name":"Interceptors",
+            "size":1,
+            "RP":12,
+            "stats":{
+                "CR":2,
+                "HP":4,
+                "SP":0,
+                "SR":0
+            },
+            "text":["Squadron 2","Attache: When this unit is first deployed, choose another unit within 3'' for it to attach to. When the attached unit is attacked the damage and any crit effects may be allocated to this interceptor. At the end of any activation phase if this unit is more than 1'' from its attached ship, this interceptor detaches and behaves normally."],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"FW",
+                    "size":1,
+                    "number":4,
+                    "required":false
+                }
+            ]
+        },
+        "freighter":{
+            "name":"Freighters",
+            "size":2,
+            "RP":25,
+            "stats":{
+                "CR":12,
+                "HP":8,
+                "SP":20,
+                "SR":0
+            },
+            "text":["Supply Ship: During this units activation, remove up to 4 SP from this unit and add that amount of SP to a target wholley within 6''."],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":2,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":1,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":0,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AA",
+                    "size":2,
+                    "number":2,
+                    "required":false
+                },
+                {
+                    "type":"MS",
+                    "size":2,
+                    "number":2,
+                    "required":false
+                }
+            ]
+        },
+        "destroyer":{
+            "name":"Destroyers",
+            "size":2,
+            "RP":45,
+            "stats":{
+                "CR":15,
+                "HP":12,
+                "SP":0,
+                "SR":0
+            },
+            "text":["Advanced Movement: During the Tactical Phase, this unit can move up to 3'' and rotate its full amount. This does not effect the units usual movement."],
+            "slots":[
+                {
+                    "type":"OS",
+                    "size":2,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"AR",
+                    "size":2,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"CA",
+                    "size":0,
+                    "number":1,
+                    "required":true
+                },
+                {
+                    "type":"BW",
+                    "size":2,
+                    "number":2,
+                    "required":false
+                },
+                {
+                    "type":"FW",
+                    "size":2,
+                    "number":1,
+                    "required":false
+                }
+            ]
+        },
+        "template":{
+            "name":"shipname",
+            "size":0,
             "RP":0,
             "stats":{
                 "CR":0,
@@ -26,13 +282,15 @@
                 "SP":0,
                 "SR":0
             },
+            "text":[""],
             "slots":[
                 {
                     "type":null,
                     "size":0,
-                    "number":0
+                    "number":0,
+                    "required":false
                 }
             ]
-        }
+        },
     }
 }
