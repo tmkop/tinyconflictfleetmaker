@@ -1,3 +1,4 @@
+const data = JSON.parse(`
 {
     "hulls": [
         {
@@ -1982,3 +1983,4 @@
         }
     ]
 }
+`);
