@@ -11,6 +11,8 @@
     </link>
     <link rel="stylesheet" href="faction-page-styles.css">
     </link>
+    <link rel="stylesheet" href="modal-styles.css">
+    </link>
 </head>
 
 <body>
@@ -18,11 +20,55 @@
 
     </main>
 
-    <aside id="modal" class="visible">
-        
+    <aside id="modal">
+        <button class="close-modal" onclick="closeModal()">Cancel</button>
+        <div id="modal-options">
+
+        </div>
     </aside>
 
-    <!-- 8.11 page -->
+    <template id="modal-hulls">
+        <div class="modal-hull thin-font line">
+            <div>
+                <div class="modal-hull-name"></div>
+                <div class="line">
+                    <div class="modal-hull-size"></div>
+                    <div class="modal-hull-RP"></div>
+                </div>
+            </div>
+            <div class="modal-hull-stats">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CR</th>
+                            <th>HP</th>
+                            <th>SP</th>
+                            <th>SR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="modal-hull-CR"></td>
+                            <td class="modal-hull-HP"></td>
+                            <td class="modal-hull-SP"></td>
+                            <td class="modal-hull-SR"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-hull-expanded-info">
+                <div class="modal-hull-slots">
+
+                </div>
+                <div class="modal-hull-abilities">
+
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <!-- 8x11 page -->
     <template id="page-template">
         <article class="page">
             <div class="page-content"></div>

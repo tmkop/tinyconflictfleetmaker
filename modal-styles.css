@@ -1,0 +1,90 @@
+#modal{
+    display: none;
+    width:500px;
+    height:600px;
+    background-color:white;
+    border:solid 2px black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+#modal.visible{
+    display:block;
+}
+
+#modal > button.close-modal{
+    position:absolute;
+    top:5px;
+    right:5px;
+    width:80px;
+    height:20px;
+    background-color: rgb(253, 141, 141);
+    border:0px;
+    border-radius: 3px;
+}
+
+#modal button.close-modal:hover{
+    background-color: rgb(255, 123, 123);
+}
+
+#modal > #modal-options{
+    display:flex;
+    flex-direction: column;
+    width:calc(100% - 60px);
+    height:calc(100% - 60px);
+    margin:30px;
+    overflow:scroll;
+    gap:10px;
+}
+
+#modal .modal-hull{
+    height:60px;
+    padding:5px;
+    border-radius:5px;
+    align-items: center;
+    background-color: rgb(238, 238, 238);
+}
+
+#modal .modal-hull:hover{
+    background:rgb(221, 226, 231);
+}
+
+#modal .modal-hull .modal-hull-expanded-info{
+    position:absolute;
+    top:-60px;
+    left:-320px;
+    width:300px;
+    height:auto;
+    padding:5px;
+    border-radius:4px;
+    border:solid black 2px;
+    background:rgb(244, 244, 244);
+    display:none;
+}
+
+#modal .modal-hull:hover .modal-hull-expanded-info{
+    display:block;
+}
+
+#modal .modal-hull .modal-hull-RP{
+    margin-left:20px;
+}
+
+#modal .modal-hull .modal-hull-stats{
+    margin-left:auto;
+    margin-right:20px;
+}
+
+#modal .modal-hull > div:first-child{
+    height:100%;
+}
+
+#modal .modal-hull .modal-hull-name{
+    font-size:20px;
+}
+#modal .modal-hull td{
+    text-align:center;
+}

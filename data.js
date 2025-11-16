@@ -1,29 +1,6 @@
-const data = JSON.parse(`
+const DATA = JSON.parse(`
 {
     "hulls": [
-        {
-            "name": "shipname",
-            "size": 0,
-            "locked": [],
-            "RP": 0,
-            "stats": {
-                "CR": 0,
-                "HP": 0,
-                "SP": 0,
-                "SR": 0
-            },
-            "text": [
-                ""
-            ],
-            "slots": [
-                {
-                    "type": null,
-                    "size": 0,
-                    "number": 0,
-                    "required": false
-                }
-            ]
-        },
         {
             "name": "Fighter",
             "size": 1,

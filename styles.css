@@ -154,20 +154,3 @@ body {
 .larger {
     font-size: larger;
 }
-
-#modal{
-    display: none;
-    width:500px;
-    height:600px;
-    background-color:white;
-    border:solid 2px black;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-}
-
-#modal.visible{
-    display:block;
-}
