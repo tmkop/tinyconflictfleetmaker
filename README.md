@@ -1,5 +1,5 @@
 # Tiny Conflict Fleet Creator
-## <a href="tinyconflictfleetmaker.github.io">Link to App</a>
+## <a href="https://tmkop.github.io/tinyconflictfleetmaker/">Link to App</a>
 Version 0.2, 11/6/2025
 
 This is a tool to help create fleets for the TTRP Tiny Conflict. It follows
@@ -58,7 +58,7 @@ I have not yet included the Yellow Cube faction or any of the custom faction
 ## How to use
 My purpose for this tool was rapid deployment of something passable in order to
 play Tiny Conflict with a larger army more quickly. Visit the page deployed on 
-github <a href="tinyconflictfleetmaker.github.io">here</a>
+github <a href="https://tmkop.github.io/tinyconflictfleetmaker/">here</a>
 
 
 ## Disclosure of AI
