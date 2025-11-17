@@ -1,10 +1,11 @@
 # Tiny Conflict Fleet Creator
+## <a href="tinyconflictfleetmaker.github.io">Link to App</a>
 Version 0.2, 11/6/2025
 
 This is a tool to help create fleets for the TTRP Tiny Conflict. It follows
 a very simple drag and drop workflow with minimal automatic calculations. This
 is a small project for a small friend circle, not intended to be rigerous or of 
-a quality to be shared.
+a quality to be shared. 
 
 
 ## Important Issues!
