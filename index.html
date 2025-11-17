@@ -67,6 +67,34 @@
         </div>
     </template>
 
+    <template id="modal-os">
+        <div class="modal-os thin-font line">
+            <div class="line">
+                <div class="modal-os-name"></div>
+                <div class="modal-os-RP"></div>
+            </div>
+            <div class="line">
+                <div class="modal-os-ability"></div>
+            </div>
+        </div>
+    </template>
+    <template id="modal-AR">
+    </template>
+    <template id="modal-CA">
+    </template>
+    <template id="modal-FW">
+    </template>
+    <template id="modal-BW">
+    </template>
+    <template id="modal-AA">
+    </template>
+    <template id="modal-SW">
+    </template>
+    <template id="modal-MS">
+    </template>
+    <template id="modal-HS">
+    </template>
+
 
     <!-- 8x11 page -->
     <template id="page-template">
@@ -128,9 +156,7 @@
     <!-- ship slot -->
     <template id="content-template-ship-slot">
         <div class="ship-slot">
-            <h3 class="slot-name thin-font"></h3>
-            <div class="slot-description"></div>
-            <div class="weapon-stats"></div>
+            <div class="slot-selector thin-font"></div>
         </div>
     </template>
 
@@ -145,8 +171,11 @@
                 <h1 class="thin-font medium-size">SHIP NAME: </h1>
                 <input type="text" class="writable" placeholder="Ship Name">
             </div>
-            <div class="ship-type line">
-                <div class="thin-font">SHIP TYPE: </div>
+            <div class="ship-type-cont line">
+                <div class="thin-font"><b>SHIP TYPE: &ensp;</b></div>
+                <div class="ship-type thin-font"></div>
+                <div class="thin-font"><b>&emsp;&emsp;SIZE: &ensp;</b></div>
+                <div class="ship-size thin-font"></div>
             </div>
             <div class="ship-stat-block">
                 <table>
@@ -160,10 +189,10 @@
                     </thead>
                     <tbody class="thin-font larger">
                         <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <td class="ship-stat-CR">-</td>
+                            <td class="ship-stat-HP">-</td>
+                            <td class="ship-stat-SP">-</td>
+                            <td class="ship-stat-SR">-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -171,6 +200,10 @@
             </div>
             <div class="ship-slot-cont">
 
+            </div>
+            <div class="ship-rp-cont thick-font">
+                <div>RP:&ensp;</div>
+                <div class="ship-rp thin-font"></div>
             </div>
         </div>
     </template>

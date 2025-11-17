@@ -50,13 +50,41 @@ function updateFaction() {
  * @param {Element} shipCont The container in which to place the new ship
  */
 async function addNewShip(shipCont) {
-    let hull = await openSelectionDialogue("hulls",[]);
+    let hull = JSON.parse(await openSelectionDialogue("hulls",[]));
     if(!hull){
         return;
     }
-    console.log(hull);
     loadTemplate(shipCont, document.getElementById("content-template-ship"));
+    shipCont.querySelector(".ship-type").textContent = hull.name;
+    shipCont.querySelector(".ship-size").textContent = hull.size;
+    shipCont.querySelector(".ship-rp").textContent = hull.RP;
 
+    shipCont.querySelector(".ship-stat-CR").textContent = hull.stats.CR;
+    shipCont.querySelector(".ship-stat-HP").textContent = hull.stats.HP;
+    shipCont.querySelector(".ship-stat-SP").textContent = hull.stats.SP;
+    shipCont.querySelector(".ship-stat-SR").textContent = hull.stats.SR;
+
+    let slotCont = shipCont.querySelector(".ship-slot-cont");
+    for(let s of hull.slots){
+        let slot = document.createElement("div");
+        loadTemplate(slot,document.getElementById("content-template-ship-slot"));
+        let slotSelector = slot.querySelector(".slot-selector");
+        if(s.type == "Named"){
+            slotSelector.textContent = s.name;
+        }else{
+            slotSelector.textContent = ""+s.number+"S"+s.size+s.type;
+        }
+        slotSelector.onclick = function(){promptSlot(s)};
+        slotCont.appendChild(slot);
+    }
+}
+
+/**
+ * Prompt with the modal to fill the slot
+ * @param {*} s the json data for the slot
+ */
+async function promptSlot(s){
+    let slotContent = JSON.parse(await openSelectionDialogue(s.type,[]));
 }
 
 /**
@@ -174,5 +202,32 @@ let modalLoads = {
             expandedInfo.appendChild(textLine);
         });
         
+    },
+    "OS":(obj,d)=>{
+
+    },
+    "AR":(obj,d)=>{
+
+    },
+    "CA":(obj,d)=>{
+
+    },
+    "FW":(obj,d)=>{
+
+    },
+    "BW":(obj,d)=>{
+
+    },
+    "AA":(obj,d)=>{
+
+    },
+    "SW":(obj,d)=>{
+
+    },
+    "MS":(obj,d)=>{
+
+    },
+    "HS":(obj,d)=>{
+
     }
 }
