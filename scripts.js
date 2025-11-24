@@ -87,7 +87,18 @@ function resetSlot(slot){
     if(s.type == "Named"){
         slotSelector.textContent = s.name;
     }else{
-        slotSelector.textContent = ""+s.number+"S"+s.size+s.type;
+        slotSelector.textContent = "";
+        switch(s.type){
+            case "CA":
+                slotSelector.textContent += "CA";
+                break;
+            case "AR":
+            case "OS":
+                slotSelector.textContent += "S"+s.size+s.type;
+                break;
+            default:
+                slotSelector.textContent += s.number+"S"+s.size+s.type
+        }
     }
     slotSelector.onclick = function(){addSlot(this,s)};
 }
@@ -101,7 +112,24 @@ async function addSlot(e,s){
     let slotContainer = e.closest(".ship-slot");
     let slotContent = JSON.parse(await openSelectionDialogue(s.type,[]));
     
-    loadTemplate(slotContainer,document.getElementById("ship-template-"+s.type));
+    if(!slotContent){
+        return;
+    }
+
+    let templateType;
+    switch(s.type){
+        case "OS":
+        case "AR":
+        case "CA":
+            templateType = "single-stat";
+            break;
+        default:
+            templateType = s.type;
+    }
+
+    let template = document.getElementById("ship-template-"+templateType);
+
+    loadTemplate(slotContainer,template);
 
     slotLoads[s.type](slotContainer,slotContent);
     updateManifest();
@@ -272,6 +300,18 @@ let slotLoads = {
     "OS":(obj,d)=>{
         obj.querySelector(".slot-name").textContent = d.name;
         obj.querySelector(".slot-stat").textContent = "Acc "+d.acc+"+";
+        obj.querySelector(".slot-ability").textContent = d.ability;
+        obj.querySelector(".slot-content").setAttribute("data-RP",d.RP);
+    },
+    "AR":(obj,d)=>{
+        obj.querySelector(".slot-name").textContent = d.name;
+        obj.querySelector(".slot-stat").textContent = "AR "+d.ar;
+        obj.querySelector(".slot-ability").textContent = d.ability;
+        obj.querySelector(".slot-content").setAttribute("data-RP",d.RP);
+    },
+    "CA":(obj,d)=>{
+        obj.querySelector(".slot-name").textContent = d.name;
+        obj.querySelector(".slot-stat").textContent = "MR "+d.mr;
         obj.querySelector(".slot-ability").textContent = d.ability;
         obj.querySelector(".slot-content").setAttribute("data-RP",d.RP);
     }

@@ -1659,7 +1659,7 @@ const DATA = JSON.parse(`
                 "Fighter Doctrine"
             ],
             "ar": 5,
-            "ability": "Increase the ACC needed to hit this unit by 1"
+            "ability": "Acc to hit +1"
         },
         {
             "name": "Plasteel Plate Armour",
@@ -1771,42 +1771,42 @@ const DATA = JSON.parse(`
             "size": 0,
             "RP": 10,
             "mr": 4,
-            "ability": "In the first tactical phase, select one size 1 unit and increase its starting mr to 4"
+            "ability": "In 1st Tac, give 1 S1 unit MR 4"
         },
         {
             "name": "Academy Officer",
             "size": 0,
             "RP": 18,
             "mr": 5,
-            "ability": "This unit can redeploy during the first tactical phase"
+            "ability": "In 1st Tac, can redeploy"
         },
         {
             "name": "Ship AI",
             "size": 0,
             "RP": 30,
             "mr": 6,
-            "ability": "Reduce the effects on attrition of losing friendly units by 1 to a minimum of 1"
+            "ability": "Attrition from losing friendly units -1, min 1"
         },
         {
             "name": "Decorated Officer",
             "size": 0,
             "RP": 40,
             "mr": 7,
-            "ability": "Reduce the target needed to remove status effects from this unit to 5+"
+            "ability": "5+ status recovery"
         },
         {
             "name": "Expedition Veteran",
             "size": 0,
             "RP": 50,
             "mr": 7,
-            "ability": "This unit can deploy in the second tactical phase wholly within 3'' of any board edge"
+            "ability": "In 2nd Tac, deploy within 3'' of any board edge"
         },
         {
             "name": "Grand Captain",
             "size": 0,
             "RP": 60,
             "mr": 8,
-            "ability": "Once per game, activate one size 2 or two size 1 units at the same time as this unit"
+            "ability": "1/g, also activate 1 S2 or 2 S1 units"
         }
     ],
     "MS": [
