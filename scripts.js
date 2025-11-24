@@ -67,24 +67,44 @@ async function addNewShip(shipCont) {
     let slotCont = shipCont.querySelector(".ship-slot-cont");
     for(let s of hull.slots){
         let slot = document.createElement("div");
-        loadTemplate(slot,document.getElementById("content-template-ship-slot"));
-        let slotSelector = slot.querySelector(".slot-selector");
-        if(s.type == "Named"){
-            slotSelector.textContent = s.name;
-        }else{
-            slotSelector.textContent = ""+s.number+"S"+s.size+s.type;
-        }
-        slotSelector.onclick = function(){promptSlot(s)};
+        slot.setAttribute("data-slot-data",JSON.stringify(s));
         slotCont.appendChild(slot);
+
+        resetSlot(slot);
+
     }
 }
 
 /**
+ * Resets a ship-slot to its default, unset, state
+ * @param {*} slot div.ship-slot to reset
+ */
+function resetSlot(slot){
+    let s = JSON.parse(slot.getAttribute("data-slot-data"));
+    loadTemplate(slot,document.getElementById("content-template-ship-slot"));
+
+    let slotSelector = slot.querySelector(".slot-selector");
+    if(s.type == "Named"){
+        slotSelector.textContent = s.name;
+    }else{
+        slotSelector.textContent = ""+s.number+"S"+s.size+s.type;
+    }
+    slotSelector.onclick = function(){addSlot(this,s)};
+}
+
+/**
  * Prompt with the modal to fill the slot
+ * @param {*} e the slot container
  * @param {*} s the json data for the slot
  */
-async function promptSlot(s){
+async function addSlot(e,s){
+    let slotContainer = e.closest(".ship-slot");
     let slotContent = JSON.parse(await openSelectionDialogue(s.type,[]));
+    
+    loadTemplate(slotContainer,document.getElementById("ship-template-"+s.type));
+
+    slotLoads[s.type](slotContainer,slotContent);
+    updateManifest();
 }
 
 /**
@@ -204,13 +224,22 @@ let modalLoads = {
         
     },
     "OS":(obj,d)=>{
-
+        obj.querySelector(".modal-os-name").textContent = d.name;
+        obj.querySelector(".modal-os-RP").textContent = d.RP;
+        obj.querySelector(".modal-os-acc").textContent = d.acc;
+        obj.querySelector(".modal-os-ability").textContent = d.ability;
     },
     "AR":(obj,d)=>{
-
+        obj.querySelector(".modal-ar-name").textContent = d.name;
+        obj.querySelector(".modal-ar-RP").textContent = d.RP;
+        obj.querySelector(".modal-ar-ar").textContent = d.ar;
+        obj.querySelector(".modal-ar-ability").textContent = d.ability;
     },
     "CA":(obj,d)=>{
-
+        obj.querySelector(".modal-ca-name").textContent = d.name;
+        obj.querySelector(".modal-ca-RP").textContent = d.RP;
+        obj.querySelector(".modal-ca-mr").textContent = d.mr;
+        obj.querySelector(".modal-ca-ability").textContent = d.ability;
     },
     "FW":(obj,d)=>{
 
@@ -225,9 +254,34 @@ let modalLoads = {
 
     },
     "MS":(obj,d)=>{
-
+        obj.querySelector(".modal-ms-name").textContent = d.name;
+        obj.querySelector(".modal-ms-RP").textContent = d.RP;
+        obj.querySelector(".modal-ms-ability").textContent = d.ability;
     },
     "HS":(obj,d)=>{
-
+        obj.querySelector(".modal-hs-name").textContent = d.name;
+        obj.querySelector(".modal-hs-RP").textContent = d.RP;
+        obj.querySelector(".modal-hs-ability").textContent = d.ability;
     }
+}
+
+/**
+ * A dictionary of functions to load data into placed slots
+ */
+let slotLoads = {
+    "OS":(obj,d)=>{
+        obj.querySelector(".slot-name").textContent = d.name;
+        obj.querySelector(".slot-stat").textContent = "Acc "+d.acc+"+";
+        obj.querySelector(".slot-ability").textContent = d.ability;
+        obj.querySelector(".slot-content").setAttribute("data-RP",d.RP);
+    }
+}
+
+/**
+ * Iterates through the ships and updates all running counters of RP.
+ * It does this for each individual ship, then updates the manifest, then
+ * updates the manifest total.
+ */
+function updateManifest(){
+    //TODO: this
 }

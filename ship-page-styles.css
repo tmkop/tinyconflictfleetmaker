@@ -136,11 +136,42 @@
     align-items: end;
     height:100%;
 }
-.ship-slot{
+
+.ship .ship-slot{
     display:flex;
     justify-content: center;
     align-items: center;
     height:100%;
+    width:100%;
+}
+.slot-content{
+    position:relative;
+}
+.ship .ship-slot-remove{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0px;
+    left: 0;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+    background:repeating-linear-gradient(
+        45deg,
+        rgba(255, 0, 0, 0.266) 0px,
+        rgba(255, 0, 0, 0.266) 20px,
+        transparent 20px,
+        transparent 40px
+    );
+
+    text-shadow: -4px -4px 0 #000, 4px -4px 0 #000,-4px 4px 0 #000, 4px 4px 0 #000;
+    text-align:center;
+}
+
+.slot-content:hover > .ship-slot-remove{
+    opacity: 1;
+    pointer-events: auto;
 }
 .ship .slot-selector{
     height:fit-content;
@@ -152,3 +183,26 @@
 .ship .slot-selector:hover{
     background:rgb(171, 171, 171);
 }
+
+.ship .slot-content{
+    border:solid 2px black;
+    width:100%;
+    height:100%;
+    font-family:'Roboto Condensed', Arial, sans-serif;
+    overflow:hidden;
+}
+
+.ship .slot-content .slot-name{
+    font-weight: bolder;
+    margin-left:10px;
+}
+
+.ship .slot-content .slot-stat{
+    float:right;
+    font-size:x-large;
+}
+
+.ship .slot-content .slot-ability{
+    margin:3px;
+}
+

@@ -40,15 +40,26 @@
     gap:10px;
 }
 
-#modal .modal-hull{
-    height:60px;
+#modal .modal-hull,
+#modal .modal-os,
+#modal .modal-ca,
+#modal .modal-ar,
+#modal .modal-ms,
+#modal .modal-hs
+{
+    height:auto;
     padding:5px;
     border-radius:5px;
     align-items: center;
     background-color: rgb(238, 238, 238);
 }
 
-#modal .modal-hull:hover{
+#modal .modal-hull:hover,
+#modal .modal-os:hover,
+#modal .modal-ca:hover,
+#modal .modal-ar:hover,
+#modal .modal-ms:hover,
+#modal .modal-hs:hover{
     background:rgb(221, 226, 231);
 }
 
