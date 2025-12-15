@@ -1613,7 +1613,7 @@ const DATA = JSON.parse(`
             "size": 3,
             "locked": [],
             "acc": 3,
-            "ability": "This unit has an ACC of 2+ when targeting size 3+ units"
+            "ability": "Acc -1 when firing at S2+ targets"
         },
         {
             "name": "Dominion Tech",
@@ -1637,7 +1637,7 @@ const DATA = JSON.parse(`
             "size": 4,
             "locked": [],
             "acc": 2,
-            "ability": "Decrease the ACC Target when firing at Size 1 units by 1 (this ships usual 3+ would become its regular 2+)"
+            "ability": "Acc -1 when firing at S1 targets"
         }
     ],
     "AR": [
@@ -1659,7 +1659,7 @@ const DATA = JSON.parse(`
                 "Fighter Doctrine"
             ],
             "ar": 5,
-            "ability": "Increase the ACC needed to hit this unit by 1"
+            "ability": "Acc to hit +1"
         },
         {
             "name": "Plasteel Plate Armour",
@@ -1763,50 +1763,50 @@ const DATA = JSON.parse(`
             "name": "Navy Pilot",
             "size": 1,
             "RP": 0,
-            "MR": 3,
+            "mr": 3,
             "ability": ""
         },
         {
             "name": "Junior Captain",
             "size": 0,
             "RP": 10,
-            "MR": 4,
-            "ability": "In the first tactical phase, select one size 1 unit and increase its starting MR to 4"
+            "mr": 4,
+            "ability": "In 1st Tac, give 1 S1 unit MR 4"
         },
         {
             "name": "Academy Officer",
             "size": 0,
             "RP": 18,
-            "MR": 5,
-            "ability": "This unit can redeploy during the first tactical phase"
+            "mr": 5,
+            "ability": "In 1st Tac, can redeploy"
         },
         {
             "name": "Ship AI",
             "size": 0,
             "RP": 30,
-            "MR": 6,
-            "ability": "Reduce the effects on attrition of losing friendly units by 1 to a minimum of 1"
+            "mr": 6,
+            "ability": "Attrition from losing friendly units -1, min 1"
         },
         {
             "name": "Decorated Officer",
             "size": 0,
             "RP": 40,
-            "MR": 7,
-            "ability": "Reduce the target needed to remove status effects from this unit to 5+"
+            "mr": 7,
+            "ability": "5+ status recovery"
         },
         {
             "name": "Expedition Veteran",
             "size": 0,
             "RP": 50,
-            "MR": 7,
-            "ability": "This unit can deploy in the second tactical phase wholly within 3'' of any board edge"
+            "mr": 7,
+            "ability": "In 2nd Tac, deploy within 3'' of any board edge"
         },
         {
             "name": "Grand Captain",
             "size": 0,
             "RP": 60,
-            "MR": 8,
-            "ability": "Once per game, activate one size 2 or two size 1 units at the same time as this unit"
+            "mr": 8,
+            "ability": "1/g, also activate 1 S2 or 2 S1 units"
         }
     ],
     "MS": [

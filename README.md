@@ -1,10 +1,13 @@
 # Tiny Conflict Fleet Creator
-Version 0.2, 11/6/2025
+Version 0.3, 11/6/2025
 
 This is a tool to help create fleets for the TTRP Tiny Conflict. It follows
 a very simple drag and drop workflow with minimal automatic calculations. This
 is a small project for a small friend circle, not intended to be rigerous or of 
 a quality to be shared.
+
+Special thanks to kingjimted at the <a href="https://linktr.ee/departmentofwargaming">Department of Wargaming</a>
+for help answering some questions during the design process!
 
 
 ## Important Issues!

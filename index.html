@@ -67,20 +67,48 @@
         </div>
     </template>
 
-    <template id="modal-os">
-        <div class="modal-os thin-font line">
+    <template id="modal-OS">
+        <div class="modal-os thin-font">
             <div class="line">
-                <div class="modal-os-name"></div>
+                <b><div class="modal-os-name"></div></b>
+                &emsp;RP:&ensp;
                 <div class="modal-os-RP"></div>
             </div>
             <div class="line">
+                Acc&ensp;
+                <div class="modal-os-acc"></div>
+                +&emsp;&emsp;
                 <div class="modal-os-ability"></div>
             </div>
         </div>
     </template>
     <template id="modal-AR">
+        <div class="modal-ar thin-font">
+            <div class="line">
+                <b><div class="modal-ar-name"></div></b>
+                &emsp;RP:&ensp;
+                <div class="modal-ar-RP"></div>
+            </div>
+            <div class="line">
+                AR&ensp;
+                <div class="modal-ar-ar"></div>
+                +&emsp;&emsp;
+                <div class="modal-ar-ability"></div>
+            </div>
     </template>
     <template id="modal-CA">
+        <div class="modal-ca thin-font">
+            <div class="line">
+                <b><div class="modal-ca-name"></div></b>
+                &emsp;RP:&ensp;
+                <div class="modal-ca-RP"></div>
+            </div>
+            <div class="line">
+                MR&ensp;
+                <div class="modal-ca-mr"></div>
+                +&emsp;&emsp;
+                <div class="modal-ca-ability"></div>
+            </div>
     </template>
     <template id="modal-FW">
     </template>
@@ -91,8 +119,26 @@
     <template id="modal-SW">
     </template>
     <template id="modal-MS">
+        <div class="modal-ms thin-font">
+            <div class="line">
+                <b><div class="modal-ms-name"></div></b>
+                &emsp;RP:&ensp;
+                <div class="modal-ms-RP"></div>
+            </div>
+            <div class="line">
+                <div class="modal-ms-ability"></div>
+            </div>
     </template>
     <template id="modal-HS">
+        <div class="modal-hs thin-font">
+            <div class="line">
+                <b><div class="modal-hs-name"></div></b>
+                &emsp;RP:&ensp;
+                <div class="modal-hs-RP"></div>
+            </div>
+            <div class="line">
+                <div class="modal-hs-ability"></div>
+            </div>
     </template>
 
 
@@ -212,6 +258,41 @@
     <template id="content-template-faction-builder">
         <div class="faction-builder-page">
             Placeholder Faction Builder
+        </div>
+    </template>
+
+    <template id="ship-template-single-stat">
+        <div class="slot-content">
+            <div class="ship-slot-remove" onclick="resetSlot(this.closest('.ship-slot').parentElement)"></div>
+            <div class="slot-name"></div>
+            <div class="slot-stat"></div>
+            <div class="slot-ability"></div>
+        </div>
+    </template>
+
+    <template id="ship-template-weapon">
+        <div class="slot-content">
+            <div class="ship-slot-remove" onclick="resetSlot(this.closest('.ship-slot').parentElement)"></div>
+            <div class="slot-name"></div>
+            <div class="slot-stat-block">
+                <table>
+                    <thead>
+                        <th>R</th>
+                        <th>SC</th>
+                        <th>AP</th>
+                        <th>D</th>
+                        <th>Crt</th>
+                    </thead>
+                    <tbody>
+                        <td class="stat-block-r"></td>
+                        <td class="stat-block-sc"></td>
+                        <td class="stat-block-ap"></td>
+                        <td class="stat-block-d"></td>
+                        <td class="stat-block-crt"></td>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slot-ability"></div>
         </div>
     </template>
 
