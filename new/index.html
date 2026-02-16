@@ -2,53 +2,81 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tiny Conflict - New Fleet</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tiny Conflict - New Fleet</title>
 
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
 
-      <a class="navbar-brand fs-3 fw-bold" href="/home/">Home</a>
+            <a class="navbar-brand fs-3 fw-bold" href="/home/">Home</a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-3">
-          <li class="nav-item">
-          <a class="nav-link text-white px-3 py-2"
-             href="/new/"
-             style="background-color: #28a745; border-radius: 8px;">
-            New Fleet
-          </a>
-        </li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 py-2" href="/new/"
+                            style="background-color: #28a745; border-radius: 8px;">
+                            New Fleet
+                        </a>
+                    </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/list/">Fleets</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/draft/">Draft</a>
-          </li>
-        </ul>
-      </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/list/">Fleets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/draft/">Draft</a>
+                    </li>
+                </ul>
+            </div>
 
-    </div>
-  </nav>
+        </div>
+    </nav>
 
 
-  <main class="container mt-4">
-    <h1 class="mb-4">Hello, Bootstrap!</h1>
-    <p>This is a basic Bootstrap layout using local files in <code>./bootstrap/</code>.</p>
-  </main>
+    <main class="container mt-4">
+        <h1>Create New Fleet</h1>
+        <form id="fleetForm">
+            <!-- Fleet Name -->
+            <div class="mb-3">
+                <label for="fleetName" class="form-label">Fleet Name</label>
+                <input required type="text" class="form-control" id="fleetName" placeholder="Enter fleet name">
+            </div>
 
-  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Faction Type Dropdown -->
+            <div class="mb-3">
+                <label for="factionType" class="form-label">Faction Type</label>
+                <select required class="form-select" id="factionType">
+                    <option selected disabled>Select faction</option>
+                    <option value="a">a</option>
+                    <option value="b">b</option>
+                    <option value="c">c</option>
+                    <option value="d">d</option>
+                </select>
+            </div>
+
+            <!-- RP Limit (4‑digit integer) -->
+            <div class="mb-3">
+                <label for="rpLimit" class="form-label">RP Limit</label>
+                <input required type="number" class="form-control" id="rpLimit" placeholder="0000" min="0" max="9999"
+                    pattern="\d{4}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Fleet</button>
+        </form>
+
+    </main>
+
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./create.js"></script>
 </body>
 
 </html>
