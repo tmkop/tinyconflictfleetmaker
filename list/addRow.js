@@ -39,7 +39,6 @@ function addFleetRow(fleetID) {
 
             row.querySelector(".delete-btn").addEventListener("click", () => {
                 localStorage.removeItem(fleetID);
-                row.remove();
                 location.reload(true);
             });
 
