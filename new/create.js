@@ -12,8 +12,10 @@ document.getElementById("fleetForm").addEventListener("submit", function (e) {
 
     const fleetData = {
         "name":fleetName,
+        "id":fleetID,
         "faction":faction,
-        "rpLimit":rpLimit
+        "rpLimit":rpLimit,
+        "rp":0,
     }
 
     localStorage.setItem(fleetID, JSON.stringify(fleetData));
