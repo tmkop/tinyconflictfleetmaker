@@ -28,7 +28,7 @@ function addFleetRow(fleetID) {
             row.innerHTML = `
         <div>
             <h5 class="mb-1">${name}</h5>
-            <small>RP Limit: ${rpLimit} | RP: ${rp} | Faction: ${factionName}</small>
+            <small>${rp}/${rpLimit} RP | Faction: ${factionName}</small>
         </div>
 
         <div class="btn-group">
