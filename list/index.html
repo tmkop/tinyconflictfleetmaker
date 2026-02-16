@@ -2,53 +2,63 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tiny Conflict - Fleet List</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tiny Conflict - Fleet List</title>
 
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
 
-      <a class="navbar-brand fs-3 fw-bold" href="/home/">Home</a>
+            <a class="navbar-brand fs-3 fw-bold" href="/home/">Home</a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-3">
-          <li class="nav-item">
-          <a class="nav-link text-white px-3 py-2"
-             href="/new/"
-             style="background-color: #28a745; border-radius: 8px;">
-            New Fleet
-          </a>
-        </li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 py-2" href="/new/"
+                            style="background-color: #28a745; border-radius: 8px;">
+                            New Fleet
+                        </a>
+                    </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/list/">Fleets</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/draft/">Draft</a>
-          </li>
-        </ul>
-      </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/list/">Fleets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/draft/">Draft</a>
+                    </li>
+                </ul>
+            </div>
 
-    </div>
-  </nav>
+        </div>
+    </nav>
 
 
-  <main class="container mt-4">
-    <h1 class="mb-4">Hello, Bootstrap!</h1>
-    <p>This is a basic Bootstrap layout using local files in <code>./bootstrap/</code>.</p>
-  </main>
+    <main class="container mt-4">
+        <h1 class="mb-4">Your Fleets</h1>
+        <div class="container mt-4">
 
-  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+            <div class="container mt-4">
+
+                <div id="fleetList" class="list-group">
+                    <!-- Rows will be added here -->
+                </div>
+                <br><br>
+                <a href="/new/" class="btn btn-success mb-3">Add Fleet</a>
+            </div>
+    </main>
+
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./addRow.js"></script>
+    <script src="./load.js"></script>
 </body>
 
 </html>

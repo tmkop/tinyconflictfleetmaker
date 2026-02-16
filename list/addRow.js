@@ -1,0 +1,36 @@
+function addFleetRow(fleetID) {
+    const fleet = JSON.parse(localStorage.getItem(fleetID));
+
+    const name = fleet["name"];
+    const rpLimit = fleet["rpLimit"];
+    const rp = fleet["rp"];
+    const faction = fleet["faction"];
+
+    const list = document.getElementById("fleetList");
+
+    const row = document.createElement("div");
+    row.className = "list-group-item d-flex justify-content-between align-items-center";
+
+    row.setAttribute("data-id",fleetID);
+
+    row.innerHTML = `
+        <div>
+            <h5 class="mb-1">${name}</h5>
+            <small>RP Limit: ${rpLimit} | RP: ${rp} | Faction: ${faction}</small>
+        </div>
+
+        <div class="btn-group">
+            <a href="/view/?fleet=${fleetID}" class="btn btn-sm btn-primary edit-btn">Open</a>
+            <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+        </div>
+    `;
+
+    // DELETE
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+        localStorage.removeItem(fleetID);
+        row.remove();
+        location.reload(true);
+    });
+
+    list.appendChild(row);
+}
