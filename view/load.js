@@ -1,4 +1,4 @@
-window.onload = ((e) => {
+window.onload = (e) => {
 
     const params = new URLSearchParams(window.location.search);
     fleetID = params.get("fleet");
@@ -10,4 +10,4 @@ window.onload = ((e) => {
     const fleetData = localStorage.getItem(fleetID);
     console.log("Loaded from localStorage:", fleetData);
 
-});
+};
