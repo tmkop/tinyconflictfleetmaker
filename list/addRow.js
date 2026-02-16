@@ -4,19 +4,31 @@ function addFleetRow(fleetID) {
     const name = fleet["name"];
     const rpLimit = fleet["rpLimit"];
     const rp = fleet["rp"];
-    const faction = fleet["faction"];
+    const factionID = fleet["faction"];
 
-    const list = document.getElementById("fleetList");
 
-    const row = document.createElement("div");
-    row.className = "list-group-item d-flex justify-content-between align-items-center";
+    fetch('/data/factions.json')
+        .then(response => response.json())
+        .then(data => {
+            let factionName = "ERROR";
+            data.forEach(faction => {
+                if (faction.id == factionID) {
+                    factionName = faction.name;
+                }
+            });
 
-    row.setAttribute("data-id",fleetID);
 
-    row.innerHTML = `
+            const list = document.getElementById("fleetList");
+
+            const row = document.createElement("div");
+            row.className = "list-group-item d-flex justify-content-between align-items-center";
+
+            row.setAttribute("data-id", fleetID);
+
+            row.innerHTML = `
         <div>
             <h5 class="mb-1">${name}</h5>
-            <small>RP Limit: ${rpLimit} | RP: ${rp} | Faction: ${faction}</small>
+            <small>RP Limit: ${rpLimit} | RP: ${rp} | Faction: ${factionName}</small>
         </div>
 
         <div class="btn-group">
@@ -25,12 +37,15 @@ function addFleetRow(fleetID) {
         </div>
     `;
 
-    // DELETE
-    row.querySelector(".delete-btn").addEventListener("click", () => {
-        localStorage.removeItem(fleetID);
-        row.remove();
-        location.reload(true);
-    });
+            row.querySelector(".delete-btn").addEventListener("click", () => {
+                localStorage.removeItem(fleetID);
+                row.remove();
+                location.reload(true);
+            });
 
-    list.appendChild(row);
+            list.appendChild(row);
+        })
+        .catch(err => console.error('Error loading JSON:', err));
+
+
 }
