@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Conflict 3012 - Fleet Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        select:hover, input:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4a9eff;
+            box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        option {
+            background: #2a5298;
+            color: #ffffff;
+        }
+
+        .stats-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #4a9eff;
+        }
+
+        .button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 158, 255, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.remove {
+            background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+            padding: 8px 16px;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .button.remove:hover {
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .fleet-list {
+            margin-top: 20px;
+        }
+
+        .fleet-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #4a9eff;
+        }
+
+        .fleet-item-info {
+            flex: 1;
+        }
+
+        .fleet-item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .fleet-item-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .fleet-summary {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4a9eff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ Tiny Conflict 3012</h1>
+            <p class="subtitle">Fleet Builder</p>
+        </header>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Add Ship to Fleet</h2>
+                <form id="shipForm">
+                    <div class="form-group">
+                        <label for="shipType">Ship Type</label>
+                        <select id="shipType" required>
+                            <option value="">Select a ship type...</option>
+                        </select>
+                    </div>
+
+                    <div id="statsDisplay" class="stats-display hidden">
+                        <!-- Stats will be dynamically populated here -->
+                    </div>
+
+                    <button type="submit" class="button">Add to Fleet</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Fleet Roster</h2>
+                <div id="fleetList" class="fleet-list">
+                    <div class="empty-state">No ships in fleet yet. Add ships using the form on the left.</div>
+                </div>
+
+                <div id="fleetSummary" class="fleet-summary hidden">
+                    <!-- Summary will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // SHIP DATABASE - Tiny Conflict 3012
+        // ============================================
+        // Replace the example data below with actual ship data from the Tiny Conflict 3012 Rules V1.1.pdf
+        // 
+        // Structure for each ship:
+        // "ShipName": {
+        //     cost: <number>,      // Resource cost to deploy
+        //     hull: <number>,     // Hull points/durability
+        //     shields: <number>,  // Shield points
+        //     weapons: <number>, // Weapon rating
+        //     speed: <number>,   // Speed rating
+        //     agility: <number>, // Agility/maneuverability
+        //     special: "<text>"   // Special abilities or notes
+        // }
+        //
+        // Add or remove ship types as needed based on the rules
+        // ============================================
+        
+        const shipDatabase = {
+            // Example structure - replace with actual ship data
+            "Fighter": {
+                cost: 10,
+                hull: 1,
+                shields: 0,
+                weapons: 1,
+                speed: 4,
+                agility: 3,
+                special: "Interceptor"
+            },
+            "Corvette": {
+                cost: 25,
+                hull: 2,
+                shields: 1,
+                weapons: 2,
+                speed: 3,
+                agility: 2,
+                special: "Fast Attack"
+            },
+            "Frigate": {
+                cost: 50,
+                hull: 3,
+                shields: 2,
+                weapons: 3,
+                speed: 2,
+                agility: 2,
+                special: "Escort"
+            },
+            "Destroyer": {
+                cost: 100,
+                hull: 4,
+                shields: 3,
+                weapons: 4,
+                speed: 2,
+                agility: 1,
+                special: "Heavy Weapons"
+            },
+            "Cruiser": {
+                cost: 200,
+                hull: 5,
+                shields: 4,
+                weapons: 5,
+                speed: 1,
+                agility: 1,
+                special: "Command"
+            },
+            "Battleship": {
+                cost: 400,
+                hull: 6,
+                shields: 5,
+                weapons: 6,
+                speed: 1,
+                agility: 0,
+                special: "Flagship"
+            }
+        };
+
+        // Fleet storage
+        let fleet = [];
+
+        // Initialize dropdown
+        function initializeShipDropdown() {
+            const shipTypeSelect = document.getElementById('shipType');
+            Object.keys(shipDatabase).forEach(shipType => {
+                const option = document.createElement('option');
+                option.value = shipType;
+                option.textContent = shipType;
+                shipTypeSelect.appendChild(option);
+            });
+        }
+
+        // Display ship stats
+        function displayShipStats(shipType) {
+            const statsDisplay = document.getElementById('statsDisplay');
+            const shipData = shipDatabase[shipType];
+
+            if (!shipData) {
+                statsDisplay.classList.add('hidden');
+                return;
+            }
+
+            statsDisplay.innerHTML = '';
+            statsDisplay.classList.remove('hidden');
+
+            // Define stat labels (customize these based on actual game rules)
+            const statLabels = {
+                cost: 'Cost',
+                hull: 'Hull',
+                shields: 'Shields',
+                weapons: 'Weapons',
+                speed: 'Speed',
+                agility: 'Agility',
+                special: 'Special'
+            };
+
+            Object.keys(shipData).forEach(stat => {
+                const statItem = document.createElement('div');
+                statItem.className = 'stat-item';
+                
+                const statLabel = document.createElement('div');
+                statLabel.className = 'stat-label';
+                statLabel.textContent = statLabels[stat] || stat;
+                
+                const statValue = document.createElement('div');
+                statValue.className = 'stat-value';
+                statValue.textContent = shipData[stat];
+                
+                statItem.appendChild(statLabel);
+                statItem.appendChild(statValue);
+                statsDisplay.appendChild(statItem);
+            });
+        }
+
+        // Add ship to fleet
+        function addShipToFleet(shipType) {
+            const shipData = shipDatabase[shipType];
+            if (!shipData) return;
+
+            fleet.push({
+                type: shipType,
+                ...shipData
+            });
+
+            updateFleetDisplay();
+        }
+
+        // Update fleet display
+        function updateFleetDisplay() {
+            const fleetList = document.getElementById('fleetList');
+            const fleetSummary = document.getElementById('fleetSummary');
+
+            if (fleet.length === 0) {
+                fleetList.innerHTML = '<div class="empty-state">No ships in fleet yet. Add ships using the form on the left.</div>';
+                fleetSummary.classList.add('hidden');
+                return;
+            }
+
+            // Clear existing list
+            fleetList.innerHTML = '';
+
+            // Add each ship
+            fleet.forEach((ship, index) => {
+                const fleetItem = document.createElement('div');
+                fleetItem.className = 'fleet-item';
+
+                const itemInfo = document.createElement('div');
+                itemInfo.className = 'fleet-item-info';
+
+                const itemName = document.createElement('div');
+                itemName.className = 'fleet-item-name';
+                itemName.textContent = ship.type;
+
+                const itemStats = document.createElement('div');
+                itemStats.className = 'fleet-item-stats';
+                itemStats.innerHTML = `
+                    <span>Hull: ${ship.hull}</span>
+                    <span>Shields: ${ship.shields}</span>
+                    <span>Weapons: ${ship.weapons}</span>
+                    <span>Speed: ${ship.speed}</span>
+                    <span>Agility: ${ship.agility}</span>
+                `;
+
+                itemInfo.appendChild(itemName);
+                itemInfo.appendChild(itemStats);
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'button remove';
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeShipFromFleet(index);
+
+                fleetItem.appendChild(itemInfo);
+                fleetItem.appendChild(removeButton);
+                fleetList.appendChild(fleetItem);
+            });
+
+            // Update summary
+            updateFleetSummary();
+        }
+
+        // Update fleet summary
+        function updateFleetSummary() {
+            const fleetSummary = document.getElementById('fleetSummary');
+            fleetSummary.classList.remove('hidden');
+
+            const totalCost = fleet.reduce((sum, ship) => sum + (ship.cost || 0), 0);
+            const totalHull = fleet.reduce((sum, ship) => sum + (ship.hull || 0), 0);
+            const totalShields = fleet.reduce((sum, ship) => sum + (ship.shields || 0), 0);
+            const totalWeapons = fleet.reduce((sum, ship) => sum + (ship.weapons || 0), 0);
+            const shipCount = fleet.length;
+
+            fleetSummary.innerHTML = `
+                <div class="summary-item">
+                    <div class="summary-label">Total Ships</div>
+                    <div class="summary-value">${shipCount}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Cost</div>
+                    <div class="summary-value">${totalCost}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Hull</div>
+                    <div class="summary-value">${totalHull}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Shields</div>
+                    <div class="summary-value">${totalShields}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Weapons</div>
+                    <div class="summary-value">${totalWeapons}</div>
+                </div>
+            `;
+        }
+
+        // Remove ship from fleet
+        function removeShipFromFleet(index) {
+            fleet.splice(index, 1);
+            updateFleetDisplay();
+        }
+
+        // Event listeners
+        document.getElementById('shipType').addEventListener('change', function(e) {
+            if (e.target.value) {
+                displayShipStats(e.target.value);
+            } else {
+                document.getElementById('statsDisplay').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('shipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const shipType = document.getElementById('shipType').value;
+            if (shipType) {
+                addShipToFleet(shipType);
+                document.getElementById('shipForm').reset();
+                document.getElementById('statsDisplay').classList.add('hidden');
+            }
+        });
+
+        // Initialize on page load
+        initializeShipDropdown();
+    </script>
+</body>
+</html>

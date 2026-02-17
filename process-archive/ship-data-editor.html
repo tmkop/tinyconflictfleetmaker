@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Conflict 3012 - Ship Data Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+            border-color: #4a9eff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4a9eff;
+            box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        option {
+            background: #2a5298;
+            color: #ffffff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 158, 255, 0.4);
+        }
+
+        .button.delete {
+            background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+        }
+
+        .button.delete:hover {
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .button.export {
+            background: linear-gradient(135deg, #2ed573 0%, #1e8449 100%);
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .button.export:hover {
+            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.4);
+        }
+
+        .item-list {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4a9eff;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .item-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .item-detail {
+            display: flex;
+            gap: 5px;
+        }
+
+        .item-detail-label {
+            font-weight: 600;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+
+        .slot-config {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .slot-config h4 {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .slot-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .slot-tag {
+            background: rgba(74, 158, 255, 0.3);
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .slot-tag.required {
+            background: rgba(255, 71, 87, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-input input {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .file-input {
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-input:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .file-input:focus {
+            outline: none;
+            border-color: #4a9eff;
+            box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+        }
+
+        .file-input::file-selector-button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .file-input::file-selector-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(74, 158, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ Tiny Conflict 3012</h1>
+            <p class="subtitle">Ship Data Editor - Create JSON Database</p>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="factions">Factions</div>
+            <div class="tab active" data-tab="hulls">Hulls</div>
+            <div class="tab active" data-tab="weapons">Weapons</div>
+            <div class="tab active" data-tab="equipment">Equipment</div>
+            <div class="tab active" data-tab="export">Export JSON</div>
+        </div>
+
+        <!-- Factions Tab -->
+        <div class="tab-content active" id="factions-tab">
+            <div class="card">
+                <h2>Add Faction</h2>
+                <form id="factionForm">
+                    <div class="form-group">
+                        <label for="factionName">Faction Name</label>
+                        <input type="text" id="factionName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="factionDescription">Description</label>
+                        <textarea id="factionDescription"></textarea>
+                    </div>
+                    <button type="submit" class="button">Add Faction</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Factions</h2>
+                <div id="factionsList" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Hulls Tab -->
+        <div class="tab-content" id="hulls-tab">
+            <div class="card">
+                <h2>Add Hull</h2>
+                <form id="hullForm">
+                    <div class="form-group">
+                        <label for="hullName">Hull Name</label>
+                        <input type="text" id="hullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullFaction">Faction (Optional - leave empty for all factions)</label>
+                        <select id="hullFaction">
+                            <option value="">All Factions</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullSize">Size (1-4)</label>
+                        <select id="hullSize" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullRP">RP (Resource Points)</label>
+                        <input type="number" id="hullRP" min="0" required>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-input">
+                            <label for="hullCR">CR</label>
+                            <input type="number" id="hullCR" min="0" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="hullHP">HP</label>
+                            <input type="number" id="hullHP" min="0" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="hullSP">SP</label>
+                            <input type="number" id="hullSP" min="0" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="hullSR">SR</label>
+                            <input type="number" id="hullSR" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullOptionalWeaponSlots">Weapon Slots</label>
+                        <textarea id="hullOptionalWeaponSlots" placeholder='2 S1 AA
+1 S2 ML'></textarea>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Format: "X S# TY" where X=quantity, #=size (1-3), TY=type code. One per line. Example: "2 S1 AA"</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullOptionalEquipmentSlots">Equipment Slots</label>
+                        <textarea id="hullOptionalEquipmentSlots" placeholder='2 S1 AA
+1 S2 ML'></textarea>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Format: "X S# TY" where X=quantity, #=size (1-3), TY=type code. One per line. Example: "2 S1 AA"</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullHardSetWeapons">Hard-Set Weapons</label>
+                        <textarea id="hullHardSetWeapons" placeholder='2 Laser Cannon
+1 Missile Launcher'></textarea>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Format: "# Name" where # is quantity and Name must match an existing weapon. One per line. Example: "2 Laser Cannon"</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullHardSetEquipment">Hard-Set Equipment</label>
+                        <textarea id="hullHardSetEquipment" placeholder='1 Shield Generator
+2 Point Defense'></textarea>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Format: "# Name" where # is quantity and Name must match an existing equipment. One per line. Example: "1 Shield Generator"</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hullDescription">Description</label>
+                        <textarea id="hullDescription"></textarea>
+                    </div>
+                    <button type="submit" class="button">Add Hull</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Hulls</h2>
+                <div id="hullsList" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Weapons Tab -->
+        <div class="tab-content" id="weapons-tab">
+            <div class="card">
+                <h2>Add Weapon</h2>
+                <form id="weaponForm">
+                    <div class="form-group">
+                        <label for="weaponName">Weapon Name</label>
+                        <input type="text" id="weaponName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaponFaction">Faction (Optional - leave empty for all factions)</label>
+                        <select id="weaponFaction">
+                            <option value="">All Factions</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaponSize">Size (1-3)</label>
+                        <select id="weaponSize" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaponRP">RP (Resource Points)</label>
+                        <input type="number" id="weaponRP" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaponSlotType">Required Slot Type Code (2 letters, e.g., AA, ML)</label>
+                        <input type="text" id="weaponSlotType" placeholder="e.g., AA, ML, LT" maxlength="2" required>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Two-letter code for slot type (e.g., AA for Anti-Air, ML for Missile Launcher)</small>
+                    </div>
+                    <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+                        <div class="stat-input">
+                            <label for="weaponR">R (Range in inches)</label>
+                            <input type="number" id="weaponR" min="0" step="0.1" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="weaponSC">SC</label>
+                            <input type="number" id="weaponSC" min="0" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="weaponAP">AP</label>
+                            <input type="number" id="weaponAP" min="0" required>
+                        </div>
+                        <div class="stat-input">
+                            <label for="weaponD">D</label>
+                            <input type="number" id="weaponD" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="weaponCRIT">CRIT</label>
+                            <select id="weaponCRIT" required>
+                                <option value="">Select...</option>
+                                <option value="Knt">Knt</option>
+                                <option value="HE">HE</option>
+                                <option value="EMP">EMP</option>
+                                <option value="Inc">Inc</option>
+                                <option value="Stn">Stn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaponDescription">Description</label>
+                        <textarea id="weaponDescription"></textarea>
+                    </div>
+                    <div class="checkbox-item" style="margin-top: 10px;">
+                        <input type="checkbox" id="weaponHidden">
+                        <label for="weaponHidden" style="text-transform: none; letter-spacing: normal; font-weight: normal;">Hidden (exclusive to hard-set, cannot be added to slots)</label>
+                    </div>
+                    <button type="submit" class="button">Add Weapon</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Weapons</h2>
+                <div id="weaponsList" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Equipment Tab -->
+        <div class="tab-content" id="equipment-tab">
+            <div class="card">
+                <h2>Add Equipment</h2>
+                <form id="equipmentForm">
+                    <div class="form-group">
+                        <label for="equipmentName">Equipment Name</label>
+                        <input type="text" id="equipmentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentFaction">Faction (Optional - leave empty for all factions)</label>
+                        <select id="equipmentFaction">
+                            <option value="">All Factions</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentSize">Size (1-3)</label>
+                        <select id="equipmentSize" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentRP">RP (Resource Points)</label>
+                        <input type="number" id="equipmentRP" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentSlotType">Required Slot Type Code (2 letters, e.g., AA, ML)</label>
+                        <input type="text" id="equipmentSlotType" placeholder="e.g., AA, ML, LT" maxlength="2" required>
+                        <small style="opacity: 0.7; margin-top: 5px; display: block;">Two-letter code for slot type (e.g., AA for Anti-Air, ML for Missile Launcher)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentStats">Technical Description</label>
+                        <textarea id="equipmentStats" placeholder="Enter technical description of the equipment..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipmentDescription">Description</label>
+                        <textarea id="equipmentDescription"></textarea>
+                    </div>
+                    <div class="checkbox-item" style="margin-top: 10px;">
+                        <input type="checkbox" id="equipmentHidden">
+                        <label for="equipmentHidden" style="text-transform: none; letter-spacing: normal; font-weight: normal;">Hidden (exclusive to hard-set, cannot be added to slots)</label>
+                    </div>
+                    <button type="submit" class="button">Add Equipment</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Equipment</h2>
+                <div id="equipmentList" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Export Tab -->
+        <div class="tab-content" id="export-tab">
+            <div class="card">
+                <h2>Import JSON Database</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">
+                    Import a previously exported JSON file to resume editing your ship database.
+                </p>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="jsonFileInput">Select JSON File</label>
+                    <input type="file" id="jsonFileInput" accept=".json" class="file-input">
+                </div>
+                <button type="button" class="button" onclick="importJSON()" style="background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);">
+                    Import JSON File
+                </button>
+                <div id="importStatus" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+            </div>
+
+            <div class="card">
+                <h2>Export JSON Database</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">
+                    Export your complete ship database as a JSON file. This file can be used by the fleet builder application.
+                </p>
+                <button type="button" class="button export" onclick="exportJSON()">Export to JSON File</button>
+                <div id="jsonPreview" style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 5px; font-family: monospace; font-size: 0.9em; max-height: 500px; overflow-y: auto; display: none;">
+                    <h3 style="margin-bottom: 10px;">JSON Preview:</h3>
+                    <pre id="jsonContent"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let data = {
+            factions: [],
+            hulls: [],
+            weapons: [],
+            equipment: []
+        };
+
+        // Load from localStorage if available
+        function loadData() {
+            const saved = localStorage.getItem('tc3012_ship_data');
+            if (saved) {
+                try {
+                    data = JSON.parse(saved);
+                    updateAllDisplays();
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+        }
+
+        // Save to localStorage
+        function saveData() {
+            localStorage.setItem('tc3012_ship_data', JSON.stringify(data));
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            });
+        });
+
+        // Faction management
+        document.getElementById('factionForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('factionName').value.trim();
+            const description = document.getElementById('factionDescription').value.trim();
+            
+            if (data.factions.find(f => f.name === name)) {
+                alert('Faction with this name already exists!');
+                return;
+            }
+
+            data.factions.push({ id: Date.now().toString(), name, description });
+            saveData();
+            updateAllDisplays();
+            e.target.reset();
+        });
+
+        // Hull management
+        // Parse slot string format: "X S# TY" where X=quantity, #=size, TY=type code
+        function parseSlotString(slotText) {
+            if (!slotText || !slotText.trim()) return [];
+            
+            // If it's already an array of objects (from import), return as-is
+            if (Array.isArray(slotText)) {
+                return slotText;
+            }
+            
+            const lines = slotText.trim().split('\n');
+            const slots = [];
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+                // Match format: "X S# TY" where X is number, # is size (1-4), TY is two letters
+                // Allow flexible spacing
+                const match = trimmed.match(/^(\d+)\s+S([1-4])\s+([A-Z]{2})$/i);
+                if (match) {
+                    slots.push({
+                        quantity: parseInt(match[1]),
+                        size: parseInt(match[2]),
+                        type: match[3].toUpperCase()
+                    });
+                } else {
+                    // Try to parse without strict format (for backward compatibility)
+                    console.warn(`Could not parse slot format: "${trimmed}". Expected format: "X S# TY" (e.g., "2 S1 AA")`);
+                }
+            }
+            return slots;
+        }
+
+        function formatSlotString(slots) {
+            if (!slots || slots.length === 0) return '';
+            // Handle both array of objects and array of strings (backward compatibility)
+            return slots.map(slot => {
+                if (typeof slot === 'string') {
+                    return slot; // Already formatted string
+                } else if (slot && typeof slot === 'object') {
+                    return `${slot.quantity} S${slot.size} ${slot.type}`;
+                }
+                return '';
+            }).filter(s => s).join('\n');
+        }
+
+        // Parse hard-set items format: "# Name" where # is quantity and Name is item name
+        function parseHardSetItems(itemText, itemType) {
+            const items = [];
+            const errors = [];
+            
+            if (!itemText || !itemText.trim()) {
+                return { items, errors };
+            }
+            
+            const lines = itemText.trim().split('\n');
+            
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+                
+                // Match format: "# Name" where # is number, Name is rest of line
+                const match = trimmed.match(/^(\d+)\s+(.+)$/);
+                if (match) {
+                    const quantity = parseInt(match[1]);
+                    const name = match[2].trim();
+                    
+                    // Validate that the name exists in the database and get the exact name
+                    let foundItem = null;
+                    if (itemType === 'weapon') {
+                        foundItem = data.weapons.find(w => w.name.toLowerCase() === name.toLowerCase());
+                    } else if (itemType === 'equipment') {
+                        foundItem = data.equipment.find(e => e.name.toLowerCase() === name.toLowerCase());
+                    }
+                    
+                    if (foundItem) {
+                        // Store item with hard-set status preserved
+                        items.push({ 
+                            quantity, 
+                            name: foundItem.name,
+                            id: foundItem.id,
+                            isHardSet: true
+                        }); // Use exact database name and preserve hard-set status
+                    } else {
+                        errors.push(name);
+                    }
+                } else {
+                    errors.push(`Invalid format: "${trimmed}"`);
+                }
+            }
+            
+            return { items, errors };
+        }
+
+        document.getElementById('hullForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('hullName').value.trim();
+            const faction = document.getElementById('hullFaction').value || null;
+            const size = parseInt(document.getElementById('hullSize').value);
+            const rp = parseInt(document.getElementById('hullRP').value);
+            const cr = parseInt(document.getElementById('hullCR').value);
+            const hp = parseInt(document.getElementById('hullHP').value);
+            const sp = parseInt(document.getElementById('hullSP').value);
+            const sr = parseInt(document.getElementById('hullSR').value);
+            const description = document.getElementById('hullDescription').value.trim();
+            
+            // Parse slot strings
+            const weaponSlots = parseSlotString(document.getElementById('hullOptionalWeaponSlots').value);
+            const equipmentSlots = parseSlotString(document.getElementById('hullOptionalEquipmentSlots').value);
+            
+            // Parse and validate hard-set weapons and equipment
+            const hardSetWeaponsResult = parseHardSetItems(document.getElementById('hullHardSetWeapons').value, 'weapon');
+            const hardSetEquipmentResult = parseHardSetItems(document.getElementById('hullHardSetEquipment').value, 'equipment');
+            
+            // Check for validation errors
+            const allErrors = [];
+            if (hardSetWeaponsResult.errors && hardSetWeaponsResult.errors.length > 0) {
+                allErrors.push(...hardSetWeaponsResult.errors.map(e => `Weapon: ${e}`));
+            }
+            if (hardSetEquipmentResult.errors && hardSetEquipmentResult.errors.length > 0) {
+                allErrors.push(...hardSetEquipmentResult.errors.map(e => `Equipment: ${e}`));
+            }
+            
+            if (allErrors.length > 0) {
+                alert('Cannot add hull. The following items were not found:\n\n' + allErrors.join('\n') + '\n\nPlease ensure all weapon and equipment names match existing items in the database.');
+                return;
+            }
+
+            if (data.hulls.find(h => h.name === name)) {
+                alert('Hull with this name already exists!');
+                return;
+            }
+
+            data.hulls.push({
+                id: Date.now().toString(),
+                name,
+                faction,
+                size,
+                rp,
+                stats: { CR: cr, HP: hp, SP: sp, SR: sr },
+                slots: {
+                    weapons: weaponSlots,
+                    equipment: equipmentSlots
+                },
+                hardSet: {
+                    weapons: hardSetWeaponsResult.items || [],
+                    equipment: hardSetEquipmentResult.items || []
+                },
+                description
+            });
+
+            saveData();
+            updateAllDisplays();
+            e.target.reset();
+        });
+
+        // Weapon management
+        document.getElementById('weaponForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('weaponName').value.trim();
+            const faction = document.getElementById('weaponFaction').value || null;
+            const size = parseInt(document.getElementById('weaponSize').value);
+            const rp = parseInt(document.getElementById('weaponRP').value);
+            const slotType = document.getElementById('weaponSlotType').value.trim().toUpperCase();
+            const r = parseFloat(document.getElementById('weaponR').value);
+            const sc = parseInt(document.getElementById('weaponSC').value);
+            const ap = parseInt(document.getElementById('weaponAP').value);
+            const d = parseInt(document.getElementById('weaponD').value);
+            const crit = document.getElementById('weaponCRIT').value;
+            const description = document.getElementById('weaponDescription').value.trim();
+            const hidden = document.getElementById('weaponHidden').checked;
+
+            if (slotType.length !== 2) {
+                alert('Slot type must be exactly 2 letters!');
+                return;
+            }
+
+            if (!crit) {
+                alert('Please select a CRIT type!');
+                return;
+            }
+
+            if (data.weapons.find(w => w.name === name)) {
+                alert('Weapon with this name already exists!');
+                return;
+            }
+
+            data.weapons.push({
+                id: Date.now().toString(),
+                name,
+                faction,
+                size,
+                rp,
+                slotType,
+                stats: {
+                    R: r,
+                    SC: sc,
+                    AP: ap,
+                    D: d,
+                    CRIT: crit
+                },
+                hidden: hidden || false,
+                description
+            });
+
+            saveData();
+            updateAllDisplays();
+            e.target.reset();
+        });
+
+        // Equipment management
+        document.getElementById('equipmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('equipmentName').value.trim();
+            const faction = document.getElementById('equipmentFaction').value || null;
+            const size = parseInt(document.getElementById('equipmentSize').value);
+            const rp = parseInt(document.getElementById('equipmentRP').value);
+            const slotType = document.getElementById('equipmentSlotType').value.trim().toUpperCase();
+            const technicalDescription = document.getElementById('equipmentStats').value.trim();
+            const description = document.getElementById('equipmentDescription').value.trim();
+            const hidden = document.getElementById('equipmentHidden').checked;
+
+            if (slotType.length !== 2) {
+                alert('Slot type must be exactly 2 letters!');
+                return;
+            }
+
+            if (data.equipment.find(e => e.name === name)) {
+                alert('Equipment with this name already exists!');
+                return;
+            }
+
+            data.equipment.push({
+                id: Date.now().toString(),
+                name,
+                faction,
+                size,
+                rp,
+                slotType,
+                technicalDescription: technicalDescription || '',
+                hidden: hidden || false,
+                description
+            });
+
+            saveData();
+            updateAllDisplays();
+            e.target.reset();
+        });
+
+        // Update faction dropdowns
+        function updateFactionDropdowns() {
+            const selects = ['hullFaction', 'weaponFaction', 'equipmentFaction'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">All Factions</option>';
+                data.factions.forEach(faction => {
+                    const option = document.createElement('option');
+                    option.value = faction.id;
+                    option.textContent = faction.name;
+                    select.appendChild(option);
+                });
+                if (currentValue) {
+                    select.value = currentValue;
+                }
+            });
+        }
+
+        // Display functions
+        function updateAllDisplays() {
+            updateFactionDropdowns();
+            displayFactions();
+            displayHulls();
+            displayWeapons();
+            displayEquipment();
+            updateJSONPreview();
+        }
+
+        function displayFactions() {
+            const container = document.getElementById('factionsList');
+            if (data.factions.length === 0) {
+                container.innerHTML = '<div class="empty-state">No factions added yet.</div>';
+                return;
+            }
+
+            container.innerHTML = data.factions.map(faction => `
+                <div class="item-card">
+                    <div class="item-info">
+                        <div class="item-name">${escapeHtml(faction.name)}</div>
+                        ${faction.description ? `<div style="opacity: 0.8; margin-top: 5px;">${escapeHtml(faction.description)}</div>` : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="button delete" onclick="deleteFaction('${faction.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayHulls() {
+            const container = document.getElementById('hullsList');
+            if (data.hulls.length === 0) {
+                container.innerHTML = '<div class="empty-state">No hulls added yet.</div>';
+                return;
+            }
+
+            container.innerHTML = data.hulls.map(hull => {
+                const factionName = hull.faction ? data.factions.find(f => f.id === hull.faction)?.name || 'Unknown' : 'All Factions';
+                // Handle both old format (with required/optional) and new format (just arrays)
+                let weaponSlots = [];
+                let equipmentSlots = [];
+                
+                if (hull.slots && hull.slots.weapons) {
+                    if (Array.isArray(hull.slots.weapons)) {
+                        weaponSlots = hull.slots.weapons;
+                    } else {
+                        weaponSlots = [
+                            ...(Array.isArray(hull.slots.weapons.required) ? hull.slots.weapons.required : []),
+                            ...(Array.isArray(hull.slots.weapons.optional) ? hull.slots.weapons.optional : [])
+                        ];
+                    }
+                }
+                
+                if (hull.slots && hull.slots.equipment) {
+                    if (Array.isArray(hull.slots.equipment)) {
+                        equipmentSlots = hull.slots.equipment;
+                    } else {
+                        equipmentSlots = [
+                            ...(Array.isArray(hull.slots.equipment.required) ? hull.slots.equipment.required : []),
+                            ...(Array.isArray(hull.slots.equipment.optional) ? hull.slots.equipment.optional : [])
+                        ];
+                    }
+                }
+                
+                return `
+                    <div class="item-card">
+                        <div class="item-info">
+                            <div class="item-name">${escapeHtml(hull.name)}</div>
+                            <div class="item-details">
+                                <div class="item-detail"><span class="item-detail-label">Faction:</span> ${escapeHtml(factionName)}</div>
+                                <div class="item-detail"><span class="item-detail-label">Size:</span> ${hull.size || 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">RP:</span> ${hull.rp || 0}</div>
+                                <div class="item-detail"><span class="item-detail-label">CR:</span> ${hull.stats.CR}</div>
+                                <div class="item-detail"><span class="item-detail-label">HP:</span> ${hull.stats.HP}</div>
+                                <div class="item-detail"><span class="item-detail-label">SP:</span> ${hull.stats.SP}</div>
+                                <div class="item-detail"><span class="item-detail-label">SR:</span> ${hull.stats.SR}</div>
+                            </div>
+                            ${weaponSlots.length > 0 ? `
+                                <div style="margin-top: 8px; opacity: 0.9;">
+                                    <strong>Weapon Slots:</strong> ${formatSlotString(weaponSlots).replace(/\n/g, ', ')}
+                                </div>
+                            ` : ''}
+                            ${equipmentSlots.length > 0 ? `
+                                <div style="margin-top: 8px; opacity: 0.9;">
+                                    <strong>Equipment Slots:</strong> ${formatSlotString(equipmentSlots).replace(/\n/g, ', ')}
+                                </div>
+                            ` : ''}
+                            ${hull.hardSet && hull.hardSet.weapons && hull.hardSet.weapons.length > 0 ? `
+                                <div style="margin-top: 8px; opacity: 0.9;">
+                                    <strong>Hard-Set Weapons:</strong> ${hull.hardSet.weapons.map(w => `${w.quantity} ${escapeHtml(w.name)}`).join(', ')}
+                                </div>
+                            ` : ''}
+                            ${hull.hardSet && hull.hardSet.equipment && hull.hardSet.equipment.length > 0 ? `
+                                <div style="margin-top: 8px; opacity: 0.9;">
+                                    <strong>Hard-Set Equipment:</strong> ${hull.hardSet.equipment.map(e => `${e.quantity} ${escapeHtml(e.name)}`).join(', ')}
+                                </div>
+                            ` : ''}
+                            ${hull.description ? `<div style="opacity: 0.8; margin-top: 8px;">${escapeHtml(hull.description)}</div>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="button delete" onclick="deleteHull('${hull.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayWeapons() {
+            const container = document.getElementById('weaponsList');
+            if (data.weapons.length === 0) {
+                container.innerHTML = '<div class="empty-state">No weapons added yet.</div>';
+                return;
+            }
+
+            container.innerHTML = data.weapons.map(weapon => {
+                const factionName = weapon.faction ? data.factions.find(f => f.id === weapon.faction)?.name || 'Unknown' : 'All Factions';
+                const stats = weapon.stats || {};
+                return `
+                    <div class="item-card">
+                        <div class="item-info">
+                            <div class="item-name">${escapeHtml(weapon.name)}</div>
+                            <div class="item-details">
+                                <div class="item-detail"><span class="item-detail-label">Faction:</span> ${escapeHtml(factionName)}</div>
+                                <div class="item-detail"><span class="item-detail-label">Size:</span> ${weapon.size || 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">RP:</span> ${weapon.rp || 0}</div>
+                                <div class="item-detail"><span class="item-detail-label">Slot Type:</span> ${escapeHtml(weapon.slotType || 'N/A')}</div>
+                                <div class="item-detail"><span class="item-detail-label">R:</span> ${stats.R !== undefined ? stats.R + '"' : 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">SC:</span> ${stats.SC !== undefined ? stats.SC : 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">AP:</span> ${stats.AP !== undefined ? stats.AP : 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">D:</span> ${stats.D !== undefined ? stats.D : 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">CRIT:</span> ${stats.CRIT || 'N/A'}</div>
+                                ${weapon.hidden ? `<div class="item-detail"><span class="item-detail-label" style="color: #ffa502;">Hidden:</span> Yes (Hard-set only)</div>` : ''}
+                            </div>
+                            ${weapon.description ? `<div style="opacity: 0.8; margin-top: 8px;">${escapeHtml(weapon.description)}</div>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="button delete" onclick="deleteWeapon('${weapon.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayEquipment() {
+            const container = document.getElementById('equipmentList');
+            if (data.equipment.length === 0) {
+                container.innerHTML = '<div class="empty-state">No equipment added yet.</div>';
+                return;
+            }
+
+            container.innerHTML = data.equipment.map(equip => {
+                const factionName = equip.faction ? data.factions.find(f => f.id === equip.faction)?.name || 'Unknown' : 'All Factions';
+                return `
+                    <div class="item-card">
+                        <div class="item-info">
+                            <div class="item-name">${escapeHtml(equip.name)}</div>
+                            <div class="item-details">
+                                <div class="item-detail"><span class="item-detail-label">Faction:</span> ${escapeHtml(factionName)}</div>
+                                <div class="item-detail"><span class="item-detail-label">Size:</span> ${equip.size || 'N/A'}</div>
+                                <div class="item-detail"><span class="item-detail-label">RP:</span> ${equip.rp || 0}</div>
+                                <div class="item-detail"><span class="item-detail-label">Slot Type:</span> ${escapeHtml(equip.slotType || 'N/A')}</div>
+                                ${equip.hidden ? `<div class="item-detail"><span class="item-detail-label" style="color: #ffa502;">Hidden:</span> Yes (Hard-set only)</div>` : ''}
+                            </div>
+                            ${equip.technicalDescription ? `<div style="opacity: 0.9; margin-top: 8px; font-style: italic;"><strong>Technical:</strong> ${escapeHtml(equip.technicalDescription)}</div>` : ''}
+                            ${equip.description ? `<div style="opacity: 0.8; margin-top: 8px;">${escapeHtml(equip.description)}</div>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="button delete" onclick="deleteEquipment('${equip.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Delete functions
+        function deleteFaction(id) {
+            if (confirm('Delete this faction? This will also remove faction restrictions from hulls, weapons, and equipment.')) {
+                data.factions = data.factions.filter(f => f.id !== id);
+                data.hulls.forEach(h => { if (h.faction === id) h.faction = null; });
+                data.weapons.forEach(w => { if (w.faction === id) w.faction = null; });
+                data.equipment.forEach(e => { if (e.faction === id) e.faction = null; });
+                saveData();
+                updateAllDisplays();
+            }
+        }
+
+        function deleteHull(id) {
+            if (confirm('Delete this hull?')) {
+                data.hulls = data.hulls.filter(h => h.id !== id);
+                saveData();
+                updateAllDisplays();
+            }
+        }
+
+        function deleteWeapon(id) {
+            if (confirm('Delete this weapon?')) {
+                data.weapons = data.weapons.filter(w => w.id !== id);
+                saveData();
+                updateAllDisplays();
+            }
+        }
+
+        function deleteEquipment(id) {
+            if (confirm('Delete this equipment?')) {
+                data.equipment = data.equipment.filter(e => e.id !== id);
+                saveData();
+                updateAllDisplays();
+            }
+        }
+
+        // Import JSON
+        function importJSON() {
+            const fileInput = document.getElementById('jsonFileInput');
+            const statusDiv = document.getElementById('importStatus');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = 'rgba(255, 71, 87, 0.3)';
+                statusDiv.style.border = '1px solid rgba(255, 71, 87, 0.5)';
+                statusDiv.textContent = 'Please select a JSON file first.';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate the imported data structure
+                    if (!importedData || typeof importedData !== 'object') {
+                        throw new Error('Invalid JSON structure');
+                    }
+
+                    // Ensure all required arrays exist
+                    if (!Array.isArray(importedData.factions)) {
+                        importedData.factions = [];
+                    }
+                    if (!Array.isArray(importedData.hulls)) {
+                        importedData.hulls = [];
+                    }
+                    if (!Array.isArray(importedData.weapons)) {
+                        importedData.weapons = [];
+                    }
+                    if (!Array.isArray(importedData.equipment)) {
+                        importedData.equipment = [];
+                    }
+
+                    // Ask user if they want to replace or merge
+                    const replace = confirm(
+                        'Import JSON data?\n\n' +
+                        'Click OK to REPLACE all current data.\n' +
+                        'Click Cancel to MERGE with current data.\n\n' +
+                        `Factions: ${importedData.factions.length}\n` +
+                        `Hulls: ${importedData.hulls.length}\n` +
+                        `Weapons: ${importedData.weapons.length}\n` +
+                        `Equipment: ${importedData.equipment.length}`
+                    );
+
+                    if (replace) {
+                        // Replace all data
+                        data = {
+                            factions: importedData.factions,
+                            hulls: importedData.hulls,
+                            weapons: importedData.weapons,
+                            equipment: importedData.equipment
+                        };
+                    } else {
+                        // Merge data (add new items, keep existing if IDs match)
+                        const mergeArray = (existing, imported, key = 'id') => {
+                            const existingIds = new Set(existing.map(item => item[key]));
+                            const newItems = imported.filter(item => !existingIds.has(item[key]));
+                            return [...existing, ...newItems];
+                        };
+
+                        data.factions = mergeArray(data.factions, importedData.factions);
+                        data.hulls = mergeArray(data.hulls, importedData.hulls);
+                        data.weapons = mergeArray(data.weapons, importedData.weapons);
+                        data.equipment = mergeArray(data.equipment, importedData.equipment);
+                    }
+
+                    saveData();
+                    updateAllDisplays();
+
+                    // Show success message
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.background = 'rgba(46, 213, 115, 0.3)';
+                    statusDiv.style.border = '1px solid rgba(46, 213, 115, 0.5)';
+                    statusDiv.textContent = `✓ Successfully imported! ${replace ? 'Replaced' : 'Merged'} data.`;
+
+                    // Clear file input
+                    fileInput.value = '';
+
+                    // Update JSON preview if visible
+                    if (document.getElementById('jsonPreview').style.display === 'block') {
+                        updateJSONPreview();
+                    }
+                } catch (error) {
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.background = 'rgba(255, 71, 87, 0.3)';
+                    statusDiv.style.border = '1px solid rgba(255, 71, 87, 0.5)';
+                    statusDiv.textContent = `✗ Error importing JSON: ${error.message}`;
+                }
+            };
+
+            reader.onerror = function() {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = 'rgba(255, 71, 87, 0.3)';
+                statusDiv.style.border = '1px solid rgba(255, 71, 87, 0.5)';
+                statusDiv.textContent = '✗ Error reading file.';
+            };
+
+            reader.readAsText(file);
+        }
+
+        // Export JSON
+        function updateJSONPreview() {
+            const jsonContent = document.getElementById('jsonContent');
+            jsonContent.textContent = JSON.stringify(data, null, 2);
+        }
+
+        function exportJSON() {
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tiny-conflict-3012-ship-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            document.getElementById('jsonPreview').style.display = 'block';
+            updateJSONPreview();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        loadData();
+        updateAllDisplays();
+    </script>
+</body>
+</html>
+
