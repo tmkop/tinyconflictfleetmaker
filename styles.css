@@ -1,0 +1,507 @@
+.right-panel {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    transform: none;
+    width: 220px;
+    max-width: calc(100% - 24px);
+    max-height: calc(100vh - 24px);
+    overflow: auto;
+    background: rgba(181, 187, 214, 0.98);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    padding: 12px;
+    box-sizing: border-box;
+    z-index: 99999;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    border-radius: 8px;
+}
+
+.right-panel h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+}
+
+.panel-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.panel-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(180deg, #f7f7f7, #efefef);
+    border: 1px solid #d0d0d0;
+    padding: 8px 10px;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.panel-btn.small {
+    padding: 6px 8px;
+    font-size: 12px;
+}
+
+.panel-divider {
+    height: 1px;
+    background: #e9e9e9;
+    margin: 8px 0;
+}
+
+@media (max-width: 520px) {
+    .right-panel {
+        display: none;
+    }
+}
+
+/* Page template styles (8.5 x 11 aspect ratio) */
+.page {
+    width: 720px;
+    /* default visible width for a page when added */
+    max-width: 100%;
+    aspect-ratio: 8.5 / 11;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    margin: 16px;
+    position: relative;
+    /* allow absolute-positioned controls inside */
+    box-sizing: border-box;
+    display: flex;
+    user-select: none;
+}
+
+/* Print styles: format pages as letter-sized sheets for PDF */
+@media print {
+    @page {
+        size: Letter;
+        margin: 0.5in;
+    }
+
+    html,
+    body {
+        height: auto;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    main,
+    main * {
+        visibility: visible;
+    }
+
+    .right-panel,
+    #palette {
+        display: none !important;
+    }
+
+    .page {
+        width: 8.5in !important;
+        height: 11in !important;
+        max-width: none !important;
+        aspect-ratio: auto !important;
+        box-shadow: none !important;
+        border: 0px !important;
+        margin: 0 auto 0.5in auto !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+
+    .page .remove-btn,
+    .page .template-btns {
+        display: none !important;
+    }
+
+    img {
+        image-rendering: crisp-edges;
+    }
+}
+
+.page-content {
+    padding: 4.41% 5.38%;
+    flex: 1 1 auto;
+    color: #222;
+    font-size: 14px;
+    overflow: hidden;
+
+}
+
+/* Remove (delete) button shown per-page */
+.page .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: -40px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffb3b3;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    font-size: 14px;
+    line-height: 1;
+}
+
+.page .remove-btn:hover {
+    background: #f47c7c;
+    border-color: rgba(200, 0, 0, 0.2);
+}
+
+/* Template-apply buttons that appear under the remove button */
+.page .template-btns {
+    position: absolute;
+    top: 48px;
+    right: -46px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 40px;
+}
+
+.page .template-btn {
+    width: 100%;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.page .template-btn:hover {
+    background: #f0f0ff;
+}
+
+.writable {
+    flex: 1;
+    display: inline-block;
+    border: none;
+    border-bottom: 3px solid #000;
+    background: transparent;
+    outline: none;
+    padding: 2px 0;
+    margin: 0 4px;
+    color: #000;
+    caret-color: #000;
+    box-shadow: none;
+    width: auto;
+    /* shrink to fit content */
+    min-width: 80px;
+    /* optional: gives a starting size */
+    font-family: Impact, 'Arial Narrow', sans-serif;
+    letter-spacing: 0.7px;
+    font-size: 20px;
+    position: relative;
+    bottom: 3px;
+    padding-left: 20px;
+    font-weight: normal;
+    color: #5f5f5f;
+}
+
+.line {
+    display: flex;
+    align-items: baseline;
+
+}
+
+.writable:focus {
+    outline: none;
+    border-bottom-color: #000;
+}
+
+.thick-font {
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.thin-font,
+.manifest-table td {
+    font-family: 'Roboto Condensed', Arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.medium-size {
+    font-size: 20px;
+}
+
+.drag-panel {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    height: calc(100vh - 300px);
+    width: calc(100vw - 950px);
+    background: #ffffff;
+    border-top-left-radius: 50px;
+    box-shadow: -6px -6px 6px rgba(0, 0, 0, 0.06);
+    padding: 50px;
+    overflow: scroll;
+}
+
+body {
+    background: rgb(172, 216, 255);
+}
+
+.hull {
+    width: 100%;
+    filter: drop-shadow(0 0 0 black) drop-shadow(0 0 5px black);
+    user-select: none;
+}
+
+.header {
+    user-select: none;
+}
+
+.clone {
+    position: fixed;
+    /* fixed so scrolling doesn’t break it */
+    pointer-events: none;
+    /* so it doesn’t block mouse events */
+    opacity: 0.8;
+    z-index: 9999;
+    width: 20%;
+    height: 20%;
+    transform: translate(-50%, -50%);
+}
+
+.cloneNode {
+    position: fixed;
+    /* fixed so scrolling doesn’t break it */
+    pointer-events: none;
+    /* so it doesn’t block mouse events */
+    opacity: 0.8;
+    z-index: 9999;
+    transform: translate(-50%, -50%) scale(60%);
+}
+
+.socket {
+    flex: 1;
+    align-content: center;
+}
+
+.socket img {
+    margin: 0 auto;
+    display: block;
+}
+
+.ship-socket-cont {
+    display: flex;
+    height: 100%;
+    gap: 20px;
+    flex-direction: column;
+    position: relative;
+}
+
+.placed-hull {
+    width: 95%;
+    float: right;
+}
+
+.placed-node {
+    position: absolute;
+    height: 122%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    filter: drop-shadow(15px 0 0 white) drop-shadow(-15px 0 0 white) drop-shadow(0 5px 0 white) drop-shadow(0 -5px 0 white);
+}
+
+.ship-name-cont {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    bottom: 0px;
+    width: 125%;
+    gap: 4%;
+}
+
+.ship-name-cont>div {
+    flex: 1
+}
+
+.ship-name {
+    text-orientation: upright;
+    display: inline-block;
+}
+
+.ship-name-cont input.writable {
+    width: 55%;
+}
+
+.verticle {
+    transform: rotate(-90deg);
+    transform-origin: 0% 0%;
+}
+
+.node {
+    width: 300px;
+    margin: 3px;
+    user-select: none;
+}
+
+.nodeSocket {
+    width: 23%;
+    aspect-ratio: calc(23 / 7);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: all;
+}
+
+.hull-cont {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    float: right;
+    pointer-events: none;
+}
+
+.larger {
+    font-size: larger;
+}
+
+.manifest-table {
+    font-size: 1.2em;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.manifest-table th {
+    font-weight: normal;
+    background: none;
+    border: none;
+    padding: 0 10px 8px 10px;
+    text-align: left;
+}
+
+/* single horizontal line directly under the header row */
+.manifest-table thead tr th {
+    border-bottom: 1px solid #333;
+}
+
+/* cell padding and internal vertical separators only between columns */
+.manifest-table td {
+    padding: 6px 10px;
+    text-align: center;
+
+}
+
+.manifest-table td:not(:first-child) {
+    border-left: 1px solid #333;
+    text-align: left;
+}
+
+/* explicit column widths */
+.manifest-table td:nth-child(1) {
+    width: 60px;
+}
+
+.manifest-table td:nth-child(2) {
+    width: 200px;
+}
+
+.manifest-table td:nth-child(3) {
+    width: auto;
+}
+
+.drag-nav {
+    display: flex;
+    width: 100%;
+    border-bottom: solid black 2px;
+}
+
+.drag-nav>div {
+    flex: 1;
+    text-align: center;
+    font-size: larger;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    background: #aaaaaa;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.drag-nav>div.selected-nav {
+    background: #aabed4;
+}
+
+.category-content {
+    display: none;
+}
+
+.category-content.selected-nav {
+    display: block;
+}
+
+.drag-nav-cont {
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+    background: white;
+    filter: drop-shadow(50px 0 0 white) drop-shadow(-50px 0 0 white) drop-shadow(0 -50px 0 white);
+}
+
+/*adjusted to be % based to be compatible with the size shift when printing*/
+.ROW1 {
+    top: 26.1%
+}
+
+.ROW2 {
+    top: 41.8%
+}
+
+.ROW3 {
+    top: 56.5%
+}
+
+.ROW4 {
+    top: 68.7%
+}
+
+.LEFT_SHORT {
+    right: 54.6%
+}
+
+.CENTER_SHORT {
+    right: 25.5%
+}
+
+.RIGHT_SHORT {
+    right: -6.49%
+}
+
+.LEFT_LONG {
+    right: 49.1%
+}
+
+.RIGHT_LONG {
+    right: -0.7%
+}
+
+.LEFT_SHORTOFFSET_LONG {
+    right: 20.1%
+}
+
+.LEFT_LONGOFFSET_LONG {
+    right: 9.1%
+}
+
+.RIGHT_LONGOFFSET_SHORT {
+    right: 34.5%
+}

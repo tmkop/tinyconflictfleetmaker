@@ -1,11 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=/home/">
-  <title>Redirecting…</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fleet Builder V0.2</title>
+    <link rel="icon"
+        href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid meet'><polygon points='30,0 100,0 100,70 70,100 0,100 0,30' fill='none' stroke='%23000' stroke-width='20' stroke-linejoin='miter'/></svg>" />
+    <link rel="stylesheet" href="styles.css"></link>
 </head>
+
 <body>
-  <p>If you are not redirected automatically, <a href="/home/">click here</a>.</p>
+    <main id="app" role="main">
+
+    </main>
+
+    <!-- 8.11 page -->
+    <template id="page-template">
+        <article class="page" role="article" aria-label="8.5 by 11 inch page">
+            <button type="button" class="remove-btn" aria-label="Remove page">✖</button>
+            <div class="template-btns" role="group" aria-label="Apply templates">
+                <!-- <button type="button" class="template-btn" data-template="title" title="Apply Title Page">Title</button> -->
+                <button type="button" class="template-btn" data-template="ships" title="Apply Ship Page">Reset</button>
+            </div>
+            <div class="page-content"></div>
+        </article>
+    </template>
+
+    <!-- title page -->
+    <template id="content-template-title">
+        <div class="line">
+            <h1 class="thick-font">Fleet Name:</h1><input type="text" class="writable" placeholder="Fleet Name">
+        </div>
+        <div class="line">
+            <div class="thick-font medium-size">Faction:</div><input type="text" class="writable" placeholder="Faction">
+            <div class="thick-font medium-size">Max RP:&ensp;</div><input type="text" class="writable"
+                placeholder="2000">
+        </div>
+        <br>
+        <hr>
+        <div class="line">
+            <div class="thick-font medium-size">Ships:</div>
+            <div id="manifest">
+
+            </div>
+        </div>
+    </template>
+
+    <!-- ship page -->
+    <template id="content-template-ships">
+        <div class="ship-socket-cont">
+            <div class="ship-name-cont verticle">
+                <div>
+                    <div>
+                        <div class="ship-name larger thin-font">Name: </div>
+                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
+                        <div class="ship-name larger thin-font">RP: </div>
+                        <div class="ship-name larger thin-font ship-rp-value">0</div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div class="ship-name larger thin-font">Name: </div>
+                        <input onchange="updateManifest()" type="text" class="writable on-top" placeholder="Ship Name">
+                        <div class="ship-name larger thin-font">RP: </div>
+                        <div class="ship-name larger thin-font ship-rp-value">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="socket" data-socket-num="1"></div>
+            <div class="socket" data-socket-num="0"></div>
+        </div>
+    </template>
+
+    <!-- Right-side button panel (template buttons) -->
+    <aside class="right-panel" aria-label="Template actions">
+        <h4>Quick Menu</h4>
+        <div class="panel-group">
+            <button class="panel-btn" id="btn-add-page">📄 Add Page</button>
+            <!-- <button class="panel-btn" id="btn-load-template">📂 Load Template</button> -->
+            <!-- <button class="panel-btn" id="btn-save">💾 Save Fleet</button> -->
+            <button class="panel-btn" id="btn-print">🖨️ Print</button>
+            <!-- <button class="panel-btn" id="btn-clear">🗑️ Clear</button> -->
+        </div>
+    </aside>
+
+    <aside class="drag-panel thin-font">
+        <div class="drag-nav-cont">
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="hulls-cont">Hulls</div>
+                <div class="category-selector" data-unhide-id="capt-cont">Captains</div>
+                <div class="category-selector" data-unhide-id="fact-cont">Faction</div>
+            </div>
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="equipment-s1-cont">S1 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s2-cont">S2 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s3-cont">S3 Equip.</div>
+                <div class="category-selector" data-unhide-id="equipment-s4-cont">S4 Equip.</div>
+            </div>
+            <div class="drag-nav">
+                <div class="category-selector" data-unhide-id="weapons-s1-cont">S1 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s2-cont">S2 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s3-cont">S3 Weapons</div>
+                <div class="category-selector" data-unhide-id="weapons-s4-cont">S4 Weapons</div>
+            </div>
+        </div>
+        <br>
+        <div class="category-content" id="fact-cont"></div>
+        <div class="category-content" id="hulls-cont"></div>
+        <div class="category-content" id="capt-cont"></div>
+        <div class="category-content" id="equipment-s1-cont"></div>
+        <div class="category-content" id="equipment-s2-cont"></div>
+        <div class="category-content" id="equipment-s3-cont"></div>
+        <div class="category-content" id="equipment-s4-cont"></div>
+        <div class="category-content" id="weapons-s1-cont"></div>
+        <div class="category-content" id="weapons-s2-cont"></div>
+        <div class="category-content" id="weapons-s3-cont"></div>
+        <div class="category-content" id="weapons-s4-cont"></div>
+    </aside>
+    <script src="data.js"></script>
+    <script src="scripts.js"></script>
 </body>
+
 </html>
