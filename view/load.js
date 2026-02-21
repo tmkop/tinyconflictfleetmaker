@@ -7,7 +7,9 @@ window.onload = (e) => {
         window.location.href = "/new/";
     }
 
-    const fleetData = localStorage.getItem(fleetID);
+    const fleetData = JSON.parse(localStorage.getItem(fleetID));
     console.log("Loaded from localStorage:", fleetData);
 
+
+    document.getElementById("fleet-name").innerText = fleetData.name;
 };
