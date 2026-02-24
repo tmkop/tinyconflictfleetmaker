@@ -1,7 +1,7 @@
 window.onload = () => {
         const factionDropdown = document.getElementById("factionType");
 
-    fetch('/data/factions.json')
+    fetch('/data/common/factions.json')
         .then(response => response.json())
         .then(data => {
             data.forEach(faction=>{

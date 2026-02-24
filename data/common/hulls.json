@@ -2,18 +2,7 @@
     {
         "name": "Fighter",
         "size": 1,
-        "locked": [],
         "RP": 10,
-        "stats": {
-            "CR": 5,
-            "HP": 5,
-            "SP": 0,
-            "SR": 0
-        },
-        "text": [
-            "Squadron 1",
-            "Small Ship"
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -39,23 +28,26 @@
                 "number": 2,
                 "required": false
             }
+        ],
+        "CR": 5,
+        "HP": 5,
+        "SP": 0,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Squadron",
+                "level": 1
+            },
+            {
+                "name": "Small Ship",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Bombers",
         "size": 1,
-        "locked": [],
         "RP": 12,
-        "stats": {
-            "CR": 3,
-            "HP": 6,
-            "SP": 3,
-            "SR": 0
-        },
-        "text": [
-            "Squadron 2",
-            "Bombing Run: Unless equipped with the Drill Torpedo, this model must fly over its target to use its SW and may only fire out of the rear arc. If the unit fires their SW within 3'' of the target improve Acc by 1."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -87,23 +79,26 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 3,
+        "HP": 6,
+        "SP": 3,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Squadron",
+                "level": 2
+            },
+            {
+                "name": "Bombing Run",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Transports",
         "size": 1,
-        "locked": [],
         "RP": 16,
-        "stats": {
-            "CR": 2,
-            "HP": 6,
-            "SP": 0,
-            "SR": 0
-        },
-        "text": [
-            "Squadron 3",
-            "Boarding Action: After coming into base contact with a size 2+ ship, both players roll 6D6 one at a time. For each result greater than your opponents, they lose 1 CR. This ability may only be used once before being restored to its original condition at a hanger."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -135,23 +130,26 @@
                 "name": "Boarding Laser",
                 "required": false
             }
+        ],
+        "CR": 2,
+        "HP": 6,
+        "SP": 0,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Squadron",
+                "level": 3
+            },
+            {
+                "name": "Boarding Action",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Interceptors",
         "size": 1,
-        "locked": [],
         "RP": 12,
-        "stats": {
-            "CR": 2,
-            "HP": 4,
-            "SP": 0,
-            "SR": 0
-        },
-        "text": [
-            "Squadron 2",
-            "Attache: When this unit is first deployed, choose another unit within 3'' for it to attach to. When the attached unit is attacked the damage and any crit effects may be allocated to this interceptor. At the end of any activation phase if this unit is more than 1'' from its attached ship, this interceptor detaches and behaves normally."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -177,22 +175,26 @@
                 "number": 4,
                 "required": false
             }
+        ],
+        "CR": 2,
+        "HP": 4,
+        "SP": 0,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Squadron",
+                "level": 2
+            },
+            {
+                "name": "Attache",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Freighters",
         "size": 2,
-        "locked": [],
         "RP": 25,
-        "stats": {
-            "CR": 12,
-            "HP": 8,
-            "SP": 20,
-            "SR": 0
-        },
-        "text": [
-            "Supply Ship: During this units activation, remove up to 4 SP from this unit and add that amount of SP to a target wholley within 6''."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -224,22 +226,22 @@
                 "number": 2,
                 "required": false
             }
+        ],
+        "CR": 12,
+        "HP": 8,
+        "SP": 20,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Supply Ship",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Destroyers",
         "size": 2,
-        "locked": [],
         "RP": 45,
-        "stats": {
-            "CR": 15,
-            "HP": 12,
-            "SP": 0,
-            "SR": 0
-        },
-        "text": [
-            "Advanced Movement: During the Tactical Phase, this unit can move up to 3'' and rotate its full amount. This does not effect the units usual movement."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -271,23 +273,22 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 15,
+        "HP": 12,
+        "SP": 0,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Advanced Movement",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Frigates",
         "size": 2,
-        "locked": [],
         "RP": 40,
-        "stats": {
-            "CR": 12,
-            "HP": 10,
-            "SP": 3,
-            "SR": 0
-        },
-        "text": [
-            "Vulnerable Target: This unit has -2 MR when more than 9'' away from friendly units.",
-            "Artillery Platform: Add 3'' to the range of SW weapons this unit has equipped."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -331,22 +332,26 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 12,
+        "HP": 10,
+        "SP": 3,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Vulnerable Target",
+                "level": 0
+            },
+            {
+                "name": "Artillery Platform",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Light Cruisers",
         "size": 2,
-        "locked": [],
         "RP": 60,
-        "stats": {
-            "CR": 18,
-            "HP": 16,
-            "SP": 0,
-            "SR": 1
-        },
-        "text": [
-            ""
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -396,22 +401,17 @@
                 "number": 1,
                 "required": false
             }
-        ]
+        ],
+        "CR": 18,
+        "HP": 16,
+        "SP": 0,
+        "SR": 1,
+        "keywords": []
     },
     {
         "name": "Assault Carrier",
         "size": 2,
-        "locked": [],
         "RP": 50,
-        "stats": {
-            "CR": 20,
-            "HP": 12,
-            "SP": 0,
-            "SR": 4
-        },
-        "text": [
-            "Quick Deployment: This unit may deploy all size 1 units in its hangar in one activation with a maximum deployment range of 3''"
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -455,22 +455,22 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 20,
+        "HP": 12,
+        "SP": 0,
+        "SR": 4,
+        "keywords": [
+            {
+                "name": "Quick Deployment",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Heavy Cruisers",
         "size": 3,
-        "locked": [],
         "RP": 75,
-        "stats": {
-            "CR": 22,
-            "HP": 18,
-            "SP": 3,
-            "SR": 2
-        },
-        "text": [
-            ""
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -526,23 +526,17 @@
                 "number": 1,
                 "required": false
             }
-        ]
+        ],
+        "CR": 22,
+        "HP": 18,
+        "SP": 3,
+        "SR": 2,
+        "keywords": []
     },
     {
         "name": "Carriers",
         "size": 3,
-        "locked": [],
         "RP": 70,
-        "stats": {
-            "CR": 28,
-            "HP": 18,
-            "SP": 0,
-            "SR": 12
-        },
-        "text": [
-            "Linked AA Guns: Improve Acc by 1 when targeting size 1 ships with this ships AA weapons",
-            "Fighter Retrieval Arm: Size 1 units can be returned to the hanger from 3'' away"
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -585,23 +579,27 @@
                 "size": 4,
                 "number": 2,
                 "required": false
+            }
+        ],
+        "CR": 28,
+        "HP": 18,
+        "SP": 0,
+        "SR": 12,
+        "keywords": [
+            {
+                "name": "Linked AA Guns",
+                "level": 0
+            },
+            {
+                "name": "Fighter Retrieval Arm",
+                "level": 0
             }
         ]
     },
     {
         "name": "Battleships",
         "size": 3,
-        "locked": [],
         "RP": 90,
-        "stats": {
-            "CR": 25,
-            "HP": 22,
-            "SP": 4,
-            "SR": 2
-        },
-        "text": [
-            "Heavy Cannon Hull: This unit can fire its SW out of its side arcs as well as the front arc"
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -657,24 +655,22 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 25,
+        "HP": 22,
+        "SP": 4,
+        "SR": 2,
+        "keywords": [
+            {
+                "name": "Heavy Cannon Hull",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Weapon Platforms",
         "size": 3,
-        "locked": [],
         "RP": 80,
-        "stats": {
-            "CR": 18,
-            "HP": 16,
-            "SP": 6,
-            "SR": 0
-        },
-        "text": [
-            "Stationary Emplacement: This unit has a movement of 0'' and cannot move unless its unless as part of a warzone/scenario rule.",
-            "Defensive Instalment: This unit cannot be effected by captain or admiral abilities unless specifically mentioned.",
-            "Defense Commander: This unit has a MR of 5. When rattled this unit remains stationary, when this unit fails two morale tests remove it."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -712,23 +708,30 @@
                 "number": 2,
                 "required": false
             }
+        ],
+        "CR": 18,
+        "HP": 16,
+        "SP": 6,
+        "SR": 0,
+        "keywords": [
+            {
+                "name": "Stationary Emplacement",
+                "level": 0
+            },
+            {
+                "name": "Defensive Installment",
+                "level": 0
+            },
+            {
+                "name": "Defense Commander",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Command Ship",
         "size": 4,
-        "locked": [],
         "RP": 120,
-        "stats": {
-            "CR": 30,
-            "HP": 18,
-            "SP": 0,
-            "SR": 1
-        },
-        "text": [
-            "Admiral's Quarters: If this ship is taken you must take an admiral and it must be assigned to this unit.",
-            "Central Command: When this unit is activated, choose either two size 1 units or one size 2 unit to activate at the same time. These activations may be executed in any order."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -778,24 +781,26 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 30,
+        "HP": 18,
+        "SP": 0,
+        "SR": 1,
+        "keywords": [
+            {
+                "name": "Admiral's Quarters",
+                "level": 0
+            },
+            {
+                "name": "Central Command",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Dreadnought",
         "size": 4,
-        "locked": [],
         "RP": 150,
-        "stats": {
-            "CR": 35,
-            "HP": 30,
-            "SP": 4,
-            "SR": 3
-        },
-        "text": [
-            "Heavy Cannon Hull: This unit can fire its SW out of its side arcs as well as the front arc",
-            "Material Intensive Ship: You may only take one of this type of ship",
-            "Blink Drive: Once per game this unit can use its whole activation to move 12''"
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -851,25 +856,30 @@
                 "number": 1,
                 "required": false
             }
+        ],
+        "CR": 35,
+        "HP": 30,
+        "SP": 4,
+        "SR": 3,
+        "keywords": [
+            {
+                "name": "Heavy Cannon Hull",
+                "level": 0
+            },
+            {
+                "name": "Material Intensive Ship",
+                "level": 0
+            },
+            {
+                "name": "Blink Drive",
+                "level": 0
+            }
         ]
     },
     {
         "name": "Stations",
         "size": 4,
-        "locked": [],
         "RP": 100,
-        "stats": {
-            "CR": 40,
-            "HP": 20,
-            "SP": 0,
-            "SR": 9
-        },
-        "text": [
-            "Open Air Hangers: This unit may deploy all units in its hangar in one activation with a maximum deployment range of 3''",
-            "Stationary Emplacement: This unit has a movement of 0'' and cannot move unless its unless as part of a warzone/scenario rule.",
-            "Defensive Instalment: This unit cannot be effected by captain or admiral abilities unless specifically mentioned.",
-            "Station Commander: This unit has a MR of 7. When rattled this unit remains stationary, when this unit fails two morale tests remove it."
-        ],
         "slots": [
             {
                 "type": "OS",
@@ -906,6 +916,28 @@
                 "size": 4,
                 "number": 3,
                 "required": false
+            }
+        ],
+        "CR": 40,
+        "HP": 20,
+        "SP": 0,
+        "SR": 9,
+        "keywords": [
+            {
+                "name": "Open Air Hangers",
+                "level": 0
+            },
+            {
+                "name": "Stationary Emplacement",
+                "level": 0
+            },
+            {
+                "name": "Defensive Installment",
+                "level": 0
+            },
+            {
+                "name": "Station Commander",
+                "level": 0
             }
         ]
     }
