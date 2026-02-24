@@ -3,6 +3,7 @@
         "name": "Fighter",
         "size": 1,
         "RP": 10,
+        "image":"hulls/1 Blueprint Fighter.png",
         "slots": [
             {
                 "type": "OS",
@@ -48,6 +49,7 @@
         "name": "Bombers",
         "size": 1,
         "RP": 12,
+        "image":"hulls/1 Blueprint Bombers.png",
         "slots": [
             {
                 "type": "OS",
@@ -99,6 +101,7 @@
         "name": "Transports",
         "size": 1,
         "RP": 16,
+        "image":"hulls/1 Blueprint Transports.png",
         "slots": [
             {
                 "type": "OS",
@@ -150,6 +153,7 @@
         "name": "Interceptors",
         "size": 1,
         "RP": 12,
+        "image":"hulls/1 Blueprint Interceptors.png",
         "slots": [
             {
                 "type": "OS",
@@ -195,6 +199,7 @@
         "name": "Freighters",
         "size": 2,
         "RP": 25,
+        "image":"hulls/2 Blueprint Freighters.png",
         "slots": [
             {
                 "type": "OS",
@@ -242,6 +247,7 @@
         "name": "Destroyers",
         "size": 2,
         "RP": 45,
+        "image":"hulls/2 Blueprint Frigates.png",
         "slots": [
             {
                 "type": "OS",
@@ -289,6 +295,7 @@
         "name": "Frigates",
         "size": 2,
         "RP": 40,
+        "image":"hulls/2 Blueprint Frigates.png",
         "slots": [
             {
                 "type": "OS",
@@ -352,6 +359,7 @@
         "name": "Light Cruisers",
         "size": 2,
         "RP": 60,
+        "image":"hulls/2 Blueprint L Cruisers.png",
         "slots": [
             {
                 "type": "OS",
@@ -412,6 +420,7 @@
         "name": "Assault Carrier",
         "size": 2,
         "RP": 50,
+        "image":"hulls/2 Blueprint Assault Carriers.png",
         "slots": [
             {
                 "type": "OS",
@@ -471,6 +480,7 @@
         "name": "Heavy Cruisers",
         "size": 3,
         "RP": 75,
+        "image":"hulls/3 Blueprint H Cruisers.png",
         "slots": [
             {
                 "type": "OS",
@@ -534,9 +544,10 @@
         "keywords": []
     },
     {
-        "name": "Carriers",
+        "name": "Carrier",
         "size": 3,
         "RP": 70,
+        "image":"hulls/3 Blueprint Carrier.png",
         "slots": [
             {
                 "type": "OS",
@@ -600,6 +611,7 @@
         "name": "Battleships",
         "size": 3,
         "RP": 90,
+        "image":"hulls/3 Blueprint Battleships.png",
         "slots": [
             {
                 "type": "OS",
@@ -668,9 +680,10 @@
         ]
     },
     {
-        "name": "Weapon Platforms",
+        "name": "Weapon Platform",
         "size": 3,
         "RP": 80,
+        "image":"hulls/3 Blueprint Weapon Platform.png",
         "slots": [
             {
                 "type": "OS",
@@ -732,6 +745,7 @@
         "name": "Command Ship",
         "size": 4,
         "RP": 120,
+        "image":"hulls/4 Blueprint Command Ship.png",
         "slots": [
             {
                 "type": "OS",
@@ -801,6 +815,7 @@
         "name": "Dreadnought",
         "size": 4,
         "RP": 150,
+        "image":"hulls/4 Blueprint Dreadnought.png",
         "slots": [
             {
                 "type": "OS",
@@ -880,6 +895,7 @@
         "name": "Stations",
         "size": 4,
         "RP": 100,
+        "image":"hulls/4 Blueprint Stations.png",
         "slots": [
             {
                 "type": "OS",
