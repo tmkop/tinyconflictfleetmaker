@@ -23,12 +23,11 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-3">
           <li class="nav-item">
-          <a class="nav-link text-white px-3 py-2"
-             href="/new/"
-             style="background-color: #198754; border-radius: 8px;">
-            New Fleet
-          </a>
-        </li>
+            <a class="nav-link text-white px-3 py-2" href="/new/"
+              style="background-color: #198754; border-radius: 8px;">
+              New Fleet
+            </a>
+          </li>
 
           <li class="nav-item">
             <a class="nav-link" href="/list/">Fleets</a>
@@ -46,31 +45,30 @@
   <main class="container mt-4">
     <h1 id="fleet-name" class="mb-4">...</h1>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex id nobis voluptates maiores ad consequatur enim deleniti aliquam officia, quis doloribus laboriosam obcaecati excepturi, quia asperiores exercitationem suscipit dolor!
-    </p>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <div id="ship-cont" class="container">
 
-    <div class="btn-group-vertical w-100" role="group">
-        <button id="exit-btn" type="button" class="btn btn-danger">Exit Without Saving</button>
-        <button id="save-btn" type="button" class="btn btn-success">Save</button>
-        <button id="save-exit-btn" type="button" class="btn btn-primary">Save and Exit</button>
     </div>
-</main>
+    <br>
+    <button id="add-ship" type="button" class="w-100 btn btn-success">Add Blueprint</button>
 
+    <br>
+    <br>
+    <hr>
+    <br>
+    <div class="btn-group-vertical w-100" role="group">
+      <button id="exit-btn" type="button" class="btn btn-danger">Exit Without Saving</button>
+      <button id="save-btn" type="button" class="btn btn-success">Save</button>
+      <button id="save-exit-btn" type="button" class="btn btn-primary">Save and Exit</button>
+    </div>
+    <br>
+    <br>
+    <br>
   </main>
 
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="./load.js"></script>
   <script src="./save_exit_btns.js"></script>
+  <script src="./add_blueprint.js"></script>
 </body>
 
 </html>
