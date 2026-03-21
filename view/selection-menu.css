@@ -1,0 +1,9 @@
+#selection-menu * {
+  max-height: 100%;
+}
+#selection-menu[open]{
+    display:flex;
+    position:fixed;
+    bottom:0px;
+    left:0px;
+}
